@@ -952,3 +952,249 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
   background: #f97316;
   color: #0f172a;
 }
+
+/* ── Mobile project layout (iPhone, ≤767px) ─────────────────────────────── */
+.project-layout-mobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --mobile-margin-x: 18px;
+    --mobile-grid-unit: 48px;
+    --mobile-subunit: 24px;
+    --mobile-header-gap: 8px;
+    --mobile-nav-height: 44px;
+    --mobile-section-gap: 56px;
+    --mobile-spec-gap: 28px;
+    --mobile-paragraph-gap: 14px;
+    --mobile-spec-label-width: 108px;
+    /* Scroll-spy reference = sticky nav zone */
+    --site-content-top: 120px;
+    --site-scroll-active-y: 120px;
+  }
+
+  .site-fixed-left,
+  .site-fixed-index,
+  .site-fixed-drawings,
+  .site-fixed-section-text,
+  .project-layout-desktop,
+  html[data-editor="1"] .editor-toolbar,
+  html[data-editor="1"] .layout-grid-overlay,
+  html[data-editor="1"] .layout-grid-legend {
+    display: none !important;
+  }
+
+  .project-layout-mobile {
+    display: block;
+  }
+
+  .mobile-project {
+    padding-bottom: calc(var(--mobile-grid-unit) * 2);
+    background: var(--color-bg);
+  }
+
+  .mobile-project-header {
+    padding: 16px var(--mobile-margin-x) var(--mobile-header-gap);
+  }
+
+  .mobile-project-header__back {
+    display: inline-block;
+    color: var(--color-fg);
+    text-decoration: none;
+    margin-bottom: 12px;
+  }
+
+  .mobile-project-header__title {
+    margin: 0 0 6px;
+    font-size: calc(var(--font-site) * 1.12);
+    line-height: 1.25;
+    font-weight: 400;
+  }
+
+  .mobile-project-header__meta {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.55);
+  }
+
+  .mobile-section-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .mobile-section-nav__scroller {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    padding: 10px var(--mobile-margin-x);
+    scrollbar-width: none;
+  }
+
+  .mobile-section-nav__scroller::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-section-nav__pill {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    border: none;
+    background: transparent;
+    color: rgba(0, 0, 0, 0.45);
+    padding: 6px 2px;
+    font-family: inherit;
+    white-space: nowrap;
+    position: relative;
+    transition: color 180ms ease;
+    cursor: pointer;
+  }
+
+  .mobile-section-nav__pill--active {
+    color: var(--color-fg);
+  }
+
+  .mobile-section-nav__pill--active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--color-accent);
+    border-radius: 1px;
+  }
+
+  .mobile-project-body {
+    padding: 0 var(--mobile-margin-x);
+  }
+
+  .mobile-project-section {
+    padding-top: var(--mobile-section-gap);
+    scroll-margin-top: var(--site-scroll-active-y);
+  }
+
+  .mobile-project-section--group-break {
+    padding-top: calc(var(--mobile-section-gap) + var(--mobile-subunit));
+  }
+
+  .mobile-section-label {
+    margin: 0 0 var(--mobile-header-gap);
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: 400;
+    text-transform: lowercase;
+  }
+
+  .mobile-section-text {
+    margin-bottom: var(--mobile-spec-gap);
+  }
+
+  .mobile-spec-list {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--font-site) * 0.35);
+    margin: 0 0 var(--mobile-spec-gap);
+  }
+
+  .mobile-spec-row {
+    display: flex;
+    gap: 12px;
+  }
+
+  .mobile-spec-row dt {
+    flex: 0 0 var(--mobile-spec-label-width);
+    margin: 0;
+  }
+
+  .mobile-spec-row dd {
+    margin: 0;
+    flex: 1;
+    white-space: pre-line;
+  }
+
+  .mobile-section-description {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mobile-paragraph-gap);
+  }
+
+  .mobile-section-description p {
+    margin: 0;
+  }
+
+  .mobile-section-figures {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mobile-subunit);
+  }
+
+  .mobile-figure {
+    width: 100%;
+    margin: 0;
+  }
+
+  .mobile-figure__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: left top;
+  }
+
+  .mobile-figure__caption {
+    margin-top: 8px;
+    color: rgba(0, 0, 0, 0.65);
+  }
+
+  .mobile-section-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 160px;
+    border: 1px dashed rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.4);
+    padding: 16px;
+    text-align: center;
+  }
+
+  /* Dev alignment grid — ?grid=1 on mobile only */
+  .mobile-layout-grid {
+    display: none;
+    pointer-events: none;
+  }
+
+  html[data-mobile-grid="1"] .mobile-layout-grid {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 9990;
+    pointer-events: none;
+  }
+
+  .mobile-layout-grid__line {
+    position: absolute;
+    background: rgba(249, 115, 22, 0.12);
+  }
+
+  .mobile-layout-grid__line--major {
+    background: rgba(249, 115, 22, 0.28);
+  }
+
+  .mobile-layout-grid__line--h {
+    left: 0;
+    right: 0;
+    height: 1px;
+  }
+
+  .mobile-layout-grid__line--v {
+    top: 0;
+    bottom: 0;
+    width: 1px;
+  }
+}

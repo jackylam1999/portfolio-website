@@ -3,6 +3,7 @@
 import Image from "next/image";
 import type { Project, ProjectImage, ProjectSection } from "@/content/types";
 import FixedSectionText from "@/components/FixedSectionText";
+import MobileProjectPage from "@/components/mobile/MobileProjectPage";
 import EditableFigure from "@/components/editor/EditableFigure";
 import { useEditor } from "@/components/editor/EditorProvider";
 import { useProjectGrid } from "@/components/ProjectGridProvider";
@@ -33,46 +34,52 @@ export default function ProjectPageLayout({ project }: Props) {
 
   return (
     <>
-      <FixedSectionText sections={project.sections} />
-      <div
-        style={{
-          paddingTop: "var(--site-content-top)",
-          paddingLeft: "var(--site-margin-x)",
-          paddingRight: "var(--site-right-reserve)",
-        }}
-      >
-        <div className="flex flex-col">
-          {project.sections.map((s, sectionIndex) => {
-            const firstImageIndex = globalImageIndex;
-            globalImageIndex += s.images?.length ?? 0;
-            const gapAfter = sectionGapAfterCss(slug, s.id, grid);
-            const isLast = sectionIndex === project.sections.length - 1;
-            return (
-              <div
-                key={s.id}
-                style={{
-                  marginBottom: !isLast
-                    ? gapAfter ?? "var(--site-section-gap)"
-                    : undefined,
-                }}
-              >
-                <Section
-                  section={s}
-                  slug={slug}
-                  grid={grid}
-                  firstImageIndex={firstImageIndex}
-                  placeholder={placeholder}
-                />
-              </div>
-            );
-          })}
+      <div className="project-layout-desktop">
+        <FixedSectionText sections={project.sections} />
+        <div
+          style={{
+            paddingTop: "var(--site-content-top)",
+            paddingLeft: "var(--site-margin-x)",
+            paddingRight: "var(--site-right-reserve)",
+          }}
+        >
+          <div className="flex flex-col">
+            {project.sections.map((s, sectionIndex) => {
+              const firstImageIndex = globalImageIndex;
+              globalImageIndex += s.images?.length ?? 0;
+              const gapAfter = sectionGapAfterCss(slug, s.id, grid);
+              const isLast = sectionIndex === project.sections.length - 1;
+              return (
+                <div
+                  key={s.id}
+                  style={{
+                    marginBottom: !isLast
+                      ? gapAfter ?? "var(--site-section-gap)"
+                      : undefined,
+                  }}
+                >
+                  <Section
+                    section={s}
+                    slug={slug}
+                    grid={grid}
+                    firstImageIndex={firstImageIndex}
+                    placeholder={placeholder}
+                  />
+                </div>
+              );
+            })}
+          </div>
         </div>
+        <div
+          className="project-page-bottom-spacer"
+          style={{ height: paddingBottom }}
+          aria-hidden
+        />
       </div>
-      <div
-        className="project-page-bottom-spacer"
-        style={{ height: paddingBottom }}
-        aria-hidden
-      />
+
+      <div className="project-layout-mobile">
+        <MobileProjectPage project={project} />
+      </div>
     </>
   );
 }
