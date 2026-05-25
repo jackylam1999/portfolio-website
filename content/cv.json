@@ -1,0 +1,130 @@
+{
+  "sections": [
+    {
+      "heading": "Awards",
+      "entries": [
+        {
+          "year": "2025",
+          "title": "Special Mention",
+          "subtitle": "AA Prize for Unbuilt Work 2025, Australia"
+        },
+        {
+          "year": "2023",
+          "title": "Merit Award",
+          "subtitle": "Shinkenchiku Residential Design Competition - New Summer Comfort, Japan"
+        },
+        {
+          "year": "2023",
+          "title": "Student Winner",
+          "subtitle": "Living Building Challenge Design Competition, LFIA, Australia"
+        },
+        {
+          "year": "2022",
+          "title": "Bronze Medal Commendation",
+          "subtitle": "RIBA President's Medals, United Kingdom"
+        }
+      ]
+    },
+    {
+      "heading": "Publications and Activities",
+      "entries": [
+        {
+          "year": "2025",
+          "title": "Featured Article",
+          "subtitle": "Architecture Australia Jan/Feb 2025"
+        },
+        {
+          "year": "2025",
+          "title": "Featured Article",
+          "subtitle": "Shinkenchiku 2025:05 magazine issue p.26"
+        },
+        {
+          "year": "2025",
+          "title": "Featured Article",
+          "subtitle": "a+u magazine 2025:07 \"Manhattan: Towers and Thresholds\" issue p.160"
+        },
+        {
+          "year": "2023",
+          "title": "Featured Article",
+          "subtitle": "Inflection Journal Vol. 10"
+        },
+        {
+          "year": "2023",
+          "title": "Featured Article",
+          "subtitle": "Atrium Magazine Vol. 43"
+        },
+        {
+          "year": "2023",
+          "title": "Invited speaker",
+          "subtitle": "Super Talks, Melbourne School of Design"
+        },
+        {
+          "year": "2022",
+          "title": "Invited speaker",
+          "subtitle": "Super Crit, Melbourne School of Design"
+        }
+      ]
+    },
+    {
+      "heading": "Exhibitions",
+      "entries": [
+        {
+          "year": "2024",
+          "title": "Beyond Housing Exhibition, Melbourne"
+        },
+        {
+          "year": "2023",
+          "title": "The 5th LFIA Symposium, Melbourne"
+        },
+        {
+          "year": "2022",
+          "title": "RIBA President's Medals Exhibition, Global Tour"
+        },
+        {
+          "year": "2020-2024",
+          "title": "MSDx, Melbourne"
+        }
+      ]
+    },
+    {
+      "heading": "Work Experience",
+      "entries": [
+        {
+          "year": "2025 - Present",
+          "title": "Junior Designer",
+          "subtitle": "Skidmore, Owings & Merrill (SOM), Melbourne"
+        },
+        {
+          "year": "2024",
+          "title": "Designer (Remote)",
+          "subtitle": "Arkee Studio, Sydney"
+        },
+        {
+          "year": "2018-2019",
+          "title": "Legal Assistant",
+          "subtitle": "José Liu Advogado, Macau"
+        }
+      ]
+    },
+    {
+      "heading": "Education",
+      "entries": [
+        {
+          "year": "2022-present",
+          "title": "Master of Architecture",
+          "subtitle": "The University of Melbourne, Australia"
+        },
+        {
+          "year": "2019-2022",
+          "title": "Bachelor of Design (Major in Architecture)",
+          "subtitle": "The University of Melbourne, Australia"
+        },
+        {
+          "year": "2012-2018",
+          "title": "GCE A-Level",
+          "subtitle": "Yuet Wah College, Macau"
+        }
+      ]
+    }
+  ]
+}

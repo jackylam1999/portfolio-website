@@ -1,0 +1,28 @@
+---
+description: Read notebooks before coding; run verify:all after tasks; automate debugging
+alwaysApply: true
+---
+
+# Agent learning & verification (this project)
+
+**Jacky expects full ownership** — automate debugging, minimize back-and-forth.
+
+Before non-trivial work:
+1. Read `.cursor/NOTEBOOK.md` (project spec, grid, ports, design rules).
+2. Read `~/.cursor/skills/agent-notebook/NOTEBOOK.md` (global lessons).
+
+Design rules (summary):
+- Faithful Readymag recreation — **no design suggestions**; match screenshots exactly.
+- Alignment & grid are sacred; grid lines are rules, not decoration.
+- Fixed chrome: nav, project index, per-section text, drawing menu.
+- Only **publish** and **`?edit=1`** modes.
+
+After every task:
+```bash
+npm run verify:all
+```
+If server down: `killall node && npm run go` then re-run.
+
+Report verification results. Update NOTEBOOK after bugs.
+
+Full workflow: `~/.cursor/skills/agent-notebook/SKILL.md`

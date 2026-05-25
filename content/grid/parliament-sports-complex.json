@@ -1,0 +1,110 @@
+{
+  "images": {
+    "overview": {
+      "align": "left",
+      "gapAfter": 167,
+      "x": 813,
+      "w": 1058,
+      "marginTop": 0
+    },
+    "site-plan": {
+      "w": 1071,
+      "align": "left",
+      "gapAfter": 178
+    },
+    "floor-plan-2": {
+      "widthTier": "full",
+      "align": "left",
+      "gapAfter": 9
+    },
+    "floor-plan-g": {
+      "widthTier": "full",
+      "align": "left",
+      "gapAfter": 9
+    },
+    "floor-plan-b2": {
+      "widthTier": "full",
+      "align": "left",
+      "gapAfter": 144,
+      "x": 1260,
+      "w": 1035,
+      "marginTop": 75
+    },
+    "side-street": {
+      "widthTier": "narrow",
+      "align": "left",
+      "gapAfter": 128,
+      "x": 813,
+      "w": 745,
+      "marginTop": 0
+    },
+    "basement-hall": {
+      "widthTier": "narrow",
+      "align": "left",
+      "gapAfter": 52,
+      "x": 813,
+      "w": 745,
+      "marginTop": 0
+    },
+    "undercroft-transit": {
+      "widthTier": "narrow",
+      "align": "left",
+      "gapAfter": 114,
+      "x": 813,
+      "w": 745,
+      "marginTop": 75
+    },
+    "cricket-practice": {
+      "widthTier": "narrow",
+      "align": "left",
+      "gapAfter": 122,
+      "x": 813,
+      "w": 745,
+      "marginTop": 0
+    },
+    "sports-hall": {
+      "widthTier": "narrow",
+      "align": "left",
+      "gapAfter": 178,
+      "x": 813,
+      "w": 745,
+      "marginTop": 0
+    },
+    "elevation-west": {
+      "widthTier": "full",
+      "align": "left",
+      "gapAfter": 364
+    },
+    "section-west": {
+      "w": 1243,
+      "align": "standard",
+      "gapAfter": 136,
+      "x": 813,
+      "marginTop": -300
+    },
+    "detail-section-west": {
+      "widthTier": "full",
+      "align": "left",
+      "gapAfter": 75,
+      "x": 813,
+      "w": 1482,
+      "marginTop": 75
+    },
+    "section-east": {
+      "widthTier": "full",
+      "align": "left",
+      "gapAfter": 346,
+      "x": 813,
+      "w": 1482,
+      "marginTop": 149
+    },
+    "detail-section-east": {
+      "widthTier": "narrow",
+      "align": "left",
+      "x": 813,
+      "w": 820,
+      "marginTop": 75
+    }
+  },
+  "pageBottom": 149
+}

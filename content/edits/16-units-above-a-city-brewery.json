@@ -1,0 +1,28 @@
+{
+  "sections": {
+    "overview": {
+      "specs": [
+        {
+          "label": "Category",
+          "value": "Residential"
+        },
+        {
+          "label": "Location",
+          "value": "Melbourne/AU"
+        },
+        {
+          "label": "Year",
+          "value": "2023"
+        },
+        {
+          "label": "Phase",
+          "value": "Merit Award, Shinkenchiku Competition:\nNew Summer Comfort, JP"
+        },
+        {
+          "label": "Collaborator",
+          "value": "Gerald Low\nEddie Guo"
+        }
+      ]
+    }
+  }
+}

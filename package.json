@@ -1,0 +1,40 @@
+{
+  "name": "portfolio-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "bash scripts/refresh-preview.sh",
+    "go": "bash scripts/go.sh",
+    "serve": "NEXT_DIST_DIR=.next-dev next start -p 3055 -H 127.0.0.1",
+    "build": "next build",
+    "build:prod": "NEXT_DIST_DIR=.next-prod next build",
+    "start": "next start -p 3041",
+    "start:prod": "NEXT_DIST_DIR=.next-prod next start -p 3050 -H 127.0.0.1",
+    "preview": "bash scripts/refresh-preview.sh",
+    "preview:prod": "bash scripts/preview-prod.sh",
+    "stop": "bash scripts/stop-all-servers.sh",
+    "clean": "rm -rf .next/cache/webpack .next/cache/fetch-cache && echo 'Cache cleared.'",
+    "test:scroll": "node scripts/test-scroll-spy.mjs",
+    "test:routes": "node scripts/verify-routes.mjs",
+    "test:page-length": "node scripts/verify-page-length.mjs",
+    "test:cv": "node scripts/verify-cv.mjs",
+    "verify:all": "bash scripts/verify-all.sh",
+    "optimize-images": "node scripts/optimize-project-images.mjs",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "14.2.15",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13",
+    "typescript": "^5"
+  }
+}

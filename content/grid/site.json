@@ -1,0 +1,21 @@
+{
+  "refWidth": 2560,
+  "constants": {
+    "marginX": 22,
+    "leftCol": 642,
+    "leftGap": 149,
+    "rightReserve": 265,
+    "drawingsWidth": 240,
+    "imageAreaLeft": 813,
+    "imageAreaWidth": 1482,
+    "gridUnit": 149,
+    "gridSubdivision": 2,
+    "imageStandardWidth": 1058,
+    "widthNarrow": 736,
+    "widthFull": 1482,
+    "contentTop": 312,
+    "specTop": 242,
+    "sectionGapDefault": 174,
+    "sectionGapTight": 9
+  }
+}
