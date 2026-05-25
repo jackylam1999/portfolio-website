@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   useCallback,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -76,6 +77,52 @@ export default function MobileProjectPage({ project }: Props) {
     scrollRaf.current = requestAnimationFrame(syncIndexFromScroll);
   }, [syncIndexFromScroll]);
 
+  useEffect(() => {
+    if (mode !== "viewer" || !slides.length) return;
+
+    const track = trackRef.current;
+    if (!track) return;
+
+    const slideEls = Array.from(
+      track.querySelectorAll<HTMLElement>(".mobile-viewer-slide")
+    );
+    if (!slideEls.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        let bestIndex = -1;
+        let bestRatio = 0;
+
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const index = slideEls.indexOf(entry.target as HTMLElement);
+          if (index < 0) continue;
+          if (entry.intersectionRatio > bestRatio) {
+            bestRatio = entry.intersectionRatio;
+            bestIndex = index;
+          }
+        }
+
+        if (bestIndex >= 0) {
+          setActiveIndex(bestIndex);
+          lastViewerIndex.current = bestIndex;
+        }
+      },
+      {
+        root: track,
+        threshold: [0.35, 0.5, 0.65, 0.85, 1],
+      }
+    );
+
+    slideEls.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [mode, slides.length]);
+
+  useEffect(() => {
+    if (mode !== "viewer") return;
+    requestAnimationFrame(() => scrollToIndex(lastViewerIndex.current));
+  }, [mode, scrollToIndex]);
+
   const toggleInfo = () => {
     if (mode === "info") {
       setMode("viewer");
@@ -107,7 +154,8 @@ export default function MobileProjectPage({ project }: Props) {
     return (
       <div className="mobile-viewer mobile-viewer--empty">
         <CornerChrome
-          drawingName="—"
+          topLeftLabel="—"
+          topLeftVariant="drawing"
           countLabel="00"
           mode={mode}
           onInfo={toggleInfo}
@@ -125,7 +173,12 @@ export default function MobileProjectPage({ project }: Props) {
       </Suspense>
 
       <CornerChrome
-        drawingName={currentSlide?.pillLabel ?? "—"}
+        topLeftLabel={
+          mode === "info"
+            ? project.title
+            : currentSlide?.pillLabel ?? "—"
+        }
+        topLeftVariant={mode === "info" ? "project" : "drawing"}
         countLabel={countLabel}
         mode={mode}
         onInfo={toggleInfo}
@@ -171,13 +224,15 @@ export default function MobileProjectPage({ project }: Props) {
 }
 
 function CornerChrome({
-  drawingName,
+  topLeftLabel,
+  topLeftVariant,
   countLabel,
   mode,
   onInfo,
   onGallery,
 }: {
-  drawingName: string;
+  topLeftLabel: string;
+  topLeftVariant: "drawing" | "project";
   countLabel: string;
   mode: ViewMode;
   onInfo: () => void;
@@ -185,7 +240,14 @@ function CornerChrome({
 }) {
   return (
     <div className="mobile-viewer-chrome" aria-label="Project controls">
-      <span className="mobile-viewer-chrome__tl">{drawingName}</span>
+      <span
+        className={
+          "mobile-viewer-chrome__tl" +
+          (topLeftVariant === "project" ? " mobile-viewer-chrome__tl--project" : "")
+        }
+      >
+        {topLeftLabel}
+      </span>
 
       <button
         type="button"
@@ -270,10 +332,7 @@ function GalleryGrid({
             key={`${slide.sectionId}-${i}`}
             type="button"
             role="listitem"
-            className={
-              "mobile-viewer-thumb" +
-              (i === activeIndex ? " mobile-viewer-thumb--current" : "")
-            }
+            className="mobile-viewer-thumb"
             onClick={() => onSelect(i)}
             aria-label={slide.pillLabel}
           >
@@ -282,12 +341,11 @@ function GalleryGrid({
               alt={img.alt}
               width={w}
               height={h}
-              sizes="33vw"
+              sizes="22vw"
               quality={75}
               unoptimized={preOptimized}
               className="mobile-viewer-thumb__img"
             />
-            <span className="mobile-viewer-thumb__label type-caption">{slide.pillLabel}</span>
           </button>
         );
       })}
