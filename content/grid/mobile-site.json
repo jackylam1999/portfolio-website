@@ -1,7 +1,7 @@
 {
   "refWidth": 390,
   "constants": {
-    "marginX": 18,
+    "marginX": 24,
     "gridUnit": 48,
     "gridSubdivision": 2,
     "headerHeight": 72,
@@ -11,6 +11,7 @@
     "specGap": 32,
     "paragraphGap": 14,
     "contentTop": 128,
-    "specLabelWidth": 108
+    "specLabelWidth": 108,
+    "slideGap": 48
   }
 }
