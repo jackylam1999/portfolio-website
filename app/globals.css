@@ -1041,6 +1041,15 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     z-index: 50;
   }
 
+  /* Info / All Images — panels sit in stage (z-40); lift chrome above them */
+  .mobile-viewer--panel .mobile-viewer-chrome-under {
+    z-index: 60;
+  }
+
+  .mobile-viewer--panel .mobile-viewer-chrome-over {
+    z-index: 70;
+  }
+
   .mobile-viewer-chrome__label {
     position: absolute;
     color: var(--color-fg);
@@ -1048,6 +1057,7 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
   }
 
   .mobile-viewer-chrome__label--active {
+    position: absolute;
     overflow: visible;
   }
 
@@ -1061,6 +1071,7 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     background: var(--color-accent);
     transform: translateY(-50%);
     pointer-events: none;
+    z-index: 1;
   }
 
   .mobile-viewer-chrome__tl {

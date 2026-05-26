@@ -196,7 +196,12 @@ export default function MobileProjectPage({ project }: Props) {
 
   if (!slides.length) {
     return (
-      <div className="mobile-viewer mobile-viewer--empty">
+      <div
+        className={
+          "mobile-viewer mobile-viewer--empty" +
+          (mode === "gallery" || mode === "info" ? " mobile-viewer--panel" : "")
+        }
+      >
         <CornerChrome
           titleRef={titleRef}
           topLeftLabel="—"
@@ -212,7 +217,12 @@ export default function MobileProjectPage({ project }: Props) {
   }
 
   return (
-    <div className="mobile-viewer">
+    <div
+      className={
+        "mobile-viewer" +
+        (mode === "gallery" || mode === "info" ? " mobile-viewer--panel" : "")
+      }
+    >
       <Suspense fallback={null}>
         <MobileLayoutGrid />
       </Suspense>
