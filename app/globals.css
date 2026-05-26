@@ -108,6 +108,7 @@
 
 html {
   font-size: 16px;
+  touch-action: manipulation;
 }
 
 body {
@@ -976,6 +977,8 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     --mobile-spec-gap: 28px;
     --mobile-paragraph-gap: 14px;
     --mobile-spec-label-width: 108px;
+    --mobile-gallery-gap-x: 24px;
+    --mobile-gallery-gap-y: calc(var(--mobile-grid-unit) * 2);
     --mobile-chrome-font: clamp(15px, calc(0.5rem + 0.55vw), 19px);
     /* Scroll-spy reference = sticky nav zone */
     --site-content-top: 120px;
@@ -1008,6 +1011,7 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     z-index: 40;
     background: var(--color-bg);
     overflow: hidden;
+    touch-action: pan-y pinch-zoom;
   }
 
   .mobile-viewer--empty {
@@ -1153,7 +1157,7 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     scroll-behavior: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: auto;
-    touch-action: pan-y;
+    touch-action: pan-y pinch-zoom;
     scrollbar-width: none;
     background: transparent;
   }
@@ -1162,16 +1166,40 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     display: none;
   }
 
-  .mobile-viewer-track--hidden {
-    visibility: hidden;
-    pointer-events: none;
-  }
-
   .mobile-viewer-stage {
     position: absolute;
     inset: 0;
     z-index: 40;
     background: transparent;
+  }
+
+  .mobile-viewer-panel {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+  }
+
+  .mobile-viewer-panel--active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 2;
+  }
+
+  .mobile-viewer-panel--track {
+    overflow: hidden;
+  }
+
+  .mobile-viewer-panel--gallery,
+  .mobile-viewer-panel--info {
+    overflow: hidden;
+  }
+
+  .mobile-viewer-panel--gallery .mobile-viewer-gallery,
+  .mobile-viewer-panel--info .mobile-viewer-info {
+    height: 100%;
   }
 
   .mobile-viewer-slide {
@@ -1245,13 +1273,13 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
   .mobile-viewer-gallery {
     position: absolute;
     inset: 0;
-    z-index: 10;
+    z-index: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    column-gap: 12px;
-    row-gap: var(--mobile-grid-unit);
+    column-gap: var(--mobile-gallery-gap-x);
+    row-gap: var(--mobile-gallery-gap-y);
     align-items: start;
     align-content: start;
     padding: var(--mobile-frame-top) var(--mobile-margin-x)
@@ -1281,7 +1309,7 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
   .mobile-viewer-info {
     position: absolute;
     inset: 0;
-    z-index: 10;
+    z-index: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }

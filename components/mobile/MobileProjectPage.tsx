@@ -237,34 +237,44 @@ export default function MobileProjectPage({ project }: Props) {
         onGallery={toggleGallery}
       />
 
-      <div
-        className={
-          "mobile-viewer-stage" +
-          (mode === "info" ? " mobile-viewer-stage--info" : "") +
-          (mode === "gallery" ? " mobile-viewer-stage--gallery" : "")
-        }
-      >
+      <div className="mobile-viewer-stage">
         <div
-          ref={trackRef}
           className={
-            "mobile-viewer-track" +
-            (mode !== "viewer" ? " mobile-viewer-track--hidden" : "")
+            "mobile-viewer-panel mobile-viewer-panel--track" +
+            (mode === "viewer" ? " mobile-viewer-panel--active" : "")
           }
-          onScroll={onTrackScroll}
           aria-hidden={mode !== "viewer"}
         >
-          {slides.map((slide, i) => (
-            <SlideImage key={`${slide.sectionId}-${i}`} slide={slide} priority={i === 0} />
-          ))}
+          <div
+            ref={trackRef}
+            className="mobile-viewer-track"
+            onScroll={onTrackScroll}
+          >
+            {slides.map((slide, i) => (
+              <SlideImage key={`${slide.sectionId}-${i}`} slide={slide} priority={i === 0} />
+            ))}
+          </div>
         </div>
 
-        {mode === "gallery" ? (
+        <div
+          className={
+            "mobile-viewer-panel mobile-viewer-panel--gallery" +
+            (mode === "gallery" ? " mobile-viewer-panel--active" : "")
+          }
+          aria-hidden={mode !== "gallery"}
+        >
           <GalleryGrid slides={slides} onSelect={openSlide} />
-        ) : null}
+        </div>
 
-        {mode === "info" ? (
+        <div
+          className={
+            "mobile-viewer-panel mobile-viewer-panel--info" +
+            (mode === "info" ? " mobile-viewer-panel--active" : "")
+          }
+          aria-hidden={mode !== "info"}
+        >
           <InfoPanel specs={info.specs} paragraphs={info.paragraphs} slide={currentSlide} />
-        ) : null}
+        </div>
       </div>
     </div>
   );
