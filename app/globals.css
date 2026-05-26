@@ -1000,7 +1000,7 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     min-height: 100dvh;
   }
 
-  /* Full-screen swipe viewer */
+  /* Full-screen vertical scroll viewer */
   .mobile-viewer {
     position: fixed;
     inset: 0;
@@ -1021,11 +1021,11 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     color: rgba(0, 0, 0, 0.5);
   }
 
-  /* Fixed corners — same position in every mode */
+  /* Fixed corners — images scroll over labels; buttons stay on top */
   .mobile-viewer-chrome {
     position: fixed;
     inset: 0;
-    z-index: 60;
+    z-index: 30;
     pointer-events: none;
     font-size: var(--mobile-chrome-font);
     line-height: 1.35;
@@ -1049,6 +1049,7 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
 
   .mobile-viewer-chrome__btn {
     position: absolute;
+    z-index: 50;
     border: none;
     background: none;
     padding: 4px 0;
@@ -1103,18 +1104,20 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
   .mobile-viewer-stage {
     position: absolute;
     inset: 0;
+    z-index: 40;
   }
 
   .mobile-viewer-track {
     display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-    touch-action: pan-x;
+    overscroll-behavior-y: contain;
+    touch-action: pan-y;
     scrollbar-width: none;
   }
 
@@ -1130,27 +1133,26 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
   .mobile-viewer-slide {
     flex: none;
     width: 100%;
-    min-width: 100%;
-    height: 100%;
-    min-height: 0;
+    min-height: 100dvh;
     scroll-snap-align: start;
     scroll-snap-stop: normal;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     margin: 0;
-    padding: var(--mobile-frame-top) var(--mobile-margin-x)
-      var(--mobile-frame-bottom);
+    padding: 0 var(--mobile-margin-x)
+      calc(var(--mobile-frame-bottom) + var(--mobile-slide-gap));
     box-sizing: border-box;
+    background: var(--color-bg);
   }
 
   .mobile-viewer-slide:not(:last-child) {
-    margin-right: var(--mobile-slide-gap);
+    margin-bottom: 0;
   }
 
   .mobile-viewer-slide.project-figure {
     width: 100%;
-    height: 100%;
+    min-height: 100dvh;
   }
 
   .mobile-viewer-slide__img {
@@ -1159,32 +1161,33 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     -webkit-user-drag: none;
   }
 
-  /* Landscape — span full width between side borders */
+  /* Landscape — span full width between side borders, top-aligned */
   .mobile-viewer-slide--landscape {
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
   }
 
   .mobile-viewer-slide--landscape .mobile-viewer-slide__img {
     width: 100%;
     height: auto;
-    max-height: 100%;
+    max-height: calc(100dvh - var(--mobile-frame-bottom));
     object-fit: contain;
-    object-position: center;
+    object-position: top center;
   }
 
-  /* Portrait — fill height within frame, centered on grid */
+  /* Portrait — fill height within frame, top-aligned */
   .mobile-viewer-slide--portrait {
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
   }
 
   .mobile-viewer-slide--portrait .mobile-viewer-slide__img {
     width: auto;
-    height: 100%;
+    height: auto;
     max-width: 100%;
+    max-height: calc(100dvh - var(--mobile-frame-bottom));
     object-fit: contain;
-    object-position: center;
+    object-position: top center;
   }
 
   /* Gallery grid — 4 columns, full image extent, top-aligned rows */
@@ -1196,8 +1199,8 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     -webkit-overflow-scrolling: touch;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    column-gap: 10px;
-    row-gap: var(--mobile-subunit);
+    column-gap: 12px;
+    row-gap: var(--mobile-grid-unit);
     align-items: start;
     align-content: start;
     padding: var(--mobile-frame-top) var(--mobile-margin-x)

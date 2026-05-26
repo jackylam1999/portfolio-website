@@ -7,6 +7,7 @@ import {
   useEffect,
   useRef,
   useState,
+  type RefObject,
 } from "react";
 import { Suspense } from "react";
 import type { Project } from "@/content/types";
@@ -23,6 +24,13 @@ interface Props {
   project: Project;
 }
 
+function rectsOverlap(
+  a: { top: number; bottom: number; left: number; right: number },
+  b: { top: number; bottom: number; left: number; right: number }
+): boolean {
+  return a.top < b.bottom && a.bottom > b.top && a.left < b.right && a.right > b.left;
+}
+
 export default function MobileProjectPage({ project }: Props) {
   const slides = flattenProjectSlides(project);
   const info = projectInfoContent(project);
@@ -30,11 +38,28 @@ export default function MobileProjectPage({ project }: Props) {
 
   const [mode, setMode] = useState<ViewMode>("viewer");
   const [activeIndex, setActiveIndex] = useState(0);
+  const [displayedDrawingLabel, setDisplayedDrawingLabel] = useState(
+    slides[0]?.pillLabel ?? "—"
+  );
   const lastViewerIndex = useRef(0);
   const trackRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLSpanElement>(null);
   const scrollRaf = useRef<number | null>(null);
 
   const currentSlide = slides[activeIndex];
+
+  const isDrawingTitleCovered = useCallback(() => {
+    const zone = titleRef.current?.getBoundingClientRect();
+    const track = trackRef.current;
+    if (!zone || !track) return false;
+
+    const layers = track.querySelectorAll<HTMLElement>(".mobile-viewer-slide");
+    for (const layer of layers) {
+      const rect = layer.getBoundingClientRect();
+      if (rectsOverlap(rect, zone)) return true;
+    }
+    return false;
+  }, []);
 
   const scrollToIndex = useCallback((index: number, behavior: ScrollBehavior = "auto") => {
     const track = trackRef.current;
@@ -43,39 +68,29 @@ export default function MobileProjectPage({ project }: Props) {
     const slideEls = track.querySelectorAll<HTMLElement>(".mobile-viewer-slide");
     const target = slideEls[clamped];
     if (target) {
-      track.scrollTo({ left: target.offsetLeft, behavior });
+      track.scrollTo({ top: target.offsetTop, behavior });
     }
     setActiveIndex(clamped);
     lastViewerIndex.current = clamped;
-  }, [slides.length]);
+    setDisplayedDrawingLabel(slides[clamped]?.pillLabel ?? "—");
+  }, [slides]);
 
-  const syncIndexFromScroll = useCallback(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    const slideEls = Array.from(track.querySelectorAll<HTMLElement>(".mobile-viewer-slide"));
-    if (!slideEls.length) return;
-
-    const viewportCenter = track.scrollLeft + track.clientWidth / 2;
-    let closest = 0;
-    let minDist = Infinity;
-
-    slideEls.forEach((el, i) => {
-      const slideCenter = el.offsetLeft + el.offsetWidth / 2;
-      const dist = Math.abs(viewportCenter - slideCenter);
-      if (dist < minDist) {
-        minDist = dist;
-        closest = i;
+  const syncDrawingLabel = useCallback(
+    (index: number, force = false) => {
+      const label = slides[index]?.pillLabel ?? "—";
+      if (force || isDrawingTitleCovered()) {
+        setDisplayedDrawingLabel(label);
       }
-    });
-
-    setActiveIndex(closest);
-    lastViewerIndex.current = closest;
-  }, [slides.length]);
+    },
+    [isDrawingTitleCovered, slides]
+  );
 
   const onTrackScroll = useCallback(() => {
     if (scrollRaf.current != null) cancelAnimationFrame(scrollRaf.current);
-    scrollRaf.current = requestAnimationFrame(syncIndexFromScroll);
-  }, [syncIndexFromScroll]);
+    scrollRaf.current = requestAnimationFrame(() => {
+      syncDrawingLabel(lastViewerIndex.current);
+    });
+  }, [syncDrawingLabel]);
 
   useEffect(() => {
     if (mode !== "viewer" || !slides.length) return;
@@ -106,6 +121,7 @@ export default function MobileProjectPage({ project }: Props) {
         if (bestIndex >= 0) {
           setActiveIndex(bestIndex);
           lastViewerIndex.current = bestIndex;
+          syncDrawingLabel(bestIndex);
         }
       },
       {
@@ -115,8 +131,15 @@ export default function MobileProjectPage({ project }: Props) {
     );
 
     slideEls.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, [mode, slides.length]);
+
+    const onScrollEnd = () => syncDrawingLabel(lastViewerIndex.current, true);
+    track.addEventListener("scrollend", onScrollEnd);
+
+    return () => {
+      observer.disconnect();
+      track.removeEventListener("scrollend", onScrollEnd);
+    };
+  }, [mode, slides.length, syncDrawingLabel]);
 
   useEffect(() => {
     if (mode !== "viewer") return;
@@ -150,10 +173,17 @@ export default function MobileProjectPage({ project }: Props) {
     requestAnimationFrame(() => scrollToIndex(index));
   };
 
+  const showProjectTitle = mode === "info" || mode === "gallery";
+  const topLeftLabel = showProjectTitle
+    ? project.title
+    : displayedDrawingLabel;
+  const topLeftVariant = showProjectTitle ? "project" : "drawing";
+
   if (!slides.length) {
     return (
       <div className="mobile-viewer mobile-viewer--empty">
         <CornerChrome
+          titleRef={titleRef}
           topLeftLabel="—"
           topLeftVariant="drawing"
           countLabel="00"
@@ -173,12 +203,9 @@ export default function MobileProjectPage({ project }: Props) {
       </Suspense>
 
       <CornerChrome
-        topLeftLabel={
-          mode === "info"
-            ? project.title
-            : currentSlide?.pillLabel ?? "—"
-        }
-        topLeftVariant={mode === "info" ? "project" : "drawing"}
+        titleRef={titleRef}
+        topLeftLabel={topLeftLabel}
+        topLeftVariant={topLeftVariant}
         countLabel={countLabel}
         mode={mode}
         onInfo={toggleInfo}
@@ -192,7 +219,6 @@ export default function MobileProjectPage({ project }: Props) {
           (mode === "gallery" ? " mobile-viewer-stage--gallery" : "")
         }
       >
-        {/* Swipe track — always mounted so scroll position is preserved */}
         <div
           ref={trackRef}
           className={
@@ -208,11 +234,7 @@ export default function MobileProjectPage({ project }: Props) {
         </div>
 
         {mode === "gallery" ? (
-          <GalleryGrid
-            slides={slides}
-            activeIndex={activeIndex}
-            onSelect={openSlide}
-          />
+          <GalleryGrid slides={slides} onSelect={openSlide} />
         ) : null}
 
         {mode === "info" ? (
@@ -224,6 +246,7 @@ export default function MobileProjectPage({ project }: Props) {
 }
 
 function CornerChrome({
+  titleRef,
   topLeftLabel,
   topLeftVariant,
   countLabel,
@@ -231,6 +254,7 @@ function CornerChrome({
   onInfo,
   onGallery,
 }: {
+  titleRef: RefObject<HTMLSpanElement | null>;
   topLeftLabel: string;
   topLeftVariant: "drawing" | "project";
   countLabel: string;
@@ -241,6 +265,7 @@ function CornerChrome({
   return (
     <div className="mobile-viewer-chrome" aria-label="Project controls">
       <span
+        ref={titleRef}
         className={
           "mobile-viewer-chrome__tl" +
           (topLeftVariant === "project" ? " mobile-viewer-chrome__tl--project" : "")
@@ -313,11 +338,9 @@ function SlideImage({
 
 function GalleryGrid({
   slides,
-  activeIndex,
   onSelect,
 }: {
   slides: ReturnType<typeof flattenProjectSlides>;
-  activeIndex: number;
   onSelect: (index: number) => void;
 }) {
   return (
