@@ -263,43 +263,47 @@ function CornerChrome({
   onGallery: () => void;
 }) {
   return (
-    <div className="mobile-viewer-chrome" aria-label="Project controls">
-      <span
-        ref={titleRef}
-        className={
-          "mobile-viewer-chrome__tl" +
-          (topLeftVariant === "project" ? " mobile-viewer-chrome__tl--project" : "")
-        }
-      >
-        {topLeftLabel}
-      </span>
+    <>
+      <div className="mobile-viewer-chrome-under" aria-hidden={false}>
+        <span
+          ref={titleRef}
+          className={
+            "mobile-viewer-chrome__tl" +
+            (topLeftVariant === "project" ? " mobile-viewer-chrome__tl--project" : "")
+          }
+        >
+          {topLeftLabel}
+        </span>
+      </div>
 
-      <button
-        type="button"
-        className={
-          "mobile-viewer-chrome__btn mobile-viewer-chrome__tr" +
-          (mode === "info" ? " mobile-viewer-chrome__btn--active" : "")
-        }
-        onClick={onInfo}
-      >
-        Info
-      </button>
+      <div className="mobile-viewer-chrome-over" aria-label="Project controls">
+        <button
+          type="button"
+          className={
+            "mobile-viewer-chrome__btn mobile-viewer-chrome__tr" +
+            (mode === "info" ? " mobile-viewer-chrome__btn--active" : "")
+          }
+          onClick={onInfo}
+        >
+          Info
+        </button>
 
-      <button
-        type="button"
-        className={
-          "mobile-viewer-chrome__btn mobile-viewer-chrome__bl" +
-          (mode === "gallery" ? " mobile-viewer-chrome__btn--active" : "")
-        }
-        onClick={onGallery}
-      >
-        All Images ({countLabel})
-      </button>
+        <button
+          type="button"
+          className={
+            "mobile-viewer-chrome__btn mobile-viewer-chrome__bl" +
+            (mode === "gallery" ? " mobile-viewer-chrome__btn--active" : "")
+          }
+          onClick={onGallery}
+        >
+          All Images ({countLabel})
+        </button>
 
-      <Link href="/" className="mobile-viewer-chrome__btn mobile-viewer-chrome__br">
-        Close
-      </Link>
-    </div>
+        <Link href="/" className="mobile-viewer-chrome__btn mobile-viewer-chrome__br">
+          Close
+        </Link>
+      </div>
+    </>
   );
 }
 

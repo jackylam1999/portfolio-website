@@ -1185,7 +1185,6 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     width: auto;
     height: auto;
     max-width: 100%;
-    max-height: calc(100dvh - var(--mobile-frame-bottom));
     object-fit: contain;
     object-position: top center;
   }
