@@ -1021,15 +1021,23 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     color: rgba(0, 0, 0, 0.5);
   }
 
-  /* Fixed corners — images scroll over labels; buttons stay on top */
-  .mobile-viewer-chrome {
+  /* Fixed corners — title under slides; controls always on top */
+  .mobile-viewer-chrome-under,
+  .mobile-viewer-chrome-over {
     position: fixed;
     inset: 0;
-    z-index: 30;
     pointer-events: none;
     font-size: var(--mobile-chrome-font);
     line-height: 1.35;
     font-weight: 400;
+  }
+
+  .mobile-viewer-chrome-under {
+    z-index: 30;
+  }
+
+  .mobile-viewer-chrome-over {
+    z-index: 50;
   }
 
   .mobile-viewer-chrome__tl {
@@ -1049,7 +1057,6 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
 
   .mobile-viewer-chrome__btn {
     position: absolute;
-    z-index: 50;
     border: none;
     background: none;
     padding: 4px 0;
@@ -1114,7 +1121,6 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
-    scroll-snap-type: y mandatory;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
     touch-action: pan-y;
@@ -1133,15 +1139,11 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
   .mobile-viewer-slide {
     flex: none;
     width: 100%;
-    min-height: 100dvh;
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
     display: flex;
     align-items: flex-start;
     justify-content: center;
     margin: 0;
-    padding: 0 var(--mobile-margin-x)
-      calc(var(--mobile-frame-bottom) + var(--mobile-slide-gap));
+    padding: 0 var(--mobile-margin-x) var(--mobile-slide-gap);
     box-sizing: border-box;
     background: var(--color-bg);
   }
@@ -1152,7 +1154,6 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
 
   .mobile-viewer-slide.project-figure {
     width: 100%;
-    min-height: 100dvh;
   }
 
   .mobile-viewer-slide__img {
@@ -1170,7 +1171,6 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
   .mobile-viewer-slide--landscape .mobile-viewer-slide__img {
     width: 100%;
     height: auto;
-    max-height: calc(100dvh - var(--mobile-frame-bottom));
     object-fit: contain;
     object-position: top center;
   }
