@@ -53,7 +53,9 @@ export default function MobileProjectPage({ project }: Props) {
     const track = trackRef.current;
     if (!zone || !track) return false;
 
-    const layers = track.querySelectorAll<HTMLElement>(".mobile-viewer-slide");
+    const layers = track.querySelectorAll<HTMLElement>(
+      ".mobile-viewer-slide__img, .mobile-viewer-slide"
+    );
     for (const layer of layers) {
       const rect = layer.getBoundingClientRect();
       if (rectsOverlap(rect, zone)) return true;
@@ -68,7 +70,9 @@ export default function MobileProjectPage({ project }: Props) {
     const slideEls = track.querySelectorAll<HTMLElement>(".mobile-viewer-slide");
     const target = slideEls[clamped];
     if (target) {
-      track.scrollTo({ top: target.offsetTop, behavior });
+      const centeredTop =
+        target.offsetTop + target.offsetHeight / 2 - track.clientHeight / 2;
+      track.scrollTo({ top: Math.max(0, centeredTop), behavior });
     }
     setActiveIndex(clamped);
     lastViewerIndex.current = clamped;
@@ -143,8 +147,19 @@ export default function MobileProjectPage({ project }: Props) {
 
   useEffect(() => {
     if (mode !== "viewer") return;
-    requestAnimationFrame(() => scrollToIndex(lastViewerIndex.current));
-  }, [mode, scrollToIndex]);
+
+    const track = trackRef.current;
+    if (!track) return;
+
+    requestAnimationFrame(() => {
+      const slideEls = track.querySelectorAll<HTMLElement>(".mobile-viewer-slide");
+      const target = slideEls[lastViewerIndex.current];
+      if (!target) return;
+      const centeredTop =
+        target.offsetTop + target.offsetHeight / 2 - track.clientHeight / 2;
+      track.scrollTop = Math.max(0, centeredTop);
+    });
+  }, [mode]);
 
   const toggleInfo = () => {
     if (mode === "info") {
@@ -274,32 +289,54 @@ function CornerChrome({
         >
           {topLeftLabel}
         </span>
+
+        <span
+          className={
+            "mobile-viewer-chrome__label mobile-viewer-chrome__tr" +
+            (mode === "info" ? " mobile-viewer-chrome__label--active" : "")
+          }
+        >
+          Info
+        </span>
+
+        <span
+          className={
+            "mobile-viewer-chrome__label mobile-viewer-chrome__bl" +
+            (mode === "gallery" ? " mobile-viewer-chrome__label--active" : "")
+          }
+        >
+          All Images ({countLabel})
+        </span>
+
+        <span className="mobile-viewer-chrome__label mobile-viewer-chrome__br">
+          Close
+        </span>
       </div>
 
       <div className="mobile-viewer-chrome-over" aria-label="Project controls">
         <button
           type="button"
-          className={
-            "mobile-viewer-chrome__btn mobile-viewer-chrome__tr" +
-            (mode === "info" ? " mobile-viewer-chrome__btn--active" : "")
-          }
+          className="mobile-viewer-chrome__btn mobile-viewer-chrome__tr"
           onClick={onInfo}
+          aria-label="Info"
         >
           Info
         </button>
 
         <button
           type="button"
-          className={
-            "mobile-viewer-chrome__btn mobile-viewer-chrome__bl" +
-            (mode === "gallery" ? " mobile-viewer-chrome__btn--active" : "")
-          }
+          className="mobile-viewer-chrome__btn mobile-viewer-chrome__bl"
           onClick={onGallery}
+          aria-label={`All Images (${countLabel})`}
         >
           All Images ({countLabel})
         </button>
 
-        <Link href="/" className="mobile-viewer-chrome__btn mobile-viewer-chrome__br">
+        <Link
+          href="/"
+          className="mobile-viewer-chrome__btn mobile-viewer-chrome__br"
+          aria-label="Close"
+        >
           Close
         </Link>
       </div>

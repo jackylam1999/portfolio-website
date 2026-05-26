@@ -963,7 +963,8 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     --mobile-margin-x: 24px;
     --mobile-grid-unit: 48px;
     --mobile-subunit: 24px;
-    --mobile-slide-gap: 64px;
+    --mobile-slide-gap: 80px;
+    --mobile-slide-pad-y: var(--mobile-grid-unit);
     --mobile-safe-top: env(safe-area-inset-top, 0px);
     --mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
     --mobile-chrome-y: max(24px, var(--mobile-safe-top));
@@ -1040,6 +1041,28 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     z-index: 50;
   }
 
+  .mobile-viewer-chrome__label {
+    position: absolute;
+    color: var(--color-fg);
+    pointer-events: none;
+  }
+
+  .mobile-viewer-chrome__label--active {
+    overflow: visible;
+  }
+
+  .mobile-viewer-chrome__label--active::after {
+    content: "";
+    position: absolute;
+    left: -10px;
+    right: -10px;
+    top: 50%;
+    height: 1px;
+    background: var(--color-accent);
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
   .mobile-viewer-chrome__tl {
     position: absolute;
     top: var(--mobile-chrome-y);
@@ -1060,15 +1083,33 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     border: none;
     background: none;
     padding: 4px 0;
+    margin: 0;
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
     font-weight: inherit;
-    color: var(--color-fg);
+    color: transparent;
     text-decoration: none;
     cursor: pointer;
     pointer-events: auto;
     -webkit-tap-highlight-color: transparent;
+    overflow: visible;
+  }
+
+  /* Hit targets mirror visible labels in the under layer */
+  .mobile-viewer-chrome__tr.mobile-viewer-chrome__btn {
+    min-width: 2.5em;
+    min-height: 1.35em;
+  }
+
+  .mobile-viewer-chrome__bl.mobile-viewer-chrome__btn {
+    min-width: 6em;
+    min-height: 1.35em;
+  }
+
+  .mobile-viewer-chrome__br.mobile-viewer-chrome__btn {
+    min-width: 2.5em;
+    min-height: 1.35em;
   }
 
   .mobile-viewer-chrome__tr {
@@ -1090,30 +1131,6 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     text-align: right;
   }
 
-  /* Active mode — red strikethrough (Info / All Images only) */
-  .mobile-viewer-chrome__btn--active {
-    position: absolute;
-    overflow: visible;
-  }
-
-  .mobile-viewer-chrome__btn--active::after {
-    content: "";
-    position: absolute;
-    left: -10px;
-    right: -10px;
-    top: 50%;
-    height: 1px;
-    background: var(--color-accent);
-    transform: translateY(-50%);
-    pointer-events: none;
-  }
-
-  .mobile-viewer-stage {
-    position: absolute;
-    inset: 0;
-    z-index: 40;
-  }
-
   .mobile-viewer-track {
     display: flex;
     flex-direction: column;
@@ -1121,10 +1138,13 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
+    scroll-snap-type: none;
+    scroll-behavior: auto;
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
+    overscroll-behavior-y: auto;
     touch-action: pan-y;
     scrollbar-width: none;
+    background: transparent;
   }
 
   .mobile-viewer-track::-webkit-scrollbar {
@@ -1136,20 +1156,33 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     pointer-events: none;
   }
 
+  .mobile-viewer-stage {
+    position: absolute;
+    inset: 0;
+    z-index: 40;
+    background: transparent;
+  }
+
   .mobile-viewer-slide {
     flex: none;
     width: 100%;
+    min-height: 100dvh;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    margin: 0;
-    padding: 0 var(--mobile-margin-x) var(--mobile-slide-gap);
+    margin: 0 0 var(--mobile-slide-gap);
+    padding:
+      calc(var(--mobile-frame-top) + var(--mobile-slide-pad-y))
+      var(--mobile-margin-x)
+      calc(var(--mobile-frame-bottom) + var(--mobile-slide-pad-y));
     box-sizing: border-box;
-    background: var(--color-bg);
+    background: transparent;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
   }
 
-  .mobile-viewer-slide:not(:last-child) {
-    margin-bottom: 0;
+  .mobile-viewer-slide:last-child {
+    margin-bottom: calc(var(--mobile-frame-bottom) + var(--mobile-slide-pad-y));
   }
 
   .mobile-viewer-slide.project-figure {
@@ -1162,22 +1195,26 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     -webkit-user-drag: none;
   }
 
-  /* Landscape — span full width between side borders, top-aligned */
+  /* Landscape — full width between side borders, vertically centered */
   .mobile-viewer-slide--landscape {
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
   }
 
   .mobile-viewer-slide--landscape .mobile-viewer-slide__img {
     width: 100%;
     height: auto;
+    max-height: calc(
+      100dvh - var(--mobile-frame-top) - var(--mobile-frame-bottom) -
+        calc(var(--mobile-slide-pad-y) * 2)
+    );
     object-fit: contain;
-    object-position: top center;
+    object-position: center;
   }
 
-  /* Portrait — fill height within frame, top-aligned */
+  /* Portrait — centered within frame */
   .mobile-viewer-slide--portrait {
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
   }
 
@@ -1185,8 +1222,12 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     width: auto;
     height: auto;
     max-width: 100%;
+    max-height: calc(
+      100dvh - var(--mobile-frame-top) - var(--mobile-frame-bottom) -
+        calc(var(--mobile-slide-pad-y) * 2)
+    );
     object-fit: contain;
-    object-position: top center;
+    object-position: center;
   }
 
   /* Gallery grid — 4 columns, full image extent, top-aligned rows */
