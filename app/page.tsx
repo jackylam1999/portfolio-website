@@ -1,6 +1,7 @@
 import { allProjects } from "@/content/projects";
 import ProjectThumb from "@/components/ProjectThumb";
 import SiteEditPageShell from "@/components/editor/SiteEditPageShell";
+import MobileHomePage from "@/components/mobile/MobileHomePage";
 
 const homePagePairings: Array<{
   left?: { slug: string; size?: "sm" | "md" | "lg" };
@@ -24,44 +25,47 @@ export default function HomePage({
 
   return (
     <SiteEditPageShell searchParams={searchParams}>
-      <div
-        style={{
-          paddingTop: "var(--site-home-content-top)",
-          paddingBottom: "var(--site-home-row-gap)",
-          paddingLeft: "var(--site-margin-x)",
-          paddingRight: "var(--site-margin-x)",
-        }}
-      >
+      <div className="home-layout-desktop">
         <div
-          className="flex flex-col"
-          style={{ gap: "var(--site-home-row-gap)" }}
+          style={{
+            paddingTop: "var(--site-home-content-top)",
+            paddingBottom: "var(--site-home-row-gap)",
+            paddingLeft: "var(--site-margin-x)",
+            paddingRight: "var(--site-margin-x)",
+          }}
         >
-          {homePagePairings.map((row, i) => (
-            <div
-              key={i}
-              className="flex items-end justify-center"
-              style={{ gap: "var(--site-home-col-gap)" }}
-            >
-              {row.left && bySlug.get(row.left.slug) && (
-                <ProjectThumb
-                  slug={row.left.slug}
-                  title={bySlug.get(row.left.slug)!.title}
-                  thumbnail={bySlug.get(row.left.slug)!.homeThumbnail}
-                  size={row.left.size}
-                />
-              )}
-              {row.right && bySlug.get(row.right.slug) && (
-                <ProjectThumb
-                  slug={row.right.slug}
-                  title={bySlug.get(row.right.slug)!.title}
-                  thumbnail={bySlug.get(row.right.slug)!.homeThumbnail}
-                  size={row.right.size}
-                />
-              )}
-            </div>
-          ))}
+          <div
+            className="flex flex-col"
+            style={{ gap: "var(--site-home-row-gap)" }}
+          >
+            {homePagePairings.map((row, i) => (
+              <div
+                key={i}
+                className="flex items-end justify-center"
+                style={{ gap: "var(--site-home-col-gap)" }}
+              >
+                {row.left && bySlug.get(row.left.slug) && (
+                  <ProjectThumb
+                    slug={row.left.slug}
+                    title={bySlug.get(row.left.slug)!.title}
+                    thumbnail={bySlug.get(row.left.slug)!.homeThumbnail}
+                    size={row.left.size}
+                  />
+                )}
+                {row.right && bySlug.get(row.right.slug) && (
+                  <ProjectThumb
+                    slug={row.right.slug}
+                    title={bySlug.get(row.right.slug)!.title}
+                    thumbnail={bySlug.get(row.right.slug)!.homeThumbnail}
+                    size={row.right.size}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
+      <MobileHomePage />
     </SiteEditPageShell>
   );
 }
