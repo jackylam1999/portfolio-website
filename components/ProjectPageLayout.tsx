@@ -17,6 +17,7 @@ import {
   sectionGapAfterCss,
 } from "@/lib/image-layout";
 import { getPageBottomRef, resolveImageLayout, type ProjectGrid } from "@/content/grid/registry";
+import { isPreOptimizedSrc, isVideoSrc } from "@/lib/project-media";
 
 interface Props {
   project: Project;
@@ -173,7 +174,7 @@ function ProjectFigure({
 }) {
   const w = img.naturalWidth ?? 1600;
   const h = img.naturalHeight ?? 1200;
-  const preOptimized = img.src.endsWith(".webp");
+  const preOptimized = isPreOptimizedSrc(img.src);
   const layout = resolveImageLayout(slug, sectionId, img, grid);
 
   return (
@@ -187,17 +188,28 @@ function ProjectFigure({
         aspectRatio: layout.aspectRatio,
       }}
     >
-      <Image
-        src={img.src}
-        alt={img.alt}
-        width={w}
-        height={h}
-        sizes={imageSizesAttr(slug, sectionId, img, grid)}
-        quality={88}
-        priority={priority}
-        unoptimized={preOptimized}
-        className="block h-full w-full object-contain object-left-top"
-      />
+      {isVideoSrc(img.src) ? (
+        <video
+          src={img.src}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="block h-full w-full object-contain object-left-top"
+        />
+      ) : (
+        <Image
+          src={img.src}
+          alt={img.alt}
+          width={w}
+          height={h}
+          sizes={imageSizesAttr(slug, sectionId, img, grid)}
+          quality={88}
+          priority={priority}
+          unoptimized={preOptimized}
+          className="block h-full w-full object-contain object-left-top"
+        />
+      )}
       {img.caption ? (
         <figcaption className="type-caption text-black/70">{img.caption}</figcaption>
       ) : null}

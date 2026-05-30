@@ -17,6 +17,7 @@ import {
   formatImageCount,
   projectInfoContent,
 } from "@/lib/mobile-project-slides";
+import { isPreOptimizedSrc, isVideoSrc } from "@/lib/project-media";
 
 type ViewMode = "viewer" | "gallery" | "info";
 
@@ -374,25 +375,36 @@ function SlideImage({
   const img = slide.image;
   const w = img.naturalWidth ?? 1600;
   const h = img.naturalHeight ?? 1200;
-  const preOptimized = img.src.endsWith(".webp");
+  const preOptimized = isPreOptimizedSrc(img.src);
   const orientation = w >= h ? "landscape" : "portrait";
 
   return (
     <figure
       className={`mobile-viewer-slide mobile-viewer-slide--${orientation} project-figure`}
     >
-      <Image
-        src={img.src}
-        alt={img.alt}
-        width={w}
-        height={h}
-        sizes="100vw"
-        quality={88}
-        priority={priority}
-        unoptimized={preOptimized}
-        className="mobile-viewer-slide__img"
-        draggable={false}
-      />
+      {isVideoSrc(img.src) ? (
+        <video
+          src={img.src}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="mobile-viewer-slide__img"
+        />
+      ) : (
+        <Image
+          src={img.src}
+          alt={img.alt}
+          width={w}
+          height={h}
+          sizes="100vw"
+          quality={88}
+          priority={priority}
+          unoptimized={preOptimized}
+          className="mobile-viewer-slide__img"
+          draggable={false}
+        />
+      )}
     </figure>
   );
 }
@@ -410,7 +422,7 @@ function GalleryGrid({
         const img = slide.image;
         const w = img.naturalWidth ?? 800;
         const h = img.naturalHeight ?? 600;
-        const preOptimized = img.src.endsWith(".webp");
+        const preOptimized = isPreOptimizedSrc(img.src);
         return (
           <button
             key={`${slide.sectionId}-${i}`}

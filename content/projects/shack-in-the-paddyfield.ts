@@ -1,4 +1,9 @@
 import type { Project } from "../types";
+import { projectAsset } from "@/lib/project-media";
+
+const base = "/images/projects/shack-in-the-paddyfield";
+const a = (file: string, alt: string, w: number, h: number) =>
+  projectAsset(base, file, alt, w, h);
 
 const project: Project = {
   slug: "shack-in-the-paddyfield",
@@ -6,6 +11,7 @@ const project: Project = {
   year: "2024",
   category: "Residential",
   location: "Urato Islands",
+  homeThumbnail: a("farm with the hut.webp", "Shack in the Paddyfield", 1166, 1244),
   sections: [
     {
       id: "overview",
@@ -22,16 +28,60 @@ const project: Project = {
         "The project implements modular micro-housing using Kingspan products to facilitate affordable rural transitions for young entrepreneurs. This housing solution seeks to provide immediate, comfortable living spaces while respecting traditional architectural elements and local building practices. Additionally, it promotes local food experiences from satoyama as an attraction while preserving traditional practices.",
         "This approach aligns with government initiatives to incentivise youth relocation to rural areas, addressing critical issues of depopulation and ageing demographics in Japanese countryside communities. The project serves as a prototype for sustainable rural revitalisation, combining traditional wisdom with modern solutions to create viable communities for the next generation.",
       ],
-      images: [],
+      images: [a("paddy field hut.png", "Paddy field hut", 2000, 2500)],
     },
-    { id: "context-mapping", pillLabel: "context mapping", groupBreak: true, images: [] },
-    { id: "sabusawa-rice", pillLabel: "sabusawa rice", images: [] },
-    { id: "farm-with-the-hut", pillLabel: "farm with the hut", images: [] },
-    { id: "elevation", pillLabel: "elevation", groupBreak: true, images: [] },
-    { id: "floor-plan", pillLabel: "floor plan", images: [] },
-    { id: "section", pillLabel: "section", images: [] },
-    { id: "hut-in-seasons", pillLabel: "hut in seasons", groupBreak: true, images: [] },
-    { id: "exploded", pillLabel: "exploded", images: [] },
+    {
+      id: "context-mapping",
+      pillLabel: "context mapping",
+      groupBreak: true,
+      images: [a("context mapping.jpg", "Context mapping", 3323, 2918)],
+    },
+    {
+      id: "sabusawa-rice",
+      pillLabel: "sabusawa rice",
+      images: [
+        a("sabusawa rice - traditional craft.webp", "Sabusawa rice traditional craft", 1752, 744),
+        a("sabusawa rice - tools.webp", "Sabusawa rice tools", 1724, 340),
+        a(
+          "sabusawa rice - building integrated units.webp",
+          "Sabusawa rice building integrated units",
+          1254,
+          642
+        ),
+      ],
+    },
+    {
+      id: "farm-with-the-hut",
+      pillLabel: "farm with the hut",
+      images: [a("farm with the hut.webp", "Farm with the hut", 1166, 1244)],
+    },
+    {
+      id: "elevation",
+      pillLabel: "elevation",
+      groupBreak: true,
+      images: [a("elevation.png", "Elevation", 1875, 1875)],
+    },
+    {
+      id: "floor-plan",
+      pillLabel: "floor plan",
+      images: [a("floor plan.jpg", "Floor plan", 3612, 2651)],
+    },
+    {
+      id: "section",
+      pillLabel: "section",
+      images: [a("section.jpg", "Section", 2481, 2047)],
+    },
+    {
+      id: "hut-in-seasons",
+      pillLabel: "hut in seasons",
+      groupBreak: true,
+      images: [a("hut in seasons.jpg", "Hut in seasons", 4960, 1562)],
+    },
+    {
+      id: "exploded",
+      pillLabel: "exploded",
+      images: [a("exploded.png", "Exploded", 2105, 2811)],
+    },
   ],
 };
 
