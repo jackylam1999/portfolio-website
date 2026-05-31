@@ -81,7 +81,11 @@ export default function DesktopHomePage({ galleryRows, gallerySeed }: Props) {
         >
           <div className="desktop-home-gallery" key={gallerySeed}>
             {galleryRows.map((row, rowIndex) => (
-              <div key={`${gallerySeed}-${rowIndex}`} className="home-gallery-row">
+              <div
+                key={`${gallerySeed}-${rowIndex}`}
+                className="home-gallery-row"
+                style={{ justifyContent: row.justify }}
+              >
                 {row.items.map((item, i) => (
                   <HomeGalleryTile
                     key={`${gallerySeed}-${rowIndex}-${i}-${item.image.src}`}

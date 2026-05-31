@@ -112,9 +112,7 @@
   /* CV page — content x≈358, not aligned with nav (x≈22); starts level with nav top */
   --site-cv-content-left: clamp(200px, calc(100vw * 358 / var(--ref-width)), 358px);
   --site-cv-content-width: clamp(360px, calc(100vw * 628 / var(--ref-width)), 628px);
-  /* Home gallery — 12-column FALA-style rows (dense vertical rhythm) */
-  --home-gallery-cols: 12;
-  /* Match FALA home rhythm — not the 149px major grid unit (that made ~41px columns). */
+  /* Home gallery — FALA fixed thumb rows (gap only between images, not per grid track) */
   --home-gallery-gap: var(--site-home-col-gap);
   --home-gallery-top: var(--site-content-top);
   --home-gallery-pad-x: var(--site-margin-x);
@@ -1193,17 +1191,18 @@ html[data-home-desktop="1"] .site-fixed-index {
 }
 
 .home-gallery-row {
-  display: grid;
-  grid-template-columns: repeat(var(--home-gallery-cols), minmax(0, 1fr));
-  column-gap: var(--home-gallery-gap);
-  align-items: start;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  gap: var(--home-gallery-gap);
   width: 100%;
 }
 
 .home-gallery-tile {
   display: block;
   min-width: 0;
-  grid-row: 1;
+  max-width: 100%;
 }
 
 .home-gallery-tile__link {

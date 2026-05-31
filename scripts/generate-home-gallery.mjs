@@ -24,6 +24,6 @@ console.log(`Seed: ${seed}`);
 console.log(`Rows: ${rows.length}, items: ${itemCount}`);
 console.log(`Counts per row: ${counts.join(",")}`);
 for (const [ri, row] of rows.entries()) {
-  const cols = row.items.map((it) => `${it.colStart}+${it.colSpan}`).join(" | ");
-  console.log(`  row ${ri + 1} (${row.items.length}): ${cols}`);
+  const tiers = row.items.map((it) => it.widthTier).join(",");
+  console.log(`  row ${ri + 1} (${row.items.length}, ${row.justify}): ${tiers}`);
 }

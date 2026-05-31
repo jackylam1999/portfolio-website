@@ -2,31 +2,34 @@ import type { ProjectImage } from "@/content/types";
 import { projectAsset } from "@/lib/project-media";
 import type { HomeGalleryPoolEntry } from "@/content/home-gallery-pool";
 
-/** 12-column grid — dense vertical rhythm, FALA-style horizontal spread. */
+/** FALA home thumb widths at 2560px reference (from Readymag measurements). */
 export const HOME_GRID_COLS = 12;
 
-/** Minimum empty column tracks between adjacent images in a row. */
-export const HOME_MIN_COL_GAP = 2;
+export type ThumbTier = "sm" | "md" | "lg";
 
 export type HomeGalleryItem = {
   slug: string;
   title: string;
   image: ProjectImage;
-  colStart: number;
-  colSpan: number;
-  offsetSubunits: number;
+  widthTier: ThumbTier;
 };
 
 export type HomeGalleryRow = {
   items: HomeGalleryItem[];
+  justify: "flex-start" | "flex-end" | "center" | "space-between";
 };
 
-type Rng = () => number;
-type Slot = { colStart: number; colSpan: number };
-type Zone = "left" | "center" | "right";
+const TIER_REF_PX: Record<ThumbTier, number> = {
+  sm: 338,
+  md: 688,
+  lg: 989,
+};
 
-const MIN_SPAN = 2;
-const MAX_SPAN = 5;
+/** Max row content width on 2560 canvas (inside margins). */
+const ROW_REF_MAX = 2380;
+const ROW_GAP_REF = 48;
+
+type Rng = () => number;
 
 export function mulberry32(seed: number): Rng {
   let t = seed >>> 0;
@@ -60,170 +63,66 @@ function shuffle<T>(rng: Rng, arr: T[]): T[] {
   return out;
 }
 
-/** Independent uniform random 1–4 per row (not a repeating bag pattern). */
+function rowWidthRef(tiers: ThumbTier[]): number {
+  if (!tiers.length) return 0;
+  const images = tiers.reduce((sum, t) => sum + TIER_REF_PX[t], 0);
+  const gaps = (tiers.length - 1) * ROW_GAP_REF;
+  return images + gaps;
+}
+
+function tiersFit(tiers: ThumbTier[]): boolean {
+  return rowWidthRef(tiers) <= ROW_REF_MAX;
+}
+
+/** Tier combos that fit one row on the FALA canvas. */
+const ROW_TIER_BAGS: ThumbTier[][] = [
+  ["lg"],
+  ["md"],
+  ["sm"],
+  ["lg", "md"],
+  ["lg", "sm"],
+  ["md", "md"],
+  ["md", "sm"],
+  ["sm", "sm"],
+  ["sm", "sm", "sm"],
+  ["md", "sm", "sm"],
+];
+
+function pickRowTiers(count: number, rng: Rng): ThumbTier[] {
+  const candidates = ROW_TIER_BAGS.filter((bag) => bag.length === count && tiersFit(bag));
+  if (candidates.length) return [...pick(rng, candidates)];
+  if (count > 1) return pickRowTiers(count - 1, rng);
+  return [pick(rng, ["sm", "md", "lg"] as const)];
+}
+
 function buildRowCounts(itemCount: number, rng: Rng): number[] {
   const counts: number[] = [];
   let remaining = itemCount;
   while (remaining > 0) {
-    const max = Math.min(4, remaining);
+    const max = Math.min(3, remaining);
     const options: number[] = [];
     for (let c = 1; c <= max; c++) {
-      if (maxItemsForGap(c, minSpanForCount(c))) options.push(c);
+      if (ROW_TIER_BAGS.some((bag) => bag.length === c)) options.push(c);
     }
-    const count = options.length
-      ? pick(rng, options)
-      : Math.min(1, remaining);
-    counts.push(count);
+    const count = options.length ? pick(rng, options) : 1;
+    counts.push(Math.min(count, remaining));
     remaining -= count;
   }
   return counts;
 }
 
-function maxItemsForGap(count: number, minSpan = MIN_SPAN): boolean {
-  const total = count * minSpan + Math.max(0, count - 1) * HOME_MIN_COL_GAP;
-  return total <= HOME_GRID_COLS;
+function rowJustify(count: number, rng: Rng): HomeGalleryRow["justify"] {
+  if (count === 1) return pick(rng, ["flex-start", "center", "flex-end"] as const);
+  if (count === 2) return pick(rng, ["flex-start", "space-between", "flex-end"] as const);
+  return pick(rng, ["flex-start", "space-between"] as const);
 }
 
-function minSpanForCount(_count: number): number {
-  return MIN_SPAN;
-}
-
-function assignSpans(rng: Rng, count: number): number[] {
-  const minSpan = minSpanForCount(count);
-  const spans: number[] = [];
-  for (let i = 0; i < count; i++) {
-    const maxSpan = Math.min(MAX_SPAN, HOME_GRID_COLS - (count - 1) * HOME_MIN_COL_GAP - (count - 1 - i) * minSpan);
-    const span = minSpan + Math.floor(rng() * Math.max(1, maxSpan - minSpan + 1));
-    spans.push(Math.max(minSpan, Math.min(span, maxSpan)));
-  }
-  let total = spans.reduce((a, b) => a + b, 0) + HOME_MIN_COL_GAP * (count - 1);
-  while (total > HOME_GRID_COLS) {
-    const idx = spans.indexOf(Math.max(...spans));
-    if (spans[idx]! <= minSpan) break;
-    spans[idx]!--;
-    total--;
-  }
-  if (total > HOME_GRID_COLS) {
-    return Array(count).fill(minSpan);
-  }
-  return spans;
-}
-
-function zoneForIndex(rng: Rng, index: number, count: number): Zone {
-  if (count === 1) return pick(rng, ["left", "center", "right"] as const);
-  if (count === 2) {
-    return pick(rng, [
-      ["left", "right"],
-      ["left", "center"],
-      ["center", "right"],
-      ["right", "left"],
-    ] as const)[index]!;
-  }
-  if (count === 3) {
-    return (["left", "center", "right"] as const)[index]!;
-  }
-  return pick(rng, [
-    ["left", "center", "center", "right"],
-    ["left", "right", "left", "right"],
-    ["center", "left", "right", "center"],
-  ] as const)[index]!;
-}
-
-function zoneStartRange(zone: Zone, span: number): [number, number] {
-  const maxStart = HOME_GRID_COLS - span + 1;
-  switch (zone) {
-    case "left":
-      return [1, Math.min(4, maxStart)];
-    case "center":
-      return [Math.max(1, 4 - span + 1), Math.min(7, maxStart)];
-    case "right":
-      return [Math.max(1, HOME_GRID_COLS - span - 2), maxStart];
-  }
-}
-
-function fits(slots: Slot[], start: number, span: number): boolean {
-  const end = start + span - 1;
-  for (const s of slots) {
-    const sEnd = s.colStart + s.colSpan - 1;
-    if (start <= sEnd + HOME_MIN_COL_GAP && end >= s.colStart - HOME_MIN_COL_GAP) {
-      return false;
-    }
-  }
-  return end <= HOME_GRID_COLS;
-}
-
-function packRow(rng: Rng, count: number, previousStarts: number[]): Slot[] {
-  if (!maxItemsForGap(count, minSpanForCount(count))) {
-    return packRow(rng, Math.max(1, count - 1), previousStarts);
-  }
-
-  for (let attempt = 0; attempt < 64; attempt++) {
-    const spans = assignSpans(rng, count);
-    const total =
-      spans.reduce((a, b) => a + b, 0) + HOME_MIN_COL_GAP * (count - 1);
-    if (total > HOME_GRID_COLS) continue;
-
-    const order = shuffle(
-      rng,
-      Array.from({ length: count }, (_, i) => i)
-    );
-    const slots: Slot[] = [];
-    let failed = false;
-
-    for (const idx of order) {
-      const span = spans[idx]!;
-      const zone = zoneForIndex(rng, idx, count);
-      const [lo, hi] = zoneStartRange(zone, span);
-      const candidates: number[] = [];
-      for (let start = lo; start <= hi; start++) {
-        if (fits(slots, start, span)) candidates.push(start);
-      }
-      if (!candidates.length) {
-        for (let start = 1; start <= HOME_GRID_COLS - span + 1; start++) {
-          if (fits(slots, start, span)) candidates.push(start);
-        }
-      }
-      const fresh = candidates.filter((s) => !previousStarts.includes(s));
-      let pool = fresh.length ? fresh : candidates;
-      if (!pool.length) {
-        failed = true;
-        break;
-      }
-      // Prefer placements that preserve span; nudge colStart before shrinking in assignSpans.
-      pool = [...pool].sort((a, b) => a - b);
-      slots.push({ colStart: pick(rng, pool), colSpan: span });
-    }
-
-    if (!failed && slots.length === count) {
-      return slots.sort((a, b) => a.colStart - b.colStart);
-    }
-  }
-
-  // Guaranteed fallback: sequential left-to-right with min gap
-  const spans = assignSpans(rng, count);
-  const slots: Slot[] = [];
-  let cursor = 1;
-  for (const span of spans) {
-    while (cursor + span - 1 <= HOME_GRID_COLS && !fits(slots, cursor, span)) {
-      cursor++;
-    }
-    slots.push({ colStart: cursor, colSpan: span });
-    cursor += span + HOME_MIN_COL_GAP;
-  }
-  return slots;
-}
-
-function toGalleryItem(
-  entry: HomeGalleryPoolEntry,
-  slot: Slot
-): HomeGalleryItem {
+function toGalleryItem(entry: HomeGalleryPoolEntry, tier: ThumbTier): HomeGalleryItem {
   return {
     slug: entry.slug,
     title: entry.title,
     image: projectAsset(entry.base, entry.file, entry.alt, entry.w, entry.h),
-    colStart: slot.colStart,
-    colSpan: slot.colSpan,
-    offsetSubunits: 0,
+    widthTier: tier,
   };
 }
 
@@ -236,15 +135,13 @@ export function buildHomeGalleryLayout(
   const rowCounts = buildRowCounts(shuffled.length, rng);
   const rows: HomeGalleryRow[] = [];
   let cursor = 0;
-  let previousStarts: number[] = [];
 
   for (const count of rowCounts) {
     const slice = shuffled.slice(cursor, cursor + count);
     cursor += count;
-    const slots = packRow(rng, count, previousStarts);
-    const items = slice.map((entry, i) => toGalleryItem(entry, slots[i]!));
-    previousStarts = items.map((item) => item.colStart);
-    rows.push({ items });
+    const tiers = pickRowTiers(count, rng);
+    const items = slice.map((entry, i) => toGalleryItem(entry, tiers[i]!));
+    rows.push({ items, justify: rowJustify(count, rng) });
   }
 
   return rows;
@@ -252,37 +149,19 @@ export function buildHomeGalleryLayout(
 
 export function validateHomeGalleryLayout(rows: HomeGalleryRow[]): string[] {
   const errors: string[] = [];
-  let prevStarts: number[] = [];
 
   for (const [ri, row] of rows.entries()) {
-    const starts = row.items.map((i) => i.colStart);
-    for (const item of row.items) {
-      if (item.colSpan < MIN_SPAN) {
-        errors.push(`Row ${ri + 1}: ${item.title} has span ${item.colSpan} (min ${MIN_SPAN})`);
-      }
+    if (!tiersFit(row.items.map((i) => i.widthTier))) {
+      errors.push(`Row ${ri + 1}: tiers exceed FALA row width`);
     }
-    const maxEnd = Math.max(...row.items.map((i) => i.colStart + i.colSpan - 1));
-    if (maxEnd < 8) {
-      errors.push(`Row ${ri + 1} does not reach the right side (max col ${maxEnd})`);
+    if (row.items.length > 3) {
+      errors.push(`Row ${ri + 1}: more than 3 items`);
     }
-
-    const sorted = [...row.items].sort((a, b) => a.colStart - b.colStart);
-    for (let i = 1; i < sorted.length; i++) {
-      const prev = sorted[i - 1]!;
-      const cur = sorted[i]!;
-      const gap = cur.colStart - (prev.colStart + prev.colSpan);
-      if (gap < HOME_MIN_COL_GAP) {
-        errors.push(
-          `Row ${ri + 1}: gap ${gap} cols between items (need >= ${HOME_MIN_COL_GAP})`
-        );
-      }
-    }
-
-    if (prevStarts.length && starts.join() === prevStarts.join()) {
-      errors.push(`Row ${ri + 1} repeats previous row column starts`);
-    }
-    prevStarts = starts;
   }
 
   return errors;
+}
+
+export function thumbServeWidth(tier: ThumbTier): number {
+  return TIER_REF_PX[tier];
 }

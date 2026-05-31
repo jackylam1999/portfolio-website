@@ -1,8 +1,8 @@
 import EditAwareLink from "@/components/EditAwareLink";
 import Image from "next/image";
 import type { HomeGalleryItem } from "@/content/home-gallery";
-import { HOME_GRID_COLS } from "@/content/home-gallery";
 import { getHomeGalleryMediaOverride } from "@/content/home-gallery-media";
+import { thumbServeWidth } from "@/lib/home-gallery-layout";
 import { isPreOptimizedSrc, isVideoSrc } from "@/lib/project-media";
 
 interface Props {
@@ -10,13 +10,14 @@ interface Props {
   priority?: boolean;
 }
 
-function tileSizes(colSpan: number): string {
-  const pct = Math.round((colSpan / HOME_GRID_COLS) * 100);
-  return `(max-width: 2560px) ${pct}vw, ${Math.round((2560 * colSpan) / HOME_GRID_COLS)}px`;
-}
+const widthVar = {
+  sm: "var(--site-thumb-sm)",
+  md: "var(--site-thumb-md)",
+  lg: "var(--site-thumb-lg)",
+} as const;
 
 export default function HomeGalleryTile({ item, priority }: Props) {
-  const { slug, title, image, colStart, colSpan } = item;
+  const { slug, title, image, widthTier } = item;
   const override = getHomeGalleryMediaOverride(image.src);
   const w = override?.width ?? image.naturalWidth ?? 1600;
   const h = override?.height ?? image.naturalHeight ?? 1200;
@@ -30,11 +31,12 @@ export default function HomeGalleryTile({ item, priority }: Props) {
       : isVideo
         ? `${w} / ${h}`
         : undefined;
+  const serveW = thumbServeWidth(widthTier);
 
   return (
     <div
       className="home-gallery-tile"
-      style={{ gridColumn: `${colStart} / span ${colSpan}` }}
+      style={{ width: widthVar[widthTier], flexShrink: 0 }}
     >
       <EditAwareLink
         href={`/projects/${slug}`}
@@ -73,7 +75,7 @@ export default function HomeGalleryTile({ item, priority }: Props) {
                 alt={image.alt || title}
                 width={w}
                 height={h}
-                sizes={tileSizes(colSpan)}
+                sizes={`(max-width: 2560px) ${serveW}px, ${serveW}px`}
                 quality={88}
                 priority={priority}
                 unoptimized={preOptimized}

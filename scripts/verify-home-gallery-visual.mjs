@@ -92,8 +92,8 @@ const failures = [];
 if (metrics.gap && parseFloat(metrics.gap) > 60) {
   failures.push(`column-gap too large: ${metrics.gap} (want ~48px at 1440)`);
 }
-if (metrics.minTileWidth > 0 && metrics.minTileWidth < 80) {
-  failures.push(`min tile width ${metrics.minTileWidth}px (want >= 80)`);
+if (metrics.minTileWidth > 0 && metrics.minTileWidth < 180) {
+  failures.push(`min tile width ${metrics.minTileWidth}px (want >= 180, FALA sm ~200+)`);
 }
 if (metrics.videoCrop && !metrics.videoCrop.showsTopContent) {
   failures.push("video appears to crop away top content (top band too dark)");
