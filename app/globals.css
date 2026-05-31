@@ -1226,8 +1226,7 @@ html[data-home-desktop="1"] .site-fixed-index {
   line-height: 0;
 }
 
-.home-gallery-tile__img,
-.home-gallery-tile__video {
+.home-gallery-tile__img {
   display: block;
   width: 100%;
   height: auto;
@@ -1236,21 +1235,21 @@ html[data-home-desktop="1"] .site-fixed-index {
   object-position: left top;
 }
 
-/* Crop embedded letterboxing on future report video */
+/* Video tile: aspect-ratio set inline from measured content bounds; crop letterbox only */
 .home-gallery-tile__media--video {
   width: 100%;
-  aspect-ratio: 16 / 9;
   max-height: var(--home-gallery-max-image-height);
   overflow: hidden;
 }
 
 .home-gallery-tile__media--video .home-gallery-tile__video {
   display: block;
+  width: 100%;
   height: 100%;
   max-width: none;
   max-height: none;
   object-fit: cover;
-  object-position: center;
+  object-position: center center;
 }
 
 .home-gallery-tile__caption {

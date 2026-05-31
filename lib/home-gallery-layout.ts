@@ -103,6 +103,9 @@ function assignSpans(rng: Rng, count: number): number[] {
     spans[idx]!--;
     total--;
   }
+  if (total > HOME_GRID_COLS) {
+    return Array(count).fill(minSpan);
+  }
   return spans;
 }
 
@@ -181,11 +184,13 @@ function packRow(rng: Rng, count: number, previousStarts: number[]): Slot[] {
         }
       }
       const fresh = candidates.filter((s) => !previousStarts.includes(s));
-      const pool = fresh.length ? fresh : candidates;
+      let pool = fresh.length ? fresh : candidates;
       if (!pool.length) {
         failed = true;
         break;
       }
+      // Prefer placements that preserve span; nudge colStart before shrinking in assignSpans.
+      pool = [...pool].sort((a, b) => a - b);
       slots.push({ colStart: pick(rng, pool), colSpan: span });
     }
 
