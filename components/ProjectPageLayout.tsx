@@ -39,7 +39,7 @@ export default function ProjectPageLayout({ project }: Props) {
         <FixedSectionText sections={project.sections} />
         <div
           style={{
-            paddingTop: "var(--site-content-top)",
+            paddingTop: "var(--site-section-text-top)",
             paddingLeft: "var(--site-margin-x)",
             paddingRight: "var(--site-right-reserve)",
           }}

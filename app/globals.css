@@ -75,11 +75,11 @@
   --site-spec-gap: clamp(100px, calc(100vw * 149 / var(--ref-width)), 149px);
   --site-paragraph-gap: 16px;
   --site-group-break: clamp(40px, calc(100vw * 66 / var(--ref-width)), 66px);
-  /* Spec block top (y=242); scroll-spy / image row purple line (y=312) */
+  /* Spec block top (y=242); scroll-spy purple line (y=312) */
   --site-spec-top: clamp(200px, calc(100vw * 242 / var(--ref-width)), 242px);
   --site-content-top: clamp(220px, calc(100vw * 312 / var(--ref-width)), 312px);
-  /* Drawing menu + image column top = purple content line */
-  --site-drawings-top: var(--site-content-top);
+  /* Drawing menu + image column top = description / spec block top */
+  --site-drawings-top: var(--site-section-text-top);
   --site-spec-label-width: clamp(120px, calc(100vw * 154 / var(--ref-width)), 154px);
 
   /* Image column aliases (same as image area) */
@@ -119,6 +119,7 @@
   --home-gallery-top: clamp(72px, calc(100vw * 120 / var(--ref-width)), 120px);
   --home-gallery-pad-x: var(--site-margin-x);
   --home-gallery-caption-gap: calc(var(--font-site) * 0.45);
+  --home-gallery-max-image-height: calc(100vh / 3);
 }
 
 html {
@@ -1207,7 +1208,9 @@ html[data-home-desktop="1"] .site-fixed-index {
 
 .home-gallery-tile__media {
   position: relative;
-  width: 100%;
+  width: min(100%, calc(var(--home-gallery-max-image-height) * var(--tile-aspect, 1.33)));
+  max-width: 100%;
+  max-height: var(--home-gallery-max-image-height);
   overflow: hidden;
   background: var(--color-bg);
 }

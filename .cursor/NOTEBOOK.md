@@ -71,6 +71,12 @@ curl -sI "http://127.0.0.1:3055/_next/static/chunks/app/projects/%5Bslug%5D/page
 - **Never show native pointer** over custom cursor (re-apply on route change; Chrome especially after home click).
 - Edit mode (`?edit=1`): native cursor OK.
 
+### Project page row alignment (desktop)
+- Fixed description block: `--site-section-text-top` (spec top, y=242).
+- Image column + drawing menu top: `--site-section-text-top` (same row as description).
+- Scroll-spy activation still uses `--site-content-top` (purple line, y=312).
+- First `.project-figure` in each column must have `margin-top: 0` (no grid `marginTop` on the page’s first image).
+
 ### Drawing menu / scroll spy
 - Triangle **slides smoothly** between labels while scrolling (not jumpy).
 - **Active section** = drawing whose **top edge** ≤ bottom **purple content line** (`--site-content-top`, y=312 ref).
