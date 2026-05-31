@@ -22,7 +22,10 @@ export default function HomeGalleryTile({ item, priority }: Props) {
       <figure className="home-gallery-tile__figure">
         <div
           className="home-gallery-tile__media"
-          style={{ aspectRatio: `${w} / ${h}` }}
+          style={{
+            aspectRatio: `${w} / ${h}`,
+            ["--tile-aspect" as string]: String(w / h),
+          }}
         >
           {isVideoSrc(image.src) ? (
             <video

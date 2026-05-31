@@ -1202,7 +1202,8 @@ html[data-home-desktop="1"] .site-fixed-index {
 
 .home-gallery-tile__media {
   position: relative;
-  width: 100%;
+  width: min(100%, calc(var(--home-gallery-max-image-height) * var(--tile-aspect, 1.33)));
+  max-width: 100%;
   max-height: var(--home-gallery-max-image-height);
   overflow: hidden;
   background: var(--color-bg);
