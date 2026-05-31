@@ -114,7 +114,8 @@
   --site-cv-content-width: clamp(360px, calc(100vw * 628 / var(--ref-width)), 628px);
   /* Home gallery — 12-column FALA-style rows (dense vertical rhythm) */
   --home-gallery-cols: 12;
-  --home-gallery-gap: calc(var(--site-grid-subunit) * 2);
+  /* Match FALA home rhythm — not the 149px major grid unit (that made ~41px columns). */
+  --home-gallery-gap: var(--site-home-col-gap);
   --home-gallery-top: var(--site-content-top);
   --home-gallery-pad-x: var(--site-margin-x);
   --home-gallery-caption-gap: calc(var(--font-site) * 0.45);
@@ -1218,12 +1219,7 @@ html[data-home-desktop="1"] .site-fixed-index {
 
 .home-gallery-tile__media {
   position: relative;
-  /* Fit portrait media to max-height without pillarboxing in wide columns */
-  width: min(
-    100%,
-    calc(var(--home-gallery-max-image-height) * var(--media-aspect, 1.333))
-  );
-  max-width: 100%;
+  width: 100%;
   max-height: var(--home-gallery-max-image-height);
   overflow: hidden;
   background: var(--color-bg);
@@ -1242,19 +1238,19 @@ html[data-home-desktop="1"] .site-fixed-index {
 
 /* Crop embedded letterboxing on future report video */
 .home-gallery-tile__media--video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: var(--home-gallery-max-image-height);
   overflow: hidden;
 }
 
 .home-gallery-tile__media--video .home-gallery-tile__video {
-  width: 100%;
+  display: block;
   height: 100%;
   max-width: none;
-  max-height: var(--home-gallery-max-image-height);
-  margin-left: 0;
+  max-height: none;
   object-fit: cover;
   object-position: center;
-  transform: scaleX(var(--video-scale-x, 1));
-  transform-origin: center center;
 }
 
 .home-gallery-tile__caption {

@@ -9,7 +9,8 @@ export type HomeGalleryMediaOverride = {
 
 export const homeGalleryMediaOverrides: Record<string, HomeGalleryMediaOverride> = {
   "/images/projects/eternal-voyage/future report.mp4": {
-    videoScaleX: 2.4,
+    /* Source frame is ~17% content width; 1/0.17 ≈ 5.8 crops letterbox at tile width */
+    videoScaleX: 5.8,
     width: 1920,
     height: 1080,
   },

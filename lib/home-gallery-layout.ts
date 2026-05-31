@@ -251,6 +251,11 @@ export function validateHomeGalleryLayout(rows: HomeGalleryRow[]): string[] {
 
   for (const [ri, row] of rows.entries()) {
     const starts = row.items.map((i) => i.colStart);
+    for (const item of row.items) {
+      if (item.colSpan < MIN_SPAN) {
+        errors.push(`Row ${ri + 1}: ${item.title} has span ${item.colSpan} (min ${MIN_SPAN})`);
+      }
+    }
     const maxEnd = Math.max(...row.items.map((i) => i.colStart + i.colSpan - 1));
     if (maxEnd < 8) {
       errors.push(`Row ${ri + 1} does not reach the right side (max col ${maxEnd})`);

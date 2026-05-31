@@ -30,6 +30,7 @@ const EXPLICIT_BLOCK = new Set([
   "ranger station 1.png",
   "ranger station 2.png",
   "paddy field hut.png",
+  "hut in seasons.jpg",
   "main facade.png",
   "sabusawa rice - traditional craft.webp",
 ]);
@@ -132,15 +133,6 @@ const RAW_POOL: HomeGalleryPoolEntry[] = [
     "Farm with the hut",
     1166,
     1244
-  ),
-  entry(
-    "shack-in-the-paddyfield",
-    "Shack in the Paddyfield",
-    "/images/projects/shack-in-the-paddyfield",
-    "hut in seasons.jpg",
-    "Hut in seasons",
-    4960,
-    1562
   ),
   entry(
     "breathe-on-the-land",

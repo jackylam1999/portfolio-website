@@ -22,8 +22,8 @@ export default function HomeGalleryTile({ item, priority }: Props) {
   const h = override?.height ?? image.naturalHeight ?? 1200;
   const preOptimized = isPreOptimizedSrc(image.src);
   const isVideo = isVideoSrc(image.src);
+  const isGif = /\.gif$/i.test(image.src);
   const videoScaleX = override?.videoScaleX ?? 1;
-  const mediaAspect = w / h;
 
   return (
     <div
@@ -40,15 +40,11 @@ export default function HomeGalleryTile({ item, priority }: Props) {
               "home-gallery-tile__media" +
               (isVideo ? " home-gallery-tile__media--video" : "")
             }
-            style={{
-              ["--media-aspect" as string]: String(mediaAspect),
-              ...(isVideo
-                ? {
-                    aspectRatio: `${w} / ${h}`,
-                    ["--video-scale-x" as string]: String(videoScaleX),
-                  }
-                : {}),
-            }}
+            style={
+              isVideo
+                ? { ["--video-scale-x" as string]: String(videoScaleX) }
+                : undefined
+            }
           >
             {isVideo ? (
               <video
@@ -58,6 +54,20 @@ export default function HomeGalleryTile({ item, priority }: Props) {
                 muted
                 playsInline
                 className="home-gallery-tile__video"
+                style={{
+                  width: `${videoScaleX * 100}%`,
+                  marginLeft: `${-((videoScaleX - 1) / 2) * 100}%`,
+                }}
+              />
+            ) : isGif ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={image.src}
+                alt={image.alt || title}
+                width={w}
+                height={h}
+                className="home-gallery-tile__img"
+                draggable={false}
               />
             ) : (
               <Image
