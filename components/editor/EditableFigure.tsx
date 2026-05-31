@@ -271,7 +271,8 @@ export default function EditableFigure({ slug, sectionId, img, priority }: Props
       style={{
         width: refCss(layout.w),
         marginLeft: refCss(layout.marginLeft),
-        marginTop: layout.marginTop ? refCss(layout.marginTop) : undefined,
+        marginTop:
+          priority || !layout.marginTop ? undefined : refCss(layout.marginTop),
         maxWidth: "100%",
         aspectRatio: layout.aspectRatio,
         position: "relative",

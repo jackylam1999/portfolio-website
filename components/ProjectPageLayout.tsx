@@ -187,7 +187,9 @@ function ProjectFigure({
       style={{
         width: maxBoxContainWidthCss(w, h, grid),
         marginLeft: 0,
-        marginTop: imageMarginTopCss(slug, sectionId, img, grid),
+        marginTop: priority
+          ? undefined
+          : imageMarginTopCss(slug, sectionId, img, grid),
         maxWidth: "100%",
         maxHeight: "var(--site-image-max-box-height)",
         aspectRatio: contain.aspectRatio,
