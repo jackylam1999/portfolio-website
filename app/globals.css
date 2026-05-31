@@ -114,7 +114,7 @@
   --site-cv-content-width: clamp(360px, calc(100vw * 628 / var(--ref-width)), 628px);
   /* Home gallery — 12-column FALA-style rows (dense vertical rhythm) */
   --home-gallery-cols: 12;
-  --home-gallery-gap: clamp(4px, calc(100vw * 6 / var(--ref-width)), 6px);
+  --home-gallery-gap: calc(var(--site-grid-subunit) * 2);
   --home-gallery-top: var(--site-content-top);
   --home-gallery-pad-x: var(--site-margin-x);
   --home-gallery-caption-gap: calc(var(--font-site) * 0.45);
@@ -1234,18 +1234,13 @@ html[data-home-desktop="1"] .site-fixed-index {
   object-position: left top;
 }
 
-/* 16:9 video — fill tile width, no side letterboxing */
-.home-gallery-tile__media--video {
-  aspect-ratio: 16 / 9;
-  max-height: var(--home-gallery-max-image-height);
-}
-
+/* Video — use natural aspect ratio from reuploaded file (no forced 16:9 crop) */
 .home-gallery-tile__media--video .home-gallery-tile__video {
   width: 100%;
-  height: 100%;
-  max-height: none;
-  object-fit: cover;
-  object-position: center;
+  height: auto;
+  max-height: var(--home-gallery-max-image-height);
+  object-fit: contain;
+  object-position: left top;
 }
 
 .home-gallery-tile__caption {

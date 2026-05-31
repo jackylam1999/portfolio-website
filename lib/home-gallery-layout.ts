@@ -5,6 +5,9 @@ import type { HomeGalleryPoolEntry } from "@/content/home-gallery-pool";
 /** 12-column grid — dense vertical rhythm, FALA-style horizontal spread. */
 export const HOME_GRID_COLS = 12;
 
+/** Minimum empty column tracks between adjacent images in a row. */
+export const HOME_MIN_COL_GAP = 2;
+
 export type HomeGalleryItem = {
   slug: string;
   title: string;
@@ -19,88 +22,11 @@ export type HomeGalleryRow = {
 };
 
 type Rng = () => number;
-
 type Slot = { colStart: number; colSpan: number };
+type Zone = "left" | "center" | "right";
 
-/** Curated row templates — guaranteed left / center / right spread on 12 cols. */
-const ROW_TEMPLATES: Record<1 | 2 | 3 | 4, Slot[][]> = {
-  1: [
-    [{ colStart: 1, colSpan: 5 }],
-    [{ colStart: 1, colSpan: 6 }],
-    [{ colStart: 4, colSpan: 5 }],
-    [{ colStart: 4, colSpan: 6 }],
-    [{ colStart: 7, colSpan: 5 }],
-    [{ colStart: 8, colSpan: 5 }],
-  ],
-  2: [
-    [
-      { colStart: 1, colSpan: 4 },
-      { colStart: 8, colSpan: 5 },
-    ],
-    [
-      { colStart: 1, colSpan: 5 },
-      { colStart: 7, colSpan: 6 },
-    ],
-    [
-      { colStart: 1, colSpan: 3 },
-      { colStart: 9, colSpan: 4 },
-    ],
-    [
-      { colStart: 2, colSpan: 4 },
-      { colStart: 8, colSpan: 4 },
-    ],
-    [
-      { colStart: 1, colSpan: 6 },
-      { colStart: 8, colSpan: 4 },
-    ],
-    [
-      { colStart: 1, colSpan: 4 },
-      { colStart: 6, colSpan: 5 },
-    ],
-  ],
-  3: [
-    [
-      { colStart: 1, colSpan: 3 },
-      { colStart: 5, colSpan: 3 },
-      { colStart: 9, colSpan: 4 },
-    ],
-    [
-      { colStart: 1, colSpan: 4 },
-      { colStart: 5, colSpan: 4 },
-      { colStart: 9, colSpan: 4 },
-    ],
-    [
-      { colStart: 1, colSpan: 3 },
-      { colStart: 4, colSpan: 4 },
-      { colStart: 9, colSpan: 4 },
-    ],
-    [
-      { colStart: 1, colSpan: 4 },
-      { colStart: 6, colSpan: 3 },
-      { colStart: 10, colSpan: 3 },
-    ],
-  ],
-  4: [
-    [
-      { colStart: 1, colSpan: 3 },
-      { colStart: 4, colSpan: 3 },
-      { colStart: 7, colSpan: 3 },
-      { colStart: 10, colSpan: 3 },
-    ],
-    [
-      { colStart: 1, colSpan: 2 },
-      { colStart: 4, colSpan: 3 },
-      { colStart: 7, colSpan: 3 },
-      { colStart: 10, colSpan: 3 },
-    ],
-    [
-      { colStart: 1, colSpan: 3 },
-      { colStart: 4, colSpan: 2 },
-      { colStart: 7, colSpan: 3 },
-      { colStart: 10, colSpan: 3 },
-    ],
-  ],
-};
+const MIN_SPAN = 2;
+const MAX_SPAN = 5;
 
 export function mulberry32(seed: number): Rng {
   let t = seed >>> 0;
@@ -134,36 +60,152 @@ function shuffle<T>(rng: Rng, arr: T[]): T[] {
   return out;
 }
 
+/** Independent uniform random 1–4 per row (not a repeating bag pattern). */
 function buildRowCounts(itemCount: number, rng: Rng): number[] {
-  const bag: number[] = [];
-  while (bag.length < itemCount + 12) {
-    bag.push(1, 2, 3, 4);
-  }
-  shuffle(rng, bag);
-
   const counts: number[] = [];
   let remaining = itemCount;
-  let i = 0;
   while (remaining > 0) {
-    let count = bag[i++] ?? pick(rng, [1, 2, 3, 4]);
-    if (count > remaining) count = remaining;
+    const max = Math.min(4, remaining);
+    const options: number[] = [];
+    for (let c = 1; c <= max; c++) {
+      if (maxItemsForGap(c, minSpanForCount(c))) options.push(c);
+    }
+    const count = options.length
+      ? pick(rng, options)
+      : Math.min(1, remaining);
     counts.push(count);
     remaining -= count;
   }
   return counts;
 }
 
-function pickRowTemplate(
-  rng: Rng,
-  count: 1 | 2 | 3 | 4,
-  previousStarts: number[]
-): Slot[] {
-  const templates = ROW_TEMPLATES[count];
-  const fresh = templates.filter((t) =>
-    t.every((slot) => !previousStarts.includes(slot.colStart))
-  );
-  const pool = fresh.length ? fresh : templates;
-  return pick(rng, pool).map((slot) => ({ ...slot }));
+function maxItemsForGap(count: number, minSpan = MIN_SPAN): boolean {
+  const total = count * minSpan + Math.max(0, count - 1) * HOME_MIN_COL_GAP;
+  return total <= HOME_GRID_COLS;
+}
+
+function minSpanForCount(count: number): number {
+  return count >= 4 ? 1 : MIN_SPAN;
+}
+
+function assignSpans(rng: Rng, count: number): number[] {
+  const minSpan = minSpanForCount(count);
+  const spans: number[] = [];
+  for (let i = 0; i < count; i++) {
+    const maxSpan = Math.min(MAX_SPAN, HOME_GRID_COLS - (count - 1) * HOME_MIN_COL_GAP - (count - 1 - i) * minSpan);
+    const span = minSpan + Math.floor(rng() * Math.max(1, maxSpan - minSpan + 1));
+    spans.push(Math.max(minSpan, Math.min(span, maxSpan)));
+  }
+  let total = spans.reduce((a, b) => a + b, 0) + HOME_MIN_COL_GAP * (count - 1);
+  while (total > HOME_GRID_COLS) {
+    const idx = spans.indexOf(Math.max(...spans));
+    if (spans[idx]! <= minSpan) break;
+    spans[idx]!--;
+    total--;
+  }
+  return spans;
+}
+
+function zoneForIndex(rng: Rng, index: number, count: number): Zone {
+  if (count === 1) return pick(rng, ["left", "center", "right"] as const);
+  if (count === 2) {
+    return pick(rng, [
+      ["left", "right"],
+      ["left", "center"],
+      ["center", "right"],
+      ["right", "left"],
+    ] as const)[index]!;
+  }
+  if (count === 3) {
+    return (["left", "center", "right"] as const)[index]!;
+  }
+  return pick(rng, [
+    ["left", "center", "center", "right"],
+    ["left", "right", "left", "right"],
+    ["center", "left", "right", "center"],
+  ] as const)[index]!;
+}
+
+function zoneStartRange(zone: Zone, span: number): [number, number] {
+  const maxStart = HOME_GRID_COLS - span + 1;
+  switch (zone) {
+    case "left":
+      return [1, Math.min(4, maxStart)];
+    case "center":
+      return [Math.max(1, 4 - span + 1), Math.min(7, maxStart)];
+    case "right":
+      return [Math.max(1, HOME_GRID_COLS - span - 2), maxStart];
+  }
+}
+
+function fits(slots: Slot[], start: number, span: number): boolean {
+  const end = start + span - 1;
+  for (const s of slots) {
+    const sEnd = s.colStart + s.colSpan - 1;
+    if (start <= sEnd + HOME_MIN_COL_GAP && end >= s.colStart - HOME_MIN_COL_GAP) {
+      return false;
+    }
+  }
+  return end <= HOME_GRID_COLS;
+}
+
+function packRow(rng: Rng, count: number, previousStarts: number[]): Slot[] {
+  if (!maxItemsForGap(count, minSpanForCount(count))) {
+    return packRow(rng, Math.max(1, count - 1), previousStarts);
+  }
+
+  for (let attempt = 0; attempt < 64; attempt++) {
+    const spans = assignSpans(rng, count);
+    const total =
+      spans.reduce((a, b) => a + b, 0) + HOME_MIN_COL_GAP * (count - 1);
+    if (total > HOME_GRID_COLS) continue;
+
+    const order = shuffle(
+      rng,
+      Array.from({ length: count }, (_, i) => i)
+    );
+    const slots: Slot[] = [];
+    let failed = false;
+
+    for (const idx of order) {
+      const span = spans[idx]!;
+      const zone = zoneForIndex(rng, idx, count);
+      const [lo, hi] = zoneStartRange(zone, span);
+      const candidates: number[] = [];
+      for (let start = lo; start <= hi; start++) {
+        if (fits(slots, start, span)) candidates.push(start);
+      }
+      if (!candidates.length) {
+        for (let start = 1; start <= HOME_GRID_COLS - span + 1; start++) {
+          if (fits(slots, start, span)) candidates.push(start);
+        }
+      }
+      const fresh = candidates.filter((s) => !previousStarts.includes(s));
+      const pool = fresh.length ? fresh : candidates;
+      if (!pool.length) {
+        failed = true;
+        break;
+      }
+      slots.push({ colStart: pick(rng, pool), colSpan: span });
+    }
+
+    if (!failed && slots.length === count) {
+      return slots.sort((a, b) => a.colStart - b.colStart);
+    }
+  }
+
+  // Guaranteed fallback: sequential left-to-right with min gap
+  const spans = assignSpans(rng, count);
+  const slots: Slot[] = [];
+  let cursor = 1;
+  for (const span of spans) {
+    while (cursor + span - 1 <= HOME_GRID_COLS && !fits(slots, cursor, span)) {
+      cursor++;
+    }
+    slots.push({ colStart: cursor, colSpan: span });
+    cursor += span + HOME_MIN_COL_GAP;
+  }
+  return slots;
 }
 
 function toGalleryItem(
@@ -194,7 +236,7 @@ export function buildHomeGalleryLayout(
   for (const count of rowCounts) {
     const slice = shuffled.slice(cursor, cursor + count);
     cursor += count;
-    const slots = pickRowTemplate(rng, count as 1 | 2 | 3 | 4, previousStarts);
+    const slots = packRow(rng, count, previousStarts);
     const items = slice.map((entry, i) => toGalleryItem(entry, slots[i]!));
     previousStarts = items.map((item) => item.colStart);
     rows.push({ items });
@@ -203,42 +245,33 @@ export function buildHomeGalleryLayout(
   return rows;
 }
 
-/** Layout QA — used by verify script and tests. */
 export function validateHomeGalleryLayout(rows: HomeGalleryRow[]): string[] {
   const errors: string[] = [];
-  const counts = rows.map((r) => r.items.length);
-  const distribution = { 1: 0, 2: 0, 3: 0, 4: 0 };
-  for (const c of counts) {
-    if (c >= 1 && c <= 4) distribution[c as 1 | 2 | 3 | 4]++;
-  }
-  if (distribution[1] > distribution[3] + 2 && distribution[1] > distribution[4]) {
-    errors.push("Too many single-image rows");
-  }
-
   let prevStarts: number[] = [];
+
   for (const [ri, row] of rows.entries()) {
     const starts = row.items.map((i) => i.colStart);
     const maxEnd = Math.max(...row.items.map((i) => i.colStart + i.colSpan - 1));
-    if (maxEnd < 8) errors.push(`Row ${ri + 1} does not reach the right side (max col ${maxEnd})`);
-    if (starts.every((s) => s <= 2)) {
-      errors.push(`Row ${ri + 1} is entirely left-clustered`);
+    if (maxEnd < 8) {
+      errors.push(`Row ${ri + 1} does not reach the right side (max col ${maxEnd})`);
     }
+
+    const sorted = [...row.items].sort((a, b) => a.colStart - b.colStart);
+    for (let i = 1; i < sorted.length; i++) {
+      const prev = sorted[i - 1]!;
+      const cur = sorted[i]!;
+      const gap = cur.colStart - (prev.colStart + prev.colSpan);
+      if (gap < HOME_MIN_COL_GAP) {
+        errors.push(
+          `Row ${ri + 1}: gap ${gap} cols between items (need >= ${HOME_MIN_COL_GAP})`
+        );
+      }
+    }
+
     if (prevStarts.length && starts.join() === prevStarts.join()) {
       errors.push(`Row ${ri + 1} repeats previous row column starts`);
     }
     prevStarts = starts;
-
-    for (const item of row.items) {
-      if (item.colSpan < 2) errors.push(`Row ${ri + 1}: span ${item.colSpan} too narrow`);
-    }
-  }
-
-  const allStarts = rows.flatMap((r) => r.items.map((i) => i.colStart));
-  const hasLeft = allStarts.some((s) => s <= 2);
-  const hasCenter = allStarts.some((s) => s >= 4 && s <= 6);
-  const hasRight = allStarts.some((s) => s >= 8);
-  if (!hasLeft || !hasCenter || !hasRight) {
-    errors.push("Layout missing left, center, or right coverage");
   }
 
   return errors;

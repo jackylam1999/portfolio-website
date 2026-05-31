@@ -7,6 +7,7 @@ import {
   buildHomeGalleryLayout,
   validateHomeGalleryLayout,
 } from "../lib/home-gallery-layout.ts";
+import { filterHomeGalleryPool } from "../lib/home-gallery-filter.ts";
 
 const seedArg = process.argv.indexOf("--seed");
 const seed =
@@ -14,7 +15,8 @@ const seed =
     ? Number(process.argv[seedArg + 1])
     : 20260531;
 
-const rows = buildHomeGalleryLayout(homeGalleryPool, seed);
+const pool = filterHomeGalleryPool(homeGalleryPool);
+const rows = buildHomeGalleryLayout(pool, seed);
 const errors = validateHomeGalleryLayout(rows);
 const counts = rows.map((r) => r.items.length);
 

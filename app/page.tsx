@@ -3,6 +3,7 @@ import DesktopHomePage from "@/components/home/DesktopHomePage";
 import MobileHomePage from "@/components/mobile/MobileHomePage";
 import { homeGalleryPool } from "@/content/home-gallery-pool";
 import { buildHomeGalleryLayout } from "@/lib/home-gallery-layout";
+import { filterHomeGalleryPool } from "@/lib/home-gallery-filter";
 import { randomInt } from "node:crypto";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +14,8 @@ export default function HomePage({
   searchParams: { edit?: string };
 }) {
   const seed = randomInt(0x100000000);
-  const galleryRows = buildHomeGalleryLayout(homeGalleryPool, seed);
+  const pool = filterHomeGalleryPool(homeGalleryPool);
+  const galleryRows = buildHomeGalleryLayout(pool, seed);
 
   return (
     <SiteEditPageShell searchParams={searchParams}>

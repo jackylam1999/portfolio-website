@@ -36,6 +36,9 @@ export default function HomeGalleryTile({ item, priority }: Props) {
               "home-gallery-tile__media" +
               (isVideo ? " home-gallery-tile__media--video" : "")
             }
+            style={
+              isVideo ? { aspectRatio: `${w} / ${h}` } : undefined
+            }
           >
             {isVideo ? (
               <video

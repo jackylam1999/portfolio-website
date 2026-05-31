@@ -30,6 +30,7 @@ const EXPLICIT_BLOCK = new Set([
   "ranger station 2.png",
   "paddy field hut.png",
   "main facade.png",
+  "sabusawa rice - traditional craft.webp",
 ]);
 
 export function isHomeGalleryLineDrawing(file: string): boolean {
@@ -148,15 +149,6 @@ const RAW_POOL: HomeGalleryPoolEntry[] = [
     "Hut in seasons",
     4960,
     1562
-  ),
-  entry(
-    "shack-in-the-paddyfield",
-    "Shack in the Paddyfield",
-    "/images/projects/shack-in-the-paddyfield",
-    "sabusawa rice - traditional craft.webp",
-    "Sabusawa rice craft",
-    1752,
-    744
   ),
   entry(
     "breathe-on-the-land",

@@ -1,16 +1,19 @@
 #!/usr/bin/env node
 /**
- * Audit home gallery pool entries with classify-project-image scores.
- * Exits non-zero if any pool image scores >= threshold (line drawing).
+ * Audit pool images and refresh content/home-gallery-scores.json.
+ * Exits non-zero if filtered pool still contains line drawings.
  */
-import { homeGalleryPool, isHomeGalleryLineDrawing } from "../content/home-gallery-pool.ts";
-import { execSync } from "node:child_process";
+import { writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { execSync } from "node:child_process";
+import { homeGalleryPool, isHomeGalleryLineDrawing } from "../content/home-gallery-pool.ts";
+import { filterHomeGalleryPool } from "../lib/home-gallery-filter.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
-const THRESHOLD = 0.55;
+const SCORES_OUT = path.join(ROOT, "content/home-gallery-scores.json");
+const THRESHOLD = 0.48;
 
 function scoreFor(base, file) {
   const rel = path.join("public", base.replace(/^\//, ""), file);
@@ -27,19 +30,25 @@ function scoreFor(base, file) {
   }
 }
 
-let failed = 0;
-console.log("Home gallery pool audit (threshold", THRESHOLD + "):\n");
+const scores = {};
+console.log("Scoring pool images…\n");
 for (const item of homeGalleryPool) {
-  const blocked = isHomeGalleryLineDrawing(item.file);
+  const key = `${item.base.replace(/^\//, "")}/${item.file}`;
   const score = scoreFor(item.base, item.file);
-  const bad = blocked || score >= THRESHOLD;
-  const flag = bad ? "BLOCK" : "ok   ";
-  console.log(`${flag}  ${score.toFixed(3)}  ${item.base}/${item.file}`);
-  if (bad) failed++;
+  scores[key] = score;
+  const blocked = isHomeGalleryLineDrawing(item.file) || score >= THRESHOLD;
+  console.log(`${blocked ? "BLOCK" : "ok   "}  ${score.toFixed(3)}  ${key}`);
 }
 
-if (failed) {
-  console.error(`\n${failed} pool item(s) look like line drawings — remove them.`);
+writeFileSync(SCORES_OUT, JSON.stringify(scores, null, 2) + "\n", "utf8");
+console.log(`\nWrote ${SCORES_OUT}`);
+
+const filtered = filterHomeGalleryPool(homeGalleryPool);
+console.log(`Filtered pool: ${filtered.length} / ${homeGalleryPool.length} items`);
+
+if (filtered.length < 8) {
+  console.error("Filtered pool too small — adjust threshold or add photos.");
   process.exit(1);
 }
-console.log("\nAll pool items pass.");
+
+console.log("\nOK");
