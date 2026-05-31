@@ -1203,24 +1203,31 @@ html[data-home-desktop="1"] .site-fixed-index {
   min-width: 0;
 }
 
+.home-gallery-tile__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
 .home-gallery-tile__figure {
   margin: 0;
 }
 
 .home-gallery-tile__media {
   position: relative;
-  width: min(100%, calc(var(--home-gallery-max-image-height) * var(--tile-aspect, 1.33)));
-  max-width: 100%;
+  width: 100%;
   max-height: var(--home-gallery-max-image-height);
   overflow: hidden;
   background: var(--color-bg);
+  line-height: 0;
 }
 
 .home-gallery-tile__img,
 .home-gallery-tile__video {
   display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-height: var(--home-gallery-max-image-height);
   object-fit: contain;
   object-position: left top;
 }

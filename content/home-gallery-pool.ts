@@ -198,42 +198,6 @@ const RAW_POOL: HomeGalleryPoolEntry[] = [
     2700
   ),
   entry(
-    "breathe-on-the-land",
-    "Breathe on the Land",
-    "/images/projects/breathe-on-the-land",
-    "grassland dosmesticity.webp",
-    "Grassland domesticity",
-    1016,
-    1224
-  ),
-  entry(
-    "breathe-on-the-land",
-    "Breathe on the Land",
-    "/images/projects/breathe-on-the-land",
-    "build on the land.webp",
-    "Build on the land",
-    1188,
-    1251
-  ),
-  entry(
-    "breathe-on-the-land",
-    "Breathe on the Land",
-    "/images/projects/breathe-on-the-land",
-    "flexibility2.png",
-    "Flexibility",
-    4000,
-    2500
-  ),
-  entry(
-    "breathe-on-the-land",
-    "Breathe on the Land",
-    "/images/projects/breathe-on-the-land",
-    "flexibility3.png",
-    "Flexibility",
-    4000,
-    2500
-  ),
-  entry(
     "eternal-voyage",
     "Eternal Voyage",
     "/images/projects/eternal-voyage",

@@ -21,9 +21,8 @@ export default function HomeGalleryTile({ item, priority }: Props) {
   const preOptimized = isPreOptimizedSrc(image.src);
 
   return (
-    <EditAwareLink
-      href={`/projects/${slug}`}
-      className="home-gallery-tile cursor-interactive"
+    <div
+      className="home-gallery-tile"
       style={{
         gridColumn: `${colStart} / span ${colSpan}`,
         marginTop:
@@ -32,40 +31,39 @@ export default function HomeGalleryTile({ item, priority }: Props) {
             : undefined,
       }}
     >
-      <figure className="home-gallery-tile__figure">
-        <div
-          className="home-gallery-tile__media"
-          style={{
-            aspectRatio: `${w} / ${h}`,
-            ["--tile-aspect" as string]: String(w / h),
-          }}
-        >
-          {isVideoSrc(image.src) ? (
-            <video
-              src={image.src}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="home-gallery-tile__video"
-            />
-          ) : (
-            <Image
-              src={image.src}
-              alt={image.alt || title}
-              width={w}
-              height={h}
-              sizes={tileSizes(colSpan)}
-              quality={88}
-              priority={priority}
-              unoptimized={preOptimized}
-              className="home-gallery-tile__img"
-              draggable={false}
-            />
-          )}
-        </div>
-        <figcaption className="home-gallery-tile__caption type-body">{title}</figcaption>
-      </figure>
-    </EditAwareLink>
+      <EditAwareLink
+        href={`/projects/${slug}`}
+        className="home-gallery-tile__link cursor-interactive"
+      >
+        <figure className="home-gallery-tile__figure">
+          <div className="home-gallery-tile__media">
+            {isVideoSrc(image.src) ? (
+              <video
+                src={image.src}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="home-gallery-tile__video"
+              />
+            ) : (
+              <Image
+                src={image.src}
+                alt={image.alt || title}
+                width={w}
+                height={h}
+                sizes={tileSizes(colSpan)}
+                quality={88}
+                priority={priority}
+                unoptimized={preOptimized}
+                className="home-gallery-tile__img"
+                draggable={false}
+              />
+            )}
+          </div>
+          <figcaption className="home-gallery-tile__caption type-body">{title}</figcaption>
+        </figure>
+      </EditAwareLink>
+    </div>
   );
 }
