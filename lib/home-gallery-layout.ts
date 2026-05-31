@@ -166,21 +166,9 @@ function pickRowTemplate(
   return pick(rng, pool).map((slot) => ({ ...slot }));
 }
 
-function staggerOffsets(rng: Rng, count: number): number[] {
-  const offsets = Array.from({ length: count }, () => 0);
-  for (let i = 0; i < count; i++) {
-    if (rng() < 0.55) offsets[i] = Math.floor(rng() * 3);
-  }
-  if (count > 1 && offsets.every((o) => o === 0)) {
-    offsets[Math.floor(rng() * count)] = 1 + Math.floor(rng() * 2);
-  }
-  return offsets;
-}
-
 function toGalleryItem(
   entry: HomeGalleryPoolEntry,
-  slot: Slot,
-  offsetSubunits: number
+  slot: Slot
 ): HomeGalleryItem {
   return {
     slug: entry.slug,
@@ -188,7 +176,7 @@ function toGalleryItem(
     image: projectAsset(entry.base, entry.file, entry.alt, entry.w, entry.h),
     colStart: slot.colStart,
     colSpan: slot.colSpan,
-    offsetSubunits,
+    offsetSubunits: 0,
   };
 }
 
@@ -207,10 +195,7 @@ export function buildHomeGalleryLayout(
     const slice = shuffled.slice(cursor, cursor + count);
     cursor += count;
     const slots = pickRowTemplate(rng, count as 1 | 2 | 3 | 4, previousStarts);
-    const offsets = staggerOffsets(rng, count);
-    const items = slice.map((entry, i) =>
-      toGalleryItem(entry, slots[i]!, offsets[i]!)
-    );
+    const items = slice.map((entry, i) => toGalleryItem(entry, slots[i]!));
     previousStarts = items.map((item) => item.colStart);
     rows.push({ items });
   }

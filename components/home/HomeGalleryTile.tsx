@@ -15,29 +15,29 @@ function tileSizes(colSpan: number): string {
 }
 
 export default function HomeGalleryTile({ item, priority }: Props) {
-  const { slug, title, image, colStart, colSpan, offsetSubunits } = item;
+  const { slug, title, image, colStart, colSpan } = item;
   const w = image.naturalWidth ?? 1600;
   const h = image.naturalHeight ?? 1200;
   const preOptimized = isPreOptimizedSrc(image.src);
+  const isVideo = isVideoSrc(image.src);
 
   return (
     <div
       className="home-gallery-tile"
-      style={{
-        gridColumn: `${colStart} / span ${colSpan}`,
-        marginTop:
-          offsetSubunits > 0
-            ? `calc(var(--site-grid-subunit) * ${offsetSubunits})`
-            : undefined,
-      }}
+      style={{ gridColumn: `${colStart} / span ${colSpan}` }}
     >
       <EditAwareLink
         href={`/projects/${slug}`}
         className="home-gallery-tile__link cursor-interactive"
       >
         <figure className="home-gallery-tile__figure">
-          <div className="home-gallery-tile__media">
-            {isVideoSrc(image.src) ? (
+          <div
+            className={
+              "home-gallery-tile__media" +
+              (isVideo ? " home-gallery-tile__media--video" : "")
+            }
+          >
+            {isVideo ? (
               <video
                 src={image.src}
                 autoPlay

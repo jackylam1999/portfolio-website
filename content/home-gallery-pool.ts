@@ -24,6 +24,12 @@ const EXPLICIT_BLOCK = new Set([
   "history 1.webp",
   "history.webp",
   "mapping.webp",
+  "4WD on thte field 1.png",
+  "4WD on thte field 2.png",
+  "ranger station 1.png",
+  "ranger station 2.png",
+  "paddy field hut.png",
+  "main facade.png",
 ]);
 
 export function isHomeGalleryLineDrawing(file: string): boolean {
@@ -129,15 +135,6 @@ const RAW_POOL: HomeGalleryPoolEntry[] = [
     "shack-in-the-paddyfield",
     "Shack in the Paddyfield",
     "/images/projects/shack-in-the-paddyfield",
-    "paddy field hut.png",
-    "Paddy field hut",
-    2000,
-    2500
-  ),
-  entry(
-    "shack-in-the-paddyfield",
-    "Shack in the Paddyfield",
-    "/images/projects/shack-in-the-paddyfield",
     "farm with the hut.webp",
     "Farm with the hut",
     1166,
@@ -174,15 +171,6 @@ const RAW_POOL: HomeGalleryPoolEntry[] = [
     "breathe-on-the-land",
     "Breathe on the Land",
     "/images/projects/breathe-on-the-land",
-    "main facade.png",
-    "Main facade",
-    4000,
-    1700
-  ),
-  entry(
-    "breathe-on-the-land",
-    "Breathe on the Land",
-    "/images/projects/breathe-on-the-land",
     "childcare.png",
     "Childcare",
     4000,
@@ -210,24 +198,6 @@ const RAW_POOL: HomeGalleryPoolEntry[] = [
     "eternal-voyage",
     "Eternal Voyage",
     "/images/projects/eternal-voyage",
-    "4WD on thte field 1.png",
-    "4WD on the field",
-    4961,
-    7016
-  ),
-  entry(
-    "eternal-voyage",
-    "Eternal Voyage",
-    "/images/projects/eternal-voyage",
-    "4WD on thte field 2.png",
-    "4WD on the field",
-    4961,
-    7016
-  ),
-  entry(
-    "eternal-voyage",
-    "Eternal Voyage",
-    "/images/projects/eternal-voyage",
     "4WD in motion 1.gif",
     "4WD in motion",
     516,
@@ -250,24 +220,6 @@ const RAW_POOL: HomeGalleryPoolEntry[] = [
     "Future report",
     1920,
     1080
-  ),
-  entry(
-    "eternal-voyage",
-    "Eternal Voyage",
-    "/images/projects/eternal-voyage",
-    "ranger station 1.png",
-    "Ranger station",
-    4961,
-    7016
-  ),
-  entry(
-    "eternal-voyage",
-    "Eternal Voyage",
-    "/images/projects/eternal-voyage",
-    "ranger station 2.png",
-    "Ranger station",
-    4961,
-    7016
   ),
   entry(
     "eternal-voyage",

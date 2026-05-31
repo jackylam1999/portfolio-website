@@ -6,7 +6,6 @@ import cvContent from "@/content/cv.json";
 import type { HomeGalleryRow } from "@/content/home-gallery";
 import { projects } from "@/content/projects";
 import { siteConfig } from "@/content/site";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 type HomeMode = "landing" | "index";
@@ -28,10 +27,6 @@ export default function DesktopHomePage({ galleryRows, gallerySeed }: Props) {
 
   const toggleIndex = () => {
     setMode((m) => (m === "index" ? "landing" : "index"));
-  };
-
-  const goLanding = () => {
-    setMode("landing");
   };
 
   const awards =
@@ -56,16 +51,16 @@ export default function DesktopHomePage({ galleryRows, gallerySeed }: Props) {
       </div>
 
       <div className="desktop-home-chrome-over" aria-label="Site controls">
-        <Link
+        <a
           href="/"
           className="desktop-home-chrome__btn desktop-home-chrome__tl"
           onClick={(e) => {
             e.preventDefault();
-            goLanding();
+            window.location.href = "/";
           }}
         >
           {siteConfig.name}
-        </Link>
+        </a>
         <button
           type="button"
           className="desktop-home-chrome__btn desktop-home-chrome__tr"

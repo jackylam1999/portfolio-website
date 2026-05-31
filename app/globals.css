@@ -118,7 +118,7 @@
   --home-gallery-top: var(--site-content-top);
   --home-gallery-pad-x: var(--site-margin-x);
   --home-gallery-caption-gap: calc(var(--font-site) * 0.45);
-  --home-gallery-max-image-height: calc(100vh / 3);
+  --home-gallery-max-image-height: calc(100vh / 3 * 1.25);
   /* ~1:1 whitespace between rows (gap ≈ prior row image + caption height) */
   --home-gallery-row-spacing: calc(
     var(--home-gallery-max-image-height) + var(--home-gallery-caption-gap) +
@@ -1196,11 +1196,13 @@ html[data-home-desktop="1"] .site-fixed-index {
   grid-template-columns: repeat(var(--home-gallery-cols), minmax(0, 1fr));
   column-gap: var(--home-gallery-gap);
   align-items: start;
+  width: 100%;
 }
 
 .home-gallery-tile {
   display: block;
   min-width: 0;
+  grid-row: 1;
 }
 
 .home-gallery-tile__link {
@@ -1230,6 +1232,20 @@ html[data-home-desktop="1"] .site-fixed-index {
   max-height: var(--home-gallery-max-image-height);
   object-fit: contain;
   object-position: left top;
+}
+
+/* 16:9 video — fill tile width, no side letterboxing */
+.home-gallery-tile__media--video {
+  aspect-ratio: 16 / 9;
+  max-height: var(--home-gallery-max-image-height);
+}
+
+.home-gallery-tile__media--video .home-gallery-tile__video {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: cover;
+  object-position: center;
 }
 
 .home-gallery-tile__caption {
