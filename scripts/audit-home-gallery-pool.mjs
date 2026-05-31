@@ -24,7 +24,6 @@ const POOL = [
   ["/images/projects/16-units-above-a-city-brewery", "summer morning.webp"],
   ["/images/projects/16-units-above-a-city-brewery", "beer garden.webp"],
   ["/images/projects/16-units-above-a-city-brewery", "facade.webp"],
-  ["/images/projects/shack-in-the-paddyfield", "farm with the hut.webp"],
   ["/images/projects/breathe-on-the-land", "open air corridor.jpg"],
   ["/images/projects/breathe-on-the-land", "childcare.png"],
   ["/images/projects/breathe-on-the-land", "co working.png"],
