@@ -17,6 +17,7 @@ const LINE_DRAWING_RE =
   /(?:^|[\s_-])(?:plan|section|elevation|mapping|masterplan|exploded|legend|graph|table|key moves|edge conditions|tools|history|detail-section|site-plan|floor plan|overall section|unit section|construction details|net zero|flexibility1|infrastructure|water treatment|context mapping|adaptability)(?:[\s_.-]|$)/i;
 
 const EXPLICIT_BLOCK = new Set([
+  "model.webp",
   "water infrastrucutre.png",
   "context mapping.jpg",
   "elevation.png",
@@ -51,15 +52,6 @@ function entry(
 }
 
 const RAW_POOL: HomeGalleryPoolEntry[] = [
-  entry(
-    "parliament-sports-complex",
-    "Parliament Sports Complex",
-    "/images/projects/parliament-sports-complex",
-    "model.webp",
-    "Parliament Sports Complex model",
-    6240,
-    4160
-  ),
   entry(
     "parliament-sports-complex",
     "Parliament Sports Complex",

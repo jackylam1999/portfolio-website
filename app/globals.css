@@ -1213,11 +1213,17 @@ html[data-home-desktop="1"] .site-fixed-index {
 
 .home-gallery-tile__figure {
   margin: 0;
+  width: 100%;
 }
 
 .home-gallery-tile__media {
   position: relative;
-  width: 100%;
+  /* Fit portrait media to max-height without pillarboxing in wide columns */
+  width: min(
+    100%,
+    calc(var(--home-gallery-max-image-height) * var(--media-aspect, 1.333))
+  );
+  max-width: 100%;
   max-height: var(--home-gallery-max-image-height);
   overflow: hidden;
   background: var(--color-bg);
@@ -1234,13 +1240,21 @@ html[data-home-desktop="1"] .site-fixed-index {
   object-position: left top;
 }
 
-/* Video — use natural aspect ratio from reuploaded file (no forced 16:9 crop) */
+/* Crop embedded letterboxing on future report video */
+.home-gallery-tile__media--video {
+  overflow: hidden;
+}
+
 .home-gallery-tile__media--video .home-gallery-tile__video {
   width: 100%;
-  height: auto;
+  height: 100%;
+  max-width: none;
   max-height: var(--home-gallery-max-image-height);
-  object-fit: contain;
-  object-position: left top;
+  margin-left: 0;
+  object-fit: cover;
+  object-position: center;
+  transform: scaleX(var(--video-scale-x, 1));
+  transform-origin: center center;
 }
 
 .home-gallery-tile__caption {

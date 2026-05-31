@@ -2,19 +2,19 @@ import SiteEditPageShell from "@/components/editor/SiteEditPageShell";
 import DesktopHomePage from "@/components/home/DesktopHomePage";
 import MobileHomePage from "@/components/mobile/MobileHomePage";
 import { homeGalleryPool } from "@/content/home-gallery-pool";
-import { buildHomeGalleryLayout } from "@/lib/home-gallery-layout";
 import { filterHomeGalleryPool } from "@/lib/home-gallery-filter";
+import { buildHomeGalleryLayout } from "@/lib/home-gallery-layout";
 import { randomInt } from "node:crypto";
 
 export const dynamic = "force-dynamic";
 
-export default function HomePage({
+export default async function HomePage({
   searchParams,
 }: {
   searchParams: { edit?: string };
 }) {
   const seed = randomInt(0x100000000);
-  const pool = filterHomeGalleryPool(homeGalleryPool);
+  const pool = await filterHomeGalleryPool(homeGalleryPool);
   const galleryRows = buildHomeGalleryLayout(pool, seed);
 
   return (

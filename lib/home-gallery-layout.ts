@@ -84,8 +84,8 @@ function maxItemsForGap(count: number, minSpan = MIN_SPAN): boolean {
   return total <= HOME_GRID_COLS;
 }
 
-function minSpanForCount(count: number): number {
-  return count >= 4 ? 1 : MIN_SPAN;
+function minSpanForCount(_count: number): number {
+  return MIN_SPAN;
 }
 
 function assignSpans(rng: Rng, count: number): number[] {

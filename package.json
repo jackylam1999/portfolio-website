@@ -22,7 +22,7 @@
     "optimize-images": "node scripts/optimize-project-images.mjs",
     "generate:home-gallery": "npx tsx scripts/generate-home-gallery.mjs",
     "verify:home-gallery": "npx tsx scripts/verify-home-gallery-layout.mjs",
-    "audit:home-gallery-pool": "npx tsx scripts/audit-home-gallery-pool.mjs",
+    "audit:home-gallery-pool": "node scripts/audit-home-gallery-pool.mjs",
     "lint": "next lint"
   },
   "dependencies": {

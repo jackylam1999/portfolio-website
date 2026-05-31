@@ -2,6 +2,7 @@ import EditAwareLink from "@/components/EditAwareLink";
 import Image from "next/image";
 import type { HomeGalleryItem } from "@/content/home-gallery";
 import { HOME_GRID_COLS } from "@/content/home-gallery";
+import { getHomeGalleryMediaOverride } from "@/content/home-gallery-media";
 import { isPreOptimizedSrc, isVideoSrc } from "@/lib/project-media";
 
 interface Props {
@@ -16,10 +17,13 @@ function tileSizes(colSpan: number): string {
 
 export default function HomeGalleryTile({ item, priority }: Props) {
   const { slug, title, image, colStart, colSpan } = item;
-  const w = image.naturalWidth ?? 1600;
-  const h = image.naturalHeight ?? 1200;
+  const override = getHomeGalleryMediaOverride(image.src);
+  const w = override?.width ?? image.naturalWidth ?? 1600;
+  const h = override?.height ?? image.naturalHeight ?? 1200;
   const preOptimized = isPreOptimizedSrc(image.src);
   const isVideo = isVideoSrc(image.src);
+  const videoScaleX = override?.videoScaleX ?? 1;
+  const mediaAspect = w / h;
 
   return (
     <div
@@ -36,9 +40,15 @@ export default function HomeGalleryTile({ item, priority }: Props) {
               "home-gallery-tile__media" +
               (isVideo ? " home-gallery-tile__media--video" : "")
             }
-            style={
-              isVideo ? { aspectRatio: `${w} / ${h}` } : undefined
-            }
+            style={{
+              ["--media-aspect" as string]: String(mediaAspect),
+              ...(isVideo
+                ? {
+                    aspectRatio: `${w} / ${h}`,
+                    ["--video-scale-x" as string]: String(videoScaleX),
+                  }
+                : {}),
+            }}
           >
             {isVideo ? (
               <video
