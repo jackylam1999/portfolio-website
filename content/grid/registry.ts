@@ -79,6 +79,32 @@ const PROJECT_GRIDS: Record<string, ProjectGrid> = {
 
 export const REF_WIDTH = siteGrid.refWidth;
 
+/** Green max-image box — columns A–J wide, rows 0–7 tall (7× major module). */
+export const IMAGE_MAX_BOX_ROW_SPAN = 7;
+
+export function imageMaxBoxWidthRef(c: GridConstants): number {
+  return c.imageAreaWidth;
+}
+
+export function imageMaxBoxHeightRef(c: GridConstants): number {
+  return IMAGE_MAX_BOX_ROW_SPAN * c.gridUnit;
+}
+
+/** Largest axis-aligned size that fits natural proportions inside the max box. */
+export function containInMaxBoxRef(
+  naturalW: number,
+  naturalH: number,
+  c: GridConstants
+): { w: number; h: number } {
+  const maxW = imageMaxBoxWidthRef(c);
+  const maxH = imageMaxBoxHeightRef(c);
+  const scale = Math.min(maxW / naturalW, maxH / naturalH);
+  return {
+    w: Math.round(naturalW * scale),
+    h: Math.round(naturalH * scale),
+  };
+}
+
 export function getProjectGrid(slug: string, grid?: ProjectGrid): ProjectGrid {
   if (grid) return grid;
   return PROJECT_GRIDS[slug] ?? {};

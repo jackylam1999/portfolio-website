@@ -10,9 +10,10 @@ type Props = {
   className?: string;
   children: ReactNode;
   external?: boolean;
+  onClick?: () => void;
 };
 
-function EditAwareLinkInner({ href, className, children, external }: Props) {
+function EditAwareLinkInner({ href, className, children, external, onClick }: Props) {
   const searchParams = useSearchParams();
   const editOn = isEditMode(searchParams);
   const resolved =
@@ -27,6 +28,7 @@ function EditAwareLinkInner({ href, className, children, external }: Props) {
         className={className}
         target="_blank"
         rel="noreferrer noopener"
+        onClick={onClick}
       >
         {children}
       </a>
@@ -34,7 +36,7 @@ function EditAwareLinkInner({ href, className, children, external }: Props) {
   }
 
   return (
-    <Link href={resolved} className={className}>
+    <Link href={resolved} className={className} onClick={onClick}>
       {children}
     </Link>
   );

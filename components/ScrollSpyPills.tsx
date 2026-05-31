@@ -10,7 +10,7 @@ interface Props {
 }
 
 /**
- * Per-section drawing list — fixed top-right, same vertical start as nav.
+ * Per-section drawing list — fixed right edge, aligned with image scroll area.
  * Single triangle slides between rows as the active section changes on scroll.
  */
 export default function ScrollSpyPills({ sections }: Props) {

@@ -7,6 +7,8 @@ import { projectIndexLine } from "@/content/utils";
 
 export default function FixedProjectIndex() {
   const pathname = usePathname() || "";
+  if (pathname.startsWith("/projects/")) return null;
+
   const currentSlug = pathname.startsWith("/projects/")
     ? pathname.replace("/projects/", "").split("/")[0]
     : null;

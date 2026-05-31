@@ -8,15 +8,15 @@ import EditableFigure from "@/components/editor/EditableFigure";
 import { useEditor } from "@/components/editor/EditorProvider";
 import { useProjectGrid } from "@/components/ProjectGridProvider";
 import {
-  imageDisplayWidthCss,
-  imageMarginLeftCss,
   imageMarginTopCss,
-  imageSizesAttr,
+  maxBoxContainLayoutRef,
+  maxBoxContainSizesAttr,
+  maxBoxContainWidthCss,
   pageBottomPaddingCss,
   placeholderLayoutCss,
   sectionGapAfterCss,
 } from "@/lib/image-layout";
-import { getPageBottomRef, resolveImageLayout, type ProjectGrid } from "@/content/grid/registry";
+import { getPageBottomRef, type ProjectGrid } from "@/content/grid/registry";
 import { isPreOptimizedSrc, isVideoSrc } from "@/lib/project-media";
 
 interface Props {
@@ -116,7 +116,7 @@ function Section({
       <div
         className="project-image-column flex min-w-0 flex-1 flex-col items-start overflow-x-clip"
         style={{
-          maxWidth: "var(--site-image-area-width)",
+          maxWidth: "var(--site-image-max-box-width)",
           gap:
             (section.images?.length ?? 0) > 1
               ? "var(--site-section-gap-tight)"
@@ -179,26 +179,18 @@ function ProjectFigure({
   const w = img.naturalWidth ?? 1600;
   const h = img.naturalHeight ?? 1200;
   const preOptimized = isPreOptimizedSrc(img.src);
-  const layout = resolveImageLayout(slug, sectionId, img, grid);
-  const videoLetterbox =
-    isVideoSrc(img.src) &&
-    layout.w < 1400 &&
-    (layout.marginLeft > 40 || layout.align === "area");
+  const contain = maxBoxContainLayoutRef(w, h, grid);
 
   return (
     <figure
-      className={`project-figure m-0 flex shrink-0 flex-col items-start${
-        videoLetterbox ? " project-figure--video-letterbox" : ""
-      }`}
+      className="project-figure m-0 flex shrink-0 flex-col items-start"
       style={{
-        width: videoLetterbox
-          ? `clamp(${Math.round(1482 * 0.42)}px, calc(100vw * 1482 / var(--ref-width)), 1482px)`
-          : imageDisplayWidthCss(slug, sectionId, img, grid),
-        marginLeft: videoLetterbox ? 0 : imageMarginLeftCss(slug, sectionId, img, grid),
+        width: maxBoxContainWidthCss(w, h, grid),
+        marginLeft: 0,
         marginTop: imageMarginTopCss(slug, sectionId, img, grid),
         maxWidth: "100%",
-        aspectRatio: videoLetterbox ? "1482 / 536" : layout.aspectRatio,
-        backgroundColor: videoLetterbox ? "#000" : undefined,
+        maxHeight: "var(--site-image-max-box-height)",
+        aspectRatio: contain.aspectRatio,
       }}
     >
       {isVideoSrc(img.src) ? (
@@ -208,9 +200,7 @@ function ProjectFigure({
           loop
           muted
           playsInline
-          className={`block h-full w-full object-contain ${
-            videoLetterbox ? "object-center" : "object-left-top"
-          }`}
+          className="block h-full w-full object-contain object-left-top"
         />
       ) : (
         <Image
@@ -218,7 +208,7 @@ function ProjectFigure({
           alt={img.alt}
           width={w}
           height={h}
-          sizes={imageSizesAttr(slug, sectionId, img, grid)}
+          sizes={maxBoxContainSizesAttr(w, h, grid)}
           quality={88}
           priority={priority}
           unoptimized={preOptimized}

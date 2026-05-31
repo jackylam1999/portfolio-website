@@ -17,7 +17,7 @@ const project: Project = {
   year: "2023",
   category: "Public",
   location: "Melbourne",
-  homeThumbnail: a("key moves.webp", "Breathe on the Land key moves", 2131, 557),
+  homeThumbnail: a("open air corridor.jpg", "Breathe on the Land", 4000, 3000),
   sections: [
     {
       id: "overview",

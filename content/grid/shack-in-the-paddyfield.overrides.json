@@ -1,0 +1,62 @@
+{
+  "overview": [
+    {}
+  ],
+  "context-mapping": [
+    {
+      "displayWidthRef": 993,
+      "marginLeftRef": 111
+    }
+  ],
+  "sabusawa-rice": [
+    {
+      "displayWidthRef": 1257
+    },
+    {
+      "displayWidthRef": 792,
+      "marginLeftRef": 465,
+      "marginTopRef": 10
+    },
+    {
+      "marginLeftRef": 418,
+      "marginTopRef": 9
+    }
+  ],
+  "farm-with-the-hut": [
+    {}
+  ],
+  "elevation": [
+    {
+      "displayWidthRef": 1170,
+      "marginLeftRef": 188
+    }
+  ],
+  "floor-plan": [
+    {
+      "displayWidthRef": 524
+    },
+    {
+      "displayWidthRef": 579,
+      "marginTopRef": 19
+    },
+    {
+      "displayWidthRef": 671,
+      "marginTopRef": 9
+    }
+  ],
+  "section": [
+    {
+      "displayWidthRef": 1280
+    }
+  ],
+  "hut-in-seasons": [
+    {
+      "displayWidthRef": 1482
+    }
+  ],
+  "exploded": [
+    {
+      "displayWidthRef": 1277
+    }
+  ]
+}

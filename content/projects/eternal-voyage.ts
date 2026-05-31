@@ -17,7 +17,7 @@ const project: Project = {
   year: "2022",
   category: "Infrastructure",
   location: "Western Plains",
-  homeThumbnail: a("masterplan.png", "Eternal Voyage masterplan", 4961, 7016),
+  homeThumbnail: a("4WD on thte field 1.png", "Eternal Voyage", 4961, 7016),
   sections: [
     {
       id: "overview",

@@ -3,6 +3,7 @@ import "./globals.css";
 import FixedNav from "@/components/FixedNav";
 import FixedProjectIndex from "@/components/FixedProjectIndex";
 import ProjectDrawingList from "@/components/ProjectDrawingList";
+import SiteIndexToggle from "@/components/SiteIndexToggle";
 import CustomCursor from "@/components/CustomCursor";
 import { CURSOR_BOOT_SCRIPT } from "@/lib/cursor";
 import { siteConfig } from "@/content/site";
@@ -39,6 +40,7 @@ export default function RootLayout({
         <CustomCursor />
         <FixedNav />
         <FixedProjectIndex />
+        <SiteIndexToggle />
         <ProjectDrawingList />
         <main className="site-main min-h-screen">{children}</main>
       </body>

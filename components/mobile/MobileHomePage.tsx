@@ -10,9 +10,8 @@ import {
   useState,
   type TouchEvent as ReactTouchEvent,
 } from "react";
-import cvContent from "@/content/cv.json";
 import { homeCarouselSlides } from "@/content/mobile-home-carousel";
-import { projects } from "@/content/projects";
+import SiteIndexPanel from "@/components/SiteIndexPanel";
 import { siteConfig } from "@/content/site";
 
 type HomeMode = "landing" | "index";
@@ -95,9 +94,6 @@ export default function MobileHomePage() {
     resetTimer();
   };
 
-  const awards =
-    cvContent.sections.find((s) => s.heading === "Awards")?.entries ?? [];
-
   return (
     <div
       className={
@@ -167,57 +163,7 @@ export default function MobileHomePage() {
             (mode === "index" ? " mobile-home-panel--active" : "")
           }
         >
-          <div className="mobile-home-index type-body">
-            <section className="mobile-home-index__section">
-              <h2 className="mobile-home-index__heading">works</h2>
-              <ul className="mobile-home-index__list">
-                {projects.map((p) => (
-                  <li key={p.slug}>
-                    <EditAwareLink
-                      href={`/projects/${p.slug}`}
-                      className="mobile-home-index__link"
-                    >
-                      {p.title}
-                    </EditAwareLink>
-                  </li>
-                ))}
-              </ul>
-            </section>
-
-            <section className="mobile-home-index__section">
-              <h2 className="mobile-home-index__heading">contacts</h2>
-              <ul className="mobile-home-index__list">
-                <li>
-                  <a
-                    href={`mailto:${siteConfig.email}`}
-                    className="mobile-home-index__link"
-                  >
-                    {siteConfig.email}
-                  </a>
-                </li>
-                <li>
-                  <EditAwareLink href="/contact" className="mobile-home-index__link">
-                    Contact page
-                  </EditAwareLink>
-                </li>
-              </ul>
-            </section>
-
-            <section className="mobile-home-index__section">
-              <h2 className="mobile-home-index__heading">recognition</h2>
-              <ul className="mobile-home-index__list mobile-home-index__list--recognition">
-                {awards.map((entry, i) => (
-                  <li key={i} className="mobile-home-index__recognition">
-                    <span className="mobile-home-index__year">{entry.year}</span>
-                    <span>{entry.title}</span>
-                    {entry.subtitle ? (
-                      <span className="mobile-home-index__subtitle">{entry.subtitle}</span>
-                    ) : null}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          </div>
+          <SiteIndexPanel className="mobile-home-index" />
         </div>
       </div>
     </div>

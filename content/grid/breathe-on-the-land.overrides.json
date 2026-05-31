@@ -1,0 +1,114 @@
+{
+  "overview": [
+    {
+      "displayWidthRef": 1267
+    },
+    {
+      "marginLeftRef": 542,
+      "marginTopRef": 202
+    },
+    {
+      "displayWidthRef": 630,
+      "marginTopRef": 255
+    }
+  ],
+  "edge-conditions": [
+    {
+      "marginLeftRef": 78
+    }
+  ],
+  "ground-floor-plan": [
+    {
+      "displayWidthRef": 1242
+    }
+  ],
+  "first-floor-plan": [
+    {
+      "displayWidthRef": 1235
+    }
+  ],
+  "open-air-corridor": [
+    {
+      "displayWidthRef": 1009,
+      "marginLeftRef": 350
+    },
+    {
+      "marginTopRef": 156
+    }
+  ],
+  "construction-details": [
+    {
+      "displayWidthRef": 1165,
+      "marginLeftRef": 317
+    }
+  ],
+  "corridor-floor-plan": [
+    {},
+    {
+      "displayWidthRef": 470,
+      "marginTopRef": 53
+    },
+    {
+      "displayWidthRef": 1416,
+      "marginTopRef": 308
+    },
+    {
+      "displayWidthRef": 1430,
+      "marginTopRef": 9
+    }
+  ],
+  "co-working": [
+    {
+      "displayWidthRef": 1183
+    }
+  ],
+  "childcare": [
+    {
+      "displayWidthRef": 815,
+      "marginLeftRef": 232
+    }
+  ],
+  "grassland-domesticity": [
+    {
+      "marginLeftRef": 167
+    }
+  ],
+  "build-on-the-land": [
+    {
+      "displayWidthRef": 846,
+      "marginLeftRef": 141
+    }
+  ],
+  "net-zero-carbon": [
+    {
+      "displayWidthRef": 1297
+    },
+    {
+      "marginLeftRef": 167,
+      "marginTopRef": 478
+    },
+    {
+      "marginLeftRef": 164,
+      "marginTopRef": 160
+    }
+  ],
+  "adaptability": [
+    {
+      "marginLeftRef": 167
+    },
+    {
+      "marginLeftRef": 167,
+      "marginTopRef": 30
+    },
+    {
+      "marginLeftRef": 164,
+      "marginTopRef": 160
+    }
+  ],
+  "flexibility": [
+    {
+      "displayWidthRef": 846,
+      "marginLeftRef": 141
+    }
+  ]
+}

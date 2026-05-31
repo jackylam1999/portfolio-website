@@ -1,6 +1,9 @@
 import type { ProjectImage } from "@/content/types";
 import {
+  containInMaxBoxRef,
   gridImageForSection,
+  imageMaxBoxHeightRef,
+  imageMaxBoxWidthRef,
   REF_WIDTH,
   gridConstants,
   resolveImageLayout,
@@ -124,4 +127,41 @@ export function imageUsesCropBox(
 /** Bottom scrollable space below project content (2560 ref px). */
 export function pageBottomPaddingCss(refPx: number): string {
   return refCss(refPx);
+}
+
+/** Publish-mode max box (columns A–J × rows 0–7). */
+export function maxBoxWidthCss(grid?: ProjectGrid): string {
+  return refCss(imageMaxBoxWidthRef(gridConstants(undefined, grid)));
+}
+
+export function maxBoxHeightCss(grid?: ProjectGrid): string {
+  return refCss(imageMaxBoxHeightRef(gridConstants(undefined, grid)));
+}
+
+/** object-contain dimensions that maximize within the green max box. */
+export function maxBoxContainLayoutRef(
+  naturalW: number,
+  naturalH: number,
+  grid?: ProjectGrid
+): { w: number; h: number; aspectRatio: string } {
+  const c = gridConstants(undefined, grid);
+  const { w, h } = containInMaxBoxRef(naturalW, naturalH, c);
+  return { w, h, aspectRatio: `${w} / ${h}` };
+}
+
+export function maxBoxContainWidthCss(
+  naturalW: number,
+  naturalH: number,
+  grid?: ProjectGrid
+): string {
+  return refCss(maxBoxContainLayoutRef(naturalW, naturalH, grid).w);
+}
+
+export function maxBoxContainSizesAttr(
+  naturalW: number,
+  naturalH: number,
+  grid?: ProjectGrid
+): string {
+  const ref = maxBoxContainLayoutRef(naturalW, naturalH, grid).w;
+  return `(max-width: ${REF_WIDTH}px) ${ref}px, ${ref}px`;
 }
