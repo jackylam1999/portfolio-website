@@ -36,7 +36,7 @@ export const homeGalleryItems: HomeGalleryItem[] = [
     slug: "shack-in-the-paddyfield",
     title: "Shack in the Paddyfield",
     colSpan: 1,
-    image: projectAsset(s, "farm with the hut.webp", "Farm with the hut", 1166, 1244),
+    image: projectAsset(s, "elevation.png", "Elevation", 1875, 1875),
   },
   {
     slug: "breathe-on-the-land",
@@ -48,7 +48,7 @@ export const homeGalleryItems: HomeGalleryItem[] = [
     slug: "eternal-voyage",
     title: "Eternal Voyage",
     colSpan: 2,
-    image: projectAsset(e, "4WD on thte field 1.png", "4WD on the field", 4961, 7016),
+    image: projectAsset(e, "4WD in motion 2.png", "4WD in motion", 2076, 2768),
   },
   {
     slug: "parliament-sports-complex",
@@ -90,7 +90,7 @@ export const homeGalleryItems: HomeGalleryItem[] = [
     slug: "eternal-voyage",
     title: "Eternal Voyage",
     colSpan: 2,
-    image: projectAsset(e, "ranger station 1.png", "Ranger station", 4961, 7016),
+    image: projectAsset(e, "water infrastrucutre.png", "Water infrastructure", 1500, 3074),
   },
   {
     slug: "16-units-above-a-city-brewery",
@@ -114,7 +114,7 @@ export const homeGalleryItems: HomeGalleryItem[] = [
     slug: "shack-in-the-paddyfield",
     title: "Shack in the Paddyfield",
     colSpan: 2,
-    image: projectAsset(s, "hut in seasons.jpg", "Hut in seasons", 4960, 1562),
+    image: projectAsset(s, "elevation.png", "Elevation", 1875, 1875),
   },
   {
     slug: "eternal-voyage",
@@ -126,6 +126,6 @@ export const homeGalleryItems: HomeGalleryItem[] = [
     slug: "breathe-on-the-land",
     title: "Breathe on the Land",
     colSpan: 1,
-    image: projectAsset(b, "grassland dosmesticity.webp", "Grassland domesticity", 1016, 1224),
+    image: projectAsset(b, "main facade.png", "Main facade", 4000, 1700),
   },
 ];

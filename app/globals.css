@@ -64,7 +64,7 @@
     calc(100vw * 1043 / var(--ref-width)),
     1043px
   );
-  /* Drawing menu aligns with image scroll area (blue zone) */
+  /* Drawing menu aligns with image column top (purple content line) */
   --site-drawings-top: var(--site-content-top);
   --site-standard-axis-x: calc(
     var(--site-image-area-left) + 100vw * 529 / var(--ref-width)
@@ -77,7 +77,7 @@
   --site-spec-gap: clamp(100px, calc(100vw * 149 / var(--ref-width)), 149px);
   --site-paragraph-gap: 16px;
   --site-group-break: clamp(40px, calc(100vw * 66 / var(--ref-width)), 66px);
-  /* First image top (model y=312); specs start y=242 */
+  /* Spec / description block top (y=242); scroll-spy purple line at y=312 */
   --site-spec-top: clamp(200px, calc(100vw * 242 / var(--ref-width)), 242px);
   --site-content-top: clamp(220px, calc(100vw * 312 / var(--ref-width)), 312px);
   --site-spec-label-width: clamp(120px, calc(100vw * 154 / var(--ref-width)), 154px);
@@ -119,6 +119,7 @@
   --home-gallery-top: clamp(72px, calc(100vw * 120 / var(--ref-width)), 120px);
   --home-gallery-pad-x: var(--site-margin-x);
   --home-gallery-caption-gap: calc(var(--font-site) * 0.45);
+  --home-gallery-max-image-height: calc(100vh / 3);
 }
 
 html {
@@ -1202,6 +1203,7 @@ html[data-home-desktop="1"] .site-fixed-index {
 .home-gallery-tile__media {
   position: relative;
   width: 100%;
+  max-height: var(--home-gallery-max-image-height);
   overflow: hidden;
   background: var(--color-bg);
 }
