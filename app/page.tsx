@@ -1,6 +1,9 @@
 import SiteEditPageShell from "@/components/editor/SiteEditPageShell";
 import DesktopHomePage from "@/components/home/DesktopHomePage";
 import MobileHomePage from "@/components/mobile/MobileHomePage";
+import { homeGalleryPool } from "@/content/home-gallery-pool";
+import { buildHomeGalleryLayout } from "@/lib/home-gallery-layout";
+import { randomInt } from "node:crypto";
 
 export const dynamic = "force-dynamic";
 
@@ -9,10 +12,13 @@ export default function HomePage({
 }: {
   searchParams: { edit?: string };
 }) {
+  const seed = randomInt(0x100000000);
+  const galleryRows = buildHomeGalleryLayout(homeGalleryPool, seed);
+
   return (
     <SiteEditPageShell searchParams={searchParams}>
       <div className="home-layout-desktop">
-        <DesktopHomePage />
+        <DesktopHomePage galleryRows={galleryRows} gallerySeed={seed} />
       </div>
       <MobileHomePage />
     </SiteEditPageShell>

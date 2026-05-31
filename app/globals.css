@@ -112,9 +112,9 @@
   /* CV page — content x≈358, not aligned with nav (x≈22); starts level with nav top */
   --site-cv-content-left: clamp(200px, calc(100vw * 358 / var(--ref-width)), 358px);
   --site-cv-content-width: clamp(360px, calc(100vw * 628 / var(--ref-width)), 628px);
-  /* Home gallery — FALA-style row layout (4 columns) */
-  --home-gallery-cols: 4;
-  --home-gallery-gap: var(--site-grid-subunit);
+  /* Home gallery — 12-column FALA-style rows (dense vertical rhythm) */
+  --home-gallery-cols: 12;
+  --home-gallery-gap: clamp(4px, calc(100vw * 6 / var(--ref-width)), 6px);
   --home-gallery-top: var(--site-content-top);
   --home-gallery-pad-x: var(--site-margin-x);
   --home-gallery-caption-gap: calc(var(--font-site) * 0.45);

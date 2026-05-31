@@ -1,11 +1,17 @@
 import EditAwareLink from "@/components/EditAwareLink";
 import Image from "next/image";
 import type { HomeGalleryItem } from "@/content/home-gallery";
+import { HOME_GRID_COLS } from "@/content/home-gallery";
 import { isPreOptimizedSrc, isVideoSrc } from "@/lib/project-media";
 
 interface Props {
   item: HomeGalleryItem;
   priority?: boolean;
+}
+
+function tileSizes(colSpan: number): string {
+  const pct = Math.round((colSpan / HOME_GRID_COLS) * 100);
+  return `(max-width: 2560px) ${pct}vw, ${Math.round((2560 * colSpan) / HOME_GRID_COLS)}px`;
 }
 
 export default function HomeGalleryTile({ item, priority }: Props) {
@@ -49,11 +55,7 @@ export default function HomeGalleryTile({ item, priority }: Props) {
               alt={image.alt || title}
               width={w}
               height={h}
-              sizes={
-                colSpan === 2
-                  ? "(max-width: 2560px) 50vw, 1280px"
-                  : "(max-width: 2560px) 25vw, 640px"
-              }
+              sizes={tileSizes(colSpan)}
               quality={88}
               priority={priority}
               unoptimized={preOptimized}

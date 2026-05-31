@@ -3,7 +3,7 @@
 import EditAwareLink from "@/components/EditAwareLink";
 import HomeGalleryTile from "@/components/home/HomeGalleryTile";
 import cvContent from "@/content/cv.json";
-import { homeGalleryRows } from "@/content/home-gallery";
+import type { HomeGalleryRow } from "@/content/home-gallery";
 import { projects } from "@/content/projects";
 import { siteConfig } from "@/content/site";
 import Link from "next/link";
@@ -11,7 +11,12 @@ import { useEffect, useState } from "react";
 
 type HomeMode = "landing" | "index";
 
-export default function DesktopHomePage() {
+interface Props {
+  galleryRows: HomeGalleryRow[];
+  gallerySeed: number;
+}
+
+export default function DesktopHomePage({ galleryRows, gallerySeed }: Props) {
   const [mode, setMode] = useState<HomeMode>("landing");
 
   useEffect(() => {
@@ -79,12 +84,12 @@ export default function DesktopHomePage() {
             (mode === "landing" ? " desktop-home-panel--active" : "")
           }
         >
-          <div className="desktop-home-gallery">
-            {homeGalleryRows.map((row, rowIndex) => (
-              <div key={rowIndex} className="home-gallery-row">
+          <div className="desktop-home-gallery" key={gallerySeed}>
+            {galleryRows.map((row, rowIndex) => (
+              <div key={`${gallerySeed}-${rowIndex}`} className="home-gallery-row">
                 {row.items.map((item, i) => (
                   <HomeGalleryTile
-                    key={`${item.slug}-${rowIndex}-${i}`}
+                    key={`${gallerySeed}-${rowIndex}-${i}-${item.image.src}`}
                     item={item}
                     priority={rowIndex === 0 && i < 2}
                   />
