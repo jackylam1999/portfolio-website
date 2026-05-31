@@ -112,14 +112,18 @@
   /* CV page — content x≈358, not aligned with nav (x≈22); starts level with nav top */
   --site-cv-content-left: clamp(200px, calc(100vw * 358 / var(--ref-width)), 358px);
   --site-cv-content-width: clamp(360px, calc(100vw * 628 / var(--ref-width)), 628px);
-  /* Home gallery — 4-column FALA-style grid */
+  /* Home gallery — FALA-style row layout (4 columns) */
   --home-gallery-cols: 4;
   --home-gallery-gap: var(--site-grid-subunit);
-  --home-gallery-row-gap: var(--site-grid-unit);
-  --home-gallery-top: clamp(72px, calc(100vw * 120 / var(--ref-width)), 120px);
+  --home-gallery-top: var(--site-content-top);
   --home-gallery-pad-x: var(--site-margin-x);
   --home-gallery-caption-gap: calc(var(--font-site) * 0.45);
   --home-gallery-max-image-height: calc(100vh / 3);
+  /* ~1:1 whitespace between rows (gap ≈ prior row image + caption height) */
+  --home-gallery-row-spacing: calc(
+    var(--home-gallery-max-image-height) + var(--home-gallery-caption-gap) +
+      calc(var(--font-site) * var(--line-height-base))
+  );
 }
 
 html {
@@ -1083,7 +1087,7 @@ html[data-home-desktop="1"] .site-fixed-index {
   position: relative;
   min-height: 100vh;
   padding-top: var(--home-gallery-top);
-  padding-bottom: var(--home-gallery-row-gap);
+  padding-bottom: var(--home-gallery-row-spacing);
 }
 
 .desktop-home-chrome-under,
@@ -1176,30 +1180,27 @@ html[data-home-desktop="1"] .site-fixed-index {
   z-index: 90;
   background: var(--color-bg);
   padding: var(--home-gallery-top) var(--home-gallery-pad-x)
-    var(--home-gallery-row-gap);
+    var(--home-gallery-row-spacing);
   overflow-y: auto;
 }
 
 .desktop-home-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: var(--home-gallery-row-spacing);
+  padding-inline: var(--home-gallery-pad-x);
+}
+
+.home-gallery-row {
   display: grid;
   grid-template-columns: repeat(var(--home-gallery-cols), minmax(0, 1fr));
   column-gap: var(--home-gallery-gap);
-  row-gap: var(--home-gallery-row-gap);
   align-items: start;
-  padding-inline: var(--home-gallery-pad-x);
 }
 
 .home-gallery-tile {
   display: block;
   min-width: 0;
-}
-
-.home-gallery-tile--span-1 {
-  grid-column: span 1;
-}
-
-.home-gallery-tile--span-2 {
-  grid-column: span 2;
 }
 
 .home-gallery-tile__figure {

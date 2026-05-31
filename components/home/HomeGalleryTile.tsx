@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function HomeGalleryTile({ item, priority }: Props) {
-  const { slug, title, image, colSpan } = item;
+  const { slug, title, image, colStart, colSpan, offsetSubunits } = item;
   const w = image.naturalWidth ?? 1600;
   const h = image.naturalHeight ?? 1200;
   const preOptimized = isPreOptimizedSrc(image.src);
@@ -17,7 +17,14 @@ export default function HomeGalleryTile({ item, priority }: Props) {
   return (
     <EditAwareLink
       href={`/projects/${slug}`}
-      className={`home-gallery-tile cursor-interactive home-gallery-tile--span-${colSpan}`}
+      className="home-gallery-tile cursor-interactive"
+      style={{
+        gridColumn: `${colStart} / span ${colSpan}`,
+        marginTop:
+          offsetSubunits > 0
+            ? `calc(var(--site-grid-subunit) * ${offsetSubunits})`
+            : undefined,
+      }}
     >
       <figure className="home-gallery-tile__figure">
         <div

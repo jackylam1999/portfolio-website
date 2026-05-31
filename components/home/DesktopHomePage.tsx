@@ -3,7 +3,7 @@
 import EditAwareLink from "@/components/EditAwareLink";
 import HomeGalleryTile from "@/components/home/HomeGalleryTile";
 import cvContent from "@/content/cv.json";
-import { homeGalleryItems } from "@/content/home-gallery";
+import { homeGalleryRows } from "@/content/home-gallery";
 import { projects } from "@/content/projects";
 import { siteConfig } from "@/content/site";
 import Link from "next/link";
@@ -80,8 +80,16 @@ export default function DesktopHomePage() {
           }
         >
           <div className="desktop-home-gallery">
-            {homeGalleryItems.map((item, i) => (
-              <HomeGalleryTile key={`${item.slug}-${i}`} item={item} priority={i < 4} />
+            {homeGalleryRows.map((row, rowIndex) => (
+              <div key={rowIndex} className="home-gallery-row">
+                {row.items.map((item, i) => (
+                  <HomeGalleryTile
+                    key={`${item.slug}-${rowIndex}-${i}`}
+                    item={item}
+                    priority={rowIndex === 0 && i < 2}
+                  />
+                ))}
+              </div>
             ))}
           </div>
         </div>

@@ -20,6 +20,7 @@
     "test:cv": "node scripts/verify-cv.mjs",
     "verify:all": "bash scripts/verify-all.sh",
     "optimize-images": "node scripts/optimize-project-images.mjs",
+    "generate:home-gallery": "node scripts/generate-home-gallery.mjs",
     "lint": "next lint"
   },
   "dependencies": {
