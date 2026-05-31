@@ -1,1 +1,72 @@
-{ "images": {} }
+{
+  "images": {
+    "overview": {
+      "w": 1217,
+      "x": 945,
+      "align": "area",
+      "gapAfter": 563
+    },
+    "water-infrastructure": {
+      "w": 935,
+      "align": "left",
+      "x": 813,
+      "gapAfter": 9
+    },
+    "transect-sections": {
+      "w": 347,
+      "align": "left",
+      "x": 813,
+      "gapAfter": 9
+    },
+    "masterplan": {
+      "widthTier": "standard",
+      "align": "standard",
+      "gapAfter": 614
+    },
+    "dam": {
+      "w": 442,
+      "align": "left",
+      "x": 813,
+      "gapAfter": 241
+    },
+    "pivot-irrigation-cycle": {
+      "w": 1115,
+      "align": "left",
+      "x": 879,
+      "gapAfter": 253
+    },
+    "4wd-on-the-field": {
+      "w": 1324,
+      "align": "left",
+      "x": 813,
+      "gapAfter": 296
+    },
+    "4wd-in-motion": {
+      "widthTier": "standard",
+      "align": "standard",
+      "gapAfter": 369
+    },
+    "ranger-station": {
+      "w": 1199,
+      "align": "left",
+      "x": 813,
+      "gapAfter": 149
+    },
+    "station-to-wetland": {
+      "widthTier": "narrow",
+      "align": "left",
+      "gapAfter": 178
+    },
+    "water-treatment-plant": {
+      "w": 1199,
+      "align": "left",
+      "x": 813,
+      "gapAfter": 149
+    },
+    "sewage-canal-to-pool": {
+      "widthTier": "narrow",
+      "align": "left"
+    }
+  },
+  "pageBottom": 149
+}

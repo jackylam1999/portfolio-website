@@ -117,6 +117,10 @@ function Section({
         className="project-image-column flex min-w-0 flex-1 flex-col items-start overflow-x-clip"
         style={{
           maxWidth: "var(--site-image-area-width)",
+          gap:
+            (section.images?.length ?? 0) > 1
+              ? "var(--site-section-gap-tight)"
+              : undefined,
         }}
       >
         {section.images?.length ? (
@@ -176,16 +180,25 @@ function ProjectFigure({
   const h = img.naturalHeight ?? 1200;
   const preOptimized = isPreOptimizedSrc(img.src);
   const layout = resolveImageLayout(slug, sectionId, img, grid);
+  const videoLetterbox =
+    isVideoSrc(img.src) &&
+    layout.w < 1400 &&
+    (layout.marginLeft > 40 || layout.align === "area");
 
   return (
     <figure
-      className="project-figure m-0 flex shrink-0 flex-col items-start"
+      className={`project-figure m-0 flex shrink-0 flex-col items-start${
+        videoLetterbox ? " project-figure--video-letterbox" : ""
+      }`}
       style={{
-        width: imageDisplayWidthCss(slug, sectionId, img, grid),
-        marginLeft: imageMarginLeftCss(slug, sectionId, img, grid),
+        width: videoLetterbox
+          ? `clamp(${Math.round(1482 * 0.42)}px, calc(100vw * 1482 / var(--ref-width)), 1482px)`
+          : imageDisplayWidthCss(slug, sectionId, img, grid),
+        marginLeft: videoLetterbox ? 0 : imageMarginLeftCss(slug, sectionId, img, grid),
         marginTop: imageMarginTopCss(slug, sectionId, img, grid),
         maxWidth: "100%",
-        aspectRatio: layout.aspectRatio,
+        aspectRatio: videoLetterbox ? "1482 / 536" : layout.aspectRatio,
+        backgroundColor: videoLetterbox ? "#000" : undefined,
       }}
     >
       {isVideoSrc(img.src) ? (
@@ -195,7 +208,9 @@ function ProjectFigure({
           loop
           muted
           playsInline
-          className="block h-full w-full object-contain object-left-top"
+          className={`block h-full w-full object-contain ${
+            videoLetterbox ? "object-center" : "object-left-top"
+          }`}
         />
       ) : (
         <Image

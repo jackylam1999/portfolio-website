@@ -2,8 +2,14 @@ import type { Project } from "../types";
 import { projectAsset } from "@/lib/project-media";
 
 const base = "/images/projects/breathe-on-the-land";
-const a = (file: string, alt: string, w: number, h: number, width?: "narrow" | "wide" | "full") =>
-  projectAsset(base, file, alt, w, h, width);
+const a = (
+  file: string,
+  alt: string,
+  w: number,
+  h: number,
+  width?: "narrow" | "wide" | "full",
+  layout?: Parameters<typeof projectAsset>[6]
+) => projectAsset(base, file, alt, w, h, width, layout);
 
 const project: Project = {
   slug: "breathe-on-the-land",
@@ -32,61 +38,98 @@ const project: Project = {
         "In response, this project proposes an alternative grassland management model. The approach aims to restore disappearing native grasslands while accommodating gentrification. This symbiotic model demonstrates that urban expansion and remnant grasslands are not mutually exclusive, but mutually reinforcing. It reimagines a new form of domesticity and establishes a new norm of living peacefully on grassland, in harmony with the diverse souls that inhabit it.",
       ],
       images: [
-        a("history.webp", "History", 1440, 825),
-        a("mapping.webp", "Mapping", 1229, 1236),
-        a("key moves.webp", "Key moves", 2131, 557, "full"),
+        a("history.webp", "History", 1440, 825, undefined, { displayWidthRef: 1267 }),
+        a("mapping.webp", "Mapping", 1229, 1236, undefined, {
+          displayWidthRef: 725,
+          marginLeftRef: 542,
+          marginTopRef: 202,
+        }),
+        a("key moves.webp", "Key moves", 2131, 557, undefined, {
+          displayWidthRef: 1482,
+          marginTopRef: 255,
+        }),
       ],
     },
     {
       id: "edge-conditions",
       pillLabel: "edge conditions",
       groupBreak: true,
-      images: [a("edge conditions.webp", "Edge conditions", 2105, 605, "full")],
+      images: [a("edge conditions.webp", "Edge conditions", 2105, 605)],
     },
     {
       id: "ground-floor-plan",
       pillLabel: "ground floor plan",
-      images: [a("ground floor plan.webp", "Ground floor plan", 3180, 2386, "full")],
+      images: [
+        a("ground floor plan.webp", "Ground floor plan", 3180, 2386, undefined, {
+          displayWidthRef: 1242,
+        }),
+      ],
     },
     {
       id: "first-floor-plan",
       pillLabel: "first floor plan",
-      images: [a("first floor plan.webp", "First floor plan", 3207, 2341, "full")],
+      images: [
+        a("first floor plan.webp", "First floor plan", 3207, 2341, undefined, {
+          displayWidthRef: 1235,
+        }),
+      ],
     },
     {
       id: "open-air-corridor",
       pillLabel: "open air corridor",
       groupBreak: true,
       images: [
-        a("open air corridor.jpg", "Open air corridor", 4000, 3000),
-        a("main facade.png", "Main facade", 4000, 1700),
+        a("open air corridor.jpg", "Open air corridor", 4000, 3000, undefined, {
+          displayWidthRef: 1009,
+        }),
+        a("main facade.png", "Main facade", 4000, 1700, undefined, {
+          displayWidthRef: 1047,
+          marginTopRef: 156,
+        }),
       ],
     },
     {
       id: "construction-details",
       pillLabel: "construction details",
-      images: [a("construction details.webp", "Construction details", 912, 1223)],
+      images: [
+        a("construction details.webp", "Construction details", 912, 1223, undefined, {
+          displayWidthRef: 912,
+        }),
+      ],
     },
     {
       id: "corridor-floor-plan",
       pillLabel: "corridor floor plan",
       images: [
         a("corridor floor plan legend 1.webp", "Corridor floor plan legend 1", 304, 196),
-        a("corridor floor plan 1.webp", "Corridor floor plan 1", 1032, 964),
-        a("corridor floor plan legend 2.webp", "Corridor floor plan legend 2", 276, 187),
-        a("corridor floor plan 2.webp", "Corridor floor plan 2", 982, 937),
+        a("corridor floor plan 1.webp", "Corridor floor plan 1", 1032, 964, undefined, {
+          marginTopRef: 53,
+        }),
+        a("corridor floor plan legend 2.webp", "Corridor floor plan legend 2", 276, 187, undefined, {
+          marginTopRef: 9,
+        }),
+        a("corridor floor plan 2.webp", "Corridor floor plan 2", 982, 937, undefined, {
+          marginTopRef: 9,
+        }),
       ],
     },
     {
       id: "co-working",
       pillLabel: "co-working",
       groupBreak: true,
-      images: [a("co working.png", "Co-working", 4000, 2700)],
+      images: [
+        a("co working.png", "Co-working", 4000, 2700, undefined, { displayWidthRef: 1183 }),
+      ],
     },
     {
       id: "childcare",
       pillLabel: "childcare",
-      images: [a("childcare.png", "Childcare", 4000, 2700)],
+      images: [
+        a("childcare.png", "Childcare", 4000, 2700, undefined, {
+          displayWidthRef: 815,
+          marginLeftRef: 232,
+        }),
+      ],
     },
     {
       id: "long-section",
@@ -98,20 +141,28 @@ const project: Project = {
       id: "grassland-domesticity",
       pillLabel: "grassland domesticity",
       groupBreak: true,
-      images: [a("grassland dosmesticity.webp", "Grassland domesticity", 1016, 1224)],
+      images: [
+        a("grassland dosmesticity.webp", "Grassland domesticity", 1016, 1224, "narrow"),
+      ],
     },
     {
       id: "build-on-the-land",
       pillLabel: "build on the land",
-      images: [a("build on the land.webp", "Build on the land", 1188, 1251)],
+      images: [
+        a("build on the land.webp", "Build on the land", 1188, 1251, "narrow"),
+      ],
     },
     {
       id: "net-zero-carbon",
       pillLabel: "net-zero carbon",
       images: [
         a("net zero carbon - legend.webp", "Net-zero carbon legend", 633, 309),
-        a("net zero carbon - graph.webp", "Net-zero carbon graph", 616, 1045),
-        a("net zero carbon - table.webp", "Net-zero carbon table", 635, 1166),
+        a("net zero carbon - graph.webp", "Net-zero carbon graph", 616, 1045, undefined, {
+          marginTopRef: 9,
+        }),
+        a("net zero carbon - table.webp", "Net-zero carbon table", 635, 1166, undefined, {
+          marginTopRef: 9,
+        }),
       ],
     },
     {
@@ -119,8 +170,12 @@ const project: Project = {
       pillLabel: "adaptability",
       images: [
         a("adaptability.webp", "Adaptability", 1773, 359),
-        a("adaptability 2025.webp", "Adaptability 2025", 1650, 663),
-        a("adaptability 2050.webp", "Adaptability 2050", 1680, 683),
+        a("adaptability 2025.webp", "Adaptability 2025", 1650, 663, undefined, {
+          marginTopRef: 9,
+        }),
+        a("adaptability 2050.webp", "Adaptability 2050", 1680, 683, undefined, {
+          marginTopRef: 9,
+        }),
       ],
     },
     {
@@ -128,8 +183,8 @@ const project: Project = {
       pillLabel: "flexibility",
       images: [
         a("flexibility1.png", "Flexibility 1", 2426, 1820),
-        a("flexibility2.png", "Flexibility 2", 4000, 2500),
-        a("flexibility3.png", "Flexibility 3", 4000, 2500),
+        a("flexibility2.png", "Flexibility 2", 4000, 2500, undefined, { marginTopRef: 9 }),
+        a("flexibility3.png", "Flexibility 3", 4000, 2500, undefined, { marginTopRef: 9 }),
       ],
     },
   ],

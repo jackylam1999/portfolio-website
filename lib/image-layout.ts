@@ -54,7 +54,7 @@ export function imageMarginTopCss(
   img: ProjectImage,
   grid?: ProjectGrid
 ): string | undefined {
-  const mt = resolveImageLayout(slug, sectionId, img, grid).marginTop;
+  const mt = img.marginTopRef ?? resolveImageLayout(slug, sectionId, img, grid).marginTop;
   if (!mt) return undefined;
   return refCss(mt);
 }

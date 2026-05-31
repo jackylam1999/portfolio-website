@@ -1,1 +1,49 @@
-{ "images": {} }
+{
+  "images": {
+    "overview": {
+      "widthTier": "narrow",
+      "align": "left",
+      "gapAfter": 241
+    },
+    "context-mapping": {
+      "w": 993,
+      "x": 924,
+      "gapAfter": 618
+    },
+    "sabusawa-rice": {
+      "w": 1257,
+      "align": "left",
+      "x": 813,
+      "gapAfter": 445
+    },
+    "farm-with-the-hut": {
+      "widthTier": "standard",
+      "gapAfter": 152
+    },
+    "elevation": {
+      "widthTier": "standard",
+      "align": "standard",
+      "gapAfter": 295
+    },
+    "floor-plan": {
+      "widthTier": "full",
+      "align": "left",
+      "gapAfter": 149
+    },
+    "section": {
+      "widthTier": "full",
+      "align": "left",
+      "gapAfter": 178
+    },
+    "hut-in-seasons": {
+      "widthTier": "full",
+      "align": "left",
+      "gapAfter": 264
+    },
+    "exploded": {
+      "widthTier": "standard",
+      "align": "standard"
+    }
+  },
+  "pageBottom": 149
+}

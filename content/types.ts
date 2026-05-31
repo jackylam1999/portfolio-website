@@ -50,6 +50,8 @@ export interface ProjectImage {
   displayHeightRef?: number;
   /** Horizontal offset from image-column origin (813px ref). Overrides center-axis calc. */
   marginLeftRef?: number;
+  /** Vertical gap above this image when stacked in a multi-image section (2560 ref px). */
+  marginTopRef?: number;
   /** Natural pixel size — preserves drawing aspect ratio (no crop) */
   naturalWidth?: number;
   naturalHeight?: number;

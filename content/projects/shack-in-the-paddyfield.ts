@@ -2,8 +2,13 @@ import type { Project } from "../types";
 import { projectAsset } from "@/lib/project-media";
 
 const base = "/images/projects/shack-in-the-paddyfield";
-const a = (file: string, alt: string, w: number, h: number) =>
-  projectAsset(base, file, alt, w, h);
+const a = (
+  file: string,
+  alt: string,
+  w: number,
+  h: number,
+  layout?: Parameters<typeof projectAsset>[6]
+) => projectAsset(base, file, alt, w, h, undefined, layout);
 
 const project: Project = {
   slug: "shack-in-the-paddyfield",
@@ -34,19 +39,31 @@ const project: Project = {
       id: "context-mapping",
       pillLabel: "context mapping",
       groupBreak: true,
-      images: [a("context mapping.jpg", "Context mapping", 3323, 2918)],
+      images: [
+        a("context mapping.jpg", "Context mapping", 3323, 2918, {
+          displayWidthRef: 993,
+          marginLeftRef: 111,
+        }),
+      ],
     },
     {
       id: "sabusawa-rice",
       pillLabel: "sabusawa rice",
       images: [
-        a("sabusawa rice - traditional craft.webp", "Sabusawa rice traditional craft", 1752, 744),
-        a("sabusawa rice - tools.webp", "Sabusawa rice tools", 1724, 340),
+        a("sabusawa rice - traditional craft.webp", "Sabusawa rice traditional craft", 1752, 744, {
+          displayWidthRef: 1257,
+        }),
+        a("sabusawa rice - tools.webp", "Sabusawa rice tools", 1724, 340, {
+          displayWidthRef: 792,
+          marginLeftRef: 465,
+          marginTopRef: 10,
+        }),
         a(
           "sabusawa rice - building integrated units.webp",
           "Sabusawa rice building integrated units",
           1254,
-          642
+          642,
+          { displayWidthRef: 750, marginLeftRef: 418, marginTopRef: 9 }
         ),
       ],
     },

@@ -193,27 +193,34 @@ function mergeGridEntry(
 ): GridImageEntry {
   const measured = gridImageForSection(slug, sectionId, grid);
   const tier = tierFromContent(img);
+  if (img.displayWidthRef != null) {
+    const c = gridConstants(slug, grid);
+    return {
+      widthTier: tier,
+      align: defaultAlignForTier(tier),
+      ...measured,
+      w: img.displayWidthRef,
+      h: img.displayHeightRef ?? measured?.h,
+      x:
+        img.marginLeftRef != null
+          ? c.imageAreaLeft + img.marginLeftRef
+          : measured?.x,
+      marginTop: img.marginTopRef ?? measured?.marginTop,
+    };
+  }
   if (measured) {
     return {
       widthTier: tier,
       align: defaultAlignForTier(tier),
       ...measured,
+      marginTop: img.marginTopRef ?? measured.marginTop,
     };
   }
-  if (img.displayWidthRef != null) {
-    const c = gridConstants(slug, grid);
-    return {
-      w: img.displayWidthRef,
-      widthTier: tier,
-      align: "standard",
-      h: img.displayHeightRef,
-      x:
-        img.marginLeftRef != null
-          ? c.imageAreaLeft + img.marginLeftRef
-          : undefined,
-    };
-  }
-  return { widthTier: tier, align: defaultAlignForTier(tier) };
+  return {
+    widthTier: tier,
+    align: defaultAlignForTier(tier),
+    marginTop: img.marginTopRef,
+  };
 }
 
 export function resolveImageLayout(
