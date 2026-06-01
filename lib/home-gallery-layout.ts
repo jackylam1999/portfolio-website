@@ -74,32 +74,26 @@ function tiersFit(tiers: ThumbTier[]): boolean {
   return rowWidthRef(tiers) <= ROW_REF_MAX;
 }
 
-/** Tier combos that fit one row on the FALA canvas. */
+/** Tier combos that fit one row on the FALA canvas — lg/md only (no sm rows). */
 const ROW_TIER_BAGS: ThumbTier[][] = [
   ["lg"],
   ["md"],
-  ["sm"],
   ["lg", "md"],
-  ["lg", "sm"],
   ["md", "md"],
-  ["md", "sm"],
-  ["sm", "sm"],
-  ["sm", "sm", "sm"],
-  ["md", "sm", "sm"],
 ];
 
 function pickRowTiers(count: number, rng: Rng): ThumbTier[] {
   const candidates = ROW_TIER_BAGS.filter((bag) => bag.length === count && tiersFit(bag));
   if (candidates.length) return [...pick(rng, candidates)];
   if (count > 1) return pickRowTiers(count - 1, rng);
-  return [pick(rng, ["sm", "md", "lg"] as const)];
+  return [pick(rng, ["md", "lg"] as const)];
 }
 
 function buildRowCounts(itemCount: number, rng: Rng): number[] {
   const counts: number[] = [];
   let remaining = itemCount;
   while (remaining > 0) {
-    const max = Math.min(3, remaining);
+    const max = Math.min(2, remaining);
     const options: number[] = [];
     for (let c = 1; c <= max; c++) {
       if (ROW_TIER_BAGS.some((bag) => bag.length === c)) options.push(c);
@@ -154,8 +148,8 @@ export function validateHomeGalleryLayout(rows: HomeGalleryRow[]): string[] {
     if (!tiersFit(row.items.map((i) => i.widthTier))) {
       errors.push(`Row ${ri + 1}: tiers exceed FALA row width`);
     }
-    if (row.items.length > 3) {
-      errors.push(`Row ${ri + 1}: more than 3 items`);
+    if (row.items.length > 2) {
+      errors.push(`Row ${ri + 1}: more than 2 items`);
     }
   }
 

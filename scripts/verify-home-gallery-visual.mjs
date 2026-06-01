@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Visual QA for home gallery at 1440×900 (column gap, tile widths, Eternal Voyage video).
+ * Visual QA for home gallery at 1440×900 (tile widths, image fill, screenshots).
  * Run after: npm run preview:prod (or serve on 3055)
  *   node scripts/verify-home-gallery-visual.mjs [baseUrl]
  */
@@ -12,23 +12,39 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outDir = path.join(__dirname, "../.verify-screenshots");
 const baseUrl = process.argv[2] ?? "http://127.0.0.1:3055";
+const label = baseUrl.includes("vercel") ? "live" : "local";
 
 fs.mkdirSync(outDir, { recursive: true });
 
 const browser = await chromium.launch({
   headless: true,
-  channel: "chrome",
 });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-await page.goto(baseUrl, { waitUntil: "networkidle", timeout: 60000 });
+await page.goto(baseUrl, { waitUntil: "domcontentloaded", timeout: 60000 });
 await page.waitForSelector(".home-gallery-row", { timeout: 30000 });
+await page.waitForTimeout(1500);
 
 const metrics = await page.evaluate(() => {
   const row = document.querySelector(".home-gallery-row");
   const gap = row ? getComputedStyle(row).columnGap : "";
   const tiles = [...document.querySelectorAll(".home-gallery-tile")];
-  const tileWidths = tiles.map((t) => Math.round(t.getBoundingClientRect().width));
+  const tileData = tiles.map((t) => {
+    const tr = t.getBoundingClientRect();
+    const img = t.querySelector(".home-gallery-tile__img, .home-gallery-tile__video");
+    const ir = img?.getBoundingClientRect();
+    const tileW = Math.round(tr.width);
+    const imgW = ir ? Math.round(ir.width) : 0;
+    const fillRatio = tileW > 0 && imgW > 0 ? imgW / tileW : 1;
+    return { tileW, imgW, fillRatio: Math.round(fillRatio * 100) / 100 };
+  });
+  const tileWidths = tileData.map((d) => d.tileW);
   const minW = tileWidths.length ? Math.min(...tileWidths) : 0;
+  const maxW = tileWidths.length ? Math.max(...tileWidths) : 0;
+  const minFill = tileData.length
+    ? Math.min(...tileData.map((d) => d.fillRatio))
+    : 1;
+  const antTiles = tileData.filter((d) => d.fillRatio < 0.7 && d.tileW > 200);
+
   const video = document.querySelector(
     '.home-gallery-tile__video[src*="future%20report"], .home-gallery-tile__video[src*="future report"]'
   );
@@ -69,11 +85,20 @@ const metrics = await page.evaluate(() => {
       showsTopContent: topBright > 50000,
     };
   }
-  return { gap, minTileWidth: minW, tileCount: tiles.length, videoCrop };
+  return {
+    gap,
+    minTileWidth: minW,
+    maxTileWidth: maxW,
+    tileCount: tiles.length,
+    minFillRatio: minFill,
+    antTileCount: antTiles.length,
+    tileData: tileData.slice(0, 12),
+    videoCrop,
+  };
 });
 
 await page.screenshot({
-  path: path.join(outDir, "home-gallery-full.png"),
+  path: path.join(outDir, `home-gallery-${label}-1440.png`),
   fullPage: false,
 });
 
@@ -82,7 +107,7 @@ const videoTile = page.locator(".home-gallery-tile").filter({
 });
 if ((await videoTile.count()) > 0) {
   await videoTile.first().screenshot({
-    path: path.join(outDir, "eternal-voyage-video-tile.png"),
+    path: path.join(outDir, `eternal-voyage-video-tile-${label}.png`),
   });
 }
 
@@ -92,8 +117,15 @@ const failures = [];
 if (metrics.gap && parseFloat(metrics.gap) > 60) {
   failures.push(`column-gap too large: ${metrics.gap} (want ~48px at 1440)`);
 }
-if (metrics.minTileWidth > 0 && metrics.minTileWidth < 180) {
-  failures.push(`min tile width ${metrics.minTileWidth}px (want >= 180, FALA sm ~200+)`);
+if (metrics.minTileWidth > 0 && metrics.minTileWidth < 350) {
+  failures.push(
+    `min tile width ${metrics.minTileWidth}px (want >= 350 for lg/md tiers at 1440)`
+  );
+}
+if (metrics.antTileCount > 0) {
+  failures.push(
+    `${metrics.antTileCount} tile(s) with image fill < 70% of tile width (ant-sized)`
+  );
 }
 if (metrics.videoCrop && !metrics.videoCrop.showsTopContent) {
   failures.push("video appears to crop away top content (top band too dark)");
@@ -106,4 +138,4 @@ if (failures.length) {
   for (const f of failures) console.error(`  - ${f}`);
   process.exit(1);
 }
-console.log("\nOK — visual checks passed. Screenshots in .verify-screenshots/");
+console.log(`\nOK — visual checks passed. Screenshots in .verify-screenshots/`);
