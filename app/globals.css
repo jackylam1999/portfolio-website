@@ -98,8 +98,9 @@
   --site-home-row-gap: clamp(200px, calc(100vw * 497 / var(--ref-width)), 497px);
   --site-home-col-gap: clamp(48px, calc(100vw * 24 / var(--ref-width)), 96px);
   --site-thumb-sm: clamp(200px, calc(100vw * 338 / var(--ref-width)), 338px);
-  --site-thumb-md: clamp(280px, calc(100vw * 688 / var(--ref-width)), 688px);
-  --site-thumb-lg: clamp(360px, calc(100vw * 989 / var(--ref-width)), 989px);
+  /* Floors match FALA @ 1440 so thumbs never shrink to ant size on laptop */
+  --site-thumb-md: clamp(387px, calc(100vw * 688 / var(--ref-width)), 688px);
+  --site-thumb-lg: clamp(556px, calc(100vw * 989 / var(--ref-width)), 989px);
 
   --site-scroll-reference-y: var(--site-content-top);
   --site-scroll-active-y: var(--site-content-top);
@@ -1187,7 +1188,9 @@ html[data-home-desktop="1"] .site-fixed-index {
   display: flex;
   flex-direction: column;
   gap: var(--home-gallery-row-spacing);
-  padding-inline: var(--home-gallery-pad-x);
+  /* Align thumbs to FALA image area (813 → 2295 @ 2560), not full-bleed scatter */
+  padding-left: var(--site-image-area-left);
+  padding-right: calc(100vw - var(--site-image-area-right));
 }
 
 .home-gallery-row {
@@ -1231,19 +1234,22 @@ html[data-home-desktop="1"] .site-fixed-index {
   object-position: left top;
 }
 
-/* Video tile: aspect-ratio set inline from measured content bounds; crop letterbox only */
+/* Video tile: full thumb width; crop horizontal letterbox inside (never shrink tile) */
 .home-gallery-tile__media--video {
+  position: relative;
   width: 100%;
-  max-height: var(--home-gallery-max-image-height);
+  height: var(--home-gallery-max-image-height);
   overflow: hidden;
 }
 
 .home-gallery-tile__media--video .home-gallery-tile__video {
-  display: block;
-  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
   height: 100%;
+  width: calc(100% / var(--video-content-ratio, 1));
   max-width: none;
-  max-height: none;
+  transform: translateX(-50%);
   object-fit: cover;
   object-position: center center;
 }

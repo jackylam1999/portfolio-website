@@ -32,4 +32,10 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log("\nOK — layout passes spread checks.");
+const badCounts = counts.filter((c) => c > 2);
+if (badCounts.length) {
+  console.error(`\nFAILED: rows with >2 items: ${badCounts.join(", ")}`);
+  process.exit(1);
+}
+
+console.log("\nOK — layout passes FALA paired-row checks.");

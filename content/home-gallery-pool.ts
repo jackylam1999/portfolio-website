@@ -25,6 +25,7 @@ const EXPLICIT_BLOCK = new Set([
   "history 1.webp",
   "history.webp",
   "mapping.webp",
+  "4WD in motion 2.png",
   "4WD on thte field 1.png",
   "4WD on thte field 2.png",
   "ranger station 1.png",
@@ -152,15 +153,6 @@ const RAW_POOL: HomeGalleryPoolEntry[] = [
     "Co-working",
     4000,
     2700
-  ),
-  entry(
-    "eternal-voyage",
-    "Eternal Voyage",
-    "/images/projects/eternal-voyage",
-    "4WD in motion 2.png",
-    "4WD in motion",
-    2076,
-    2768
   ),
   entry(
     "eternal-voyage",

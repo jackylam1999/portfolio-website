@@ -71,14 +71,17 @@ function rowWidthRef(tiers: ThumbTier[]): number {
 }
 
 function tiersFit(tiers: ThumbTier[]): boolean {
-  return rowWidthRef(tiers) <= ROW_REF_MAX;
+  const w = rowWidthRef(tiers);
+  return w <= ROW_REF_MAX && w <= IMAGE_AREA_REF;
 }
 
-/** Tier combos that fit one row on the FALA canvas — lg/md only (no sm rows). */
+/** FALA image-area width @ 2560 — pairs must fit inside (1482px). */
+const IMAGE_AREA_REF = 1482;
+
+/** Tier combos that fit the FALA image area (no lg+md — too wide even @ 2560). */
 const ROW_TIER_BAGS: ThumbTier[][] = [
   ["lg"],
   ["md"],
-  ["lg", "md"],
   ["md", "md"],
 ];
 
@@ -86,29 +89,23 @@ function pickRowTiers(count: number, rng: Rng): ThumbTier[] {
   const candidates = ROW_TIER_BAGS.filter((bag) => bag.length === count && tiersFit(bag));
   if (candidates.length) return [...pick(rng, candidates)];
   if (count > 1) return pickRowTiers(count - 1, rng);
-  return [pick(rng, ["md", "lg"] as const)];
+  return ["lg"];
 }
 
-function buildRowCounts(itemCount: number, rng: Rng): number[] {
+/** FALA: dense paired rows — always 2-up except last odd item. */
+function buildRowCounts(itemCount: number): number[] {
   const counts: number[] = [];
   let remaining = itemCount;
   while (remaining > 0) {
-    const max = Math.min(2, remaining);
-    const options: number[] = [];
-    for (let c = 1; c <= max; c++) {
-      if (ROW_TIER_BAGS.some((bag) => bag.length === c)) options.push(c);
+    if (remaining === 1) {
+      counts.push(1);
+      remaining = 0;
+    } else {
+      counts.push(2);
+      remaining -= 2;
     }
-    const count = options.length ? pick(rng, options) : 1;
-    counts.push(Math.min(count, remaining));
-    remaining -= count;
   }
   return counts;
-}
-
-function rowJustify(count: number, rng: Rng): HomeGalleryRow["justify"] {
-  if (count === 1) return pick(rng, ["flex-start", "center", "flex-end"] as const);
-  if (count === 2) return pick(rng, ["flex-start", "space-between", "flex-end"] as const);
-  return pick(rng, ["flex-start", "space-between"] as const);
 }
 
 function toGalleryItem(entry: HomeGalleryPoolEntry, tier: ThumbTier): HomeGalleryItem {
@@ -126,7 +123,7 @@ export function buildHomeGalleryLayout(
 ): HomeGalleryRow[] {
   const rng = mulberry32(seed);
   const shuffled = shuffle(rng, pool);
-  const rowCounts = buildRowCounts(shuffled.length, rng);
+  const rowCounts = buildRowCounts(shuffled.length);
   const rows: HomeGalleryRow[] = [];
   let cursor = 0;
 
@@ -135,7 +132,7 @@ export function buildHomeGalleryLayout(
     cursor += count;
     const tiers = pickRowTiers(count, rng);
     const items = slice.map((entry, i) => toGalleryItem(entry, tiers[i]!));
-    rows.push({ items, justify: rowJustify(count, rng) });
+    rows.push({ items, justify: "flex-start" });
   }
 
   return rows;
@@ -150,6 +147,12 @@ export function validateHomeGalleryLayout(rows: HomeGalleryRow[]): string[] {
     }
     if (row.items.length > 2) {
       errors.push(`Row ${ri + 1}: more than 2 items`);
+    }
+    if (row.items.some((i) => i.widthTier === "sm")) {
+      errors.push(`Row ${ri + 1}: sm tier not allowed on home gallery`);
+    }
+    if (row.justify !== "flex-start") {
+      errors.push(`Row ${ri + 1}: justify must be flex-start (FALA paired rows)`);
     }
   }
 

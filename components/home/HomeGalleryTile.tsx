@@ -1,5 +1,6 @@
 import EditAwareLink from "@/components/EditAwareLink";
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import type { HomeGalleryItem } from "@/content/home-gallery";
 import { getHomeGalleryMediaOverride } from "@/content/home-gallery-media";
 import { thumbServeWidth } from "@/lib/home-gallery-layout";
@@ -25,12 +26,10 @@ export default function HomeGalleryTile({ item, priority }: Props) {
   const isVideo = isVideoSrc(image.src);
   const isGif = /\.gif$/i.test(image.src);
   const contentWR = override?.contentWidthRatio;
-  const displayAspect =
+  const videoMediaStyle =
     isVideo && contentWR != null && contentWR > 0
-      ? `${w * contentWR} / ${h}`
-      : isVideo
-        ? `${w} / ${h}`
-        : undefined;
+      ? ({ ["--video-content-ratio" as string]: contentWR } as CSSProperties)
+      : undefined;
   const serveW = thumbServeWidth(widthTier);
 
   return (
@@ -48,7 +47,7 @@ export default function HomeGalleryTile({ item, priority }: Props) {
               "home-gallery-tile__media" +
               (isVideo ? " home-gallery-tile__media--video" : "")
             }
-            style={displayAspect ? { aspectRatio: displayAspect } : undefined}
+            style={videoMediaStyle}
           >
             {isVideo ? (
               <video

@@ -15,9 +15,10 @@ const VIEW = 1440;
 const margin = Math.max(50, (VIEW * 60) / REF);
 const content = VIEW - margin * 2;
 const gap = Math.max(48, (VIEW * 24) / REF);
-const thumbSm = Math.max(200, (VIEW * 338) / REF);
-const thumbMd = Math.max(280, (VIEW * 688) / REF);
-const thumbLg = Math.max(360, (VIEW * 989) / REF);
+const thumbMd = Math.max(387, (VIEW * 688) / REF);
+const thumbLg = Math.max(556, (VIEW * 989) / REF);
+const imageAreaLeft = Math.max(480, (VIEW * 813) / REF);
+const imageAreaWidth = Math.max(560, (VIEW * 1482) / REF);
 
 const rowBlock = css.match(/\.home-gallery-row\s*\{[^}]+\}/)?.[0] ?? "";
 if (!rowBlock.includes("display: flex")) {
@@ -30,22 +31,29 @@ if (!css.includes("--site-thumb-sm") || !css.includes("--site-thumb-md")) {
   failures.push("missing FALA thumb CSS variables");
 }
 
-const minTile = thumbSm;
+if (!css.includes("padding-left: var(--site-image-area-left)")) {
+  failures.push("desktop-home-gallery must align to site-image-area-left");
+}
+if (css.match(/\.home-gallery-tile__img[\s\S]{0,120}object-fit:\s*contain/)) {
+  failures.push("home-gallery images must not use object-fit:contain (causes ant-sized portraits)");
+}
+
+const minTile = thumbMd;
 const lgMdRow = thumbLg + gap + thumbMd;
 
-if (minTile < 180) {
-  failures.push(`thumb-sm too small at 1440: ${minTile}px`);
+if (minTile < 350) {
+  failures.push(`thumb-md too small at 1440: ${minTile}px`);
 }
-if (lgMdRow > content + 1) {
-  failures.push(`lg+md row wider than viewport at 1440`);
+if (thumbMd + gap + thumbMd > imageAreaWidth + 1) {
+  failures.push(`md+md row wider than FALA image area at 1440`);
 }
 
 console.log({
   gapAt1440: Math.round(gap),
-  thumbSmAt1440: Math.round(thumbSm),
   thumbMdAt1440: Math.round(thumbMd),
   thumbLgAt1440: Math.round(thumbLg),
-  contentWidth: Math.round(content),
+  imageAreaLeft: Math.round(imageAreaLeft),
+  imageAreaWidth: Math.round(imageAreaWidth),
 });
 
 if (failures.length) {
