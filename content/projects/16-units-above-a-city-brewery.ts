@@ -1,4 +1,7 @@
 import type { Project } from "../types";
+import { projectAsset } from "@/lib/project-media";
+
+const base = "/images/projects/16-units-above-a-city-brewery";
 
 const project: Project = {
   slug: "16-units-above-a-city-brewery",
@@ -6,6 +9,13 @@ const project: Project = {
   year: "2023",
   category: "Residential",
   location: "Melbourne",
+  homeThumbnail: projectAsset(
+    base,
+    "summer morning.webp",
+    "16 Units Above a City Brewery",
+    4000,
+    2500
+  ),
   sections: [
     {
       id: "overview",

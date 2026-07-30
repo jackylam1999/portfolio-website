@@ -1073,12 +1073,6 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
   display: none;
 }
 
-/* ── Desktop home — FALA-style 4-column gallery (≥768px) ─────────────────── */
-html[data-home-desktop="1"] .site-fixed-left,
-html[data-home-desktop="1"] .site-fixed-index {
-  display: none !important;
-}
-
 .home-layout-desktop {
   display: block;
 }

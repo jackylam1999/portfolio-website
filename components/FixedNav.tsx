@@ -1,7 +1,7 @@
 "use client";
 
 import EditAwareLink from "@/components/EditAwareLink";
-import { siteConfig } from "@/content/site";
+import { topLeftNav } from "@/content/site";
 
 export default function FixedNav() {
   return (
@@ -9,9 +9,19 @@ export default function FixedNav() {
       aria-label="Primary"
       className="site-fixed-left type-nav select-none tracking-tightish text-black"
     >
-      <EditAwareLink href="/" className="cursor-interactive inline-block">
-        {siteConfig.name}
-      </EditAwareLink>
+      <ul className="flex flex-col gap-px">
+        {topLeftNav.map((item) => (
+          <li key={item.label}>
+            <EditAwareLink
+              href={item.href}
+              external={item.external}
+              className="cursor-interactive inline-block"
+            >
+              {item.label}
+            </EditAwareLink>
+          </li>
+        ))}
+      </ul>
     </nav>
   );
 }
