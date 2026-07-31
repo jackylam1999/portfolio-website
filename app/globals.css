@@ -245,6 +245,32 @@ body {
   cursor: pointer;
 }
 
+/* Selected type sits under "filter" when the full menu is collapsed. */
+.site-filter__pinned {
+  max-height: 2em;
+  opacity: 1;
+  transform: translateY(0);
+  animation: site-chrome-reveal 0.28s ease;
+  pointer-events: auto;
+}
+
+.site-filter:hover .site-filter__pinned,
+.site-filter:focus-within .site-filter__pinned {
+  /* Full menu takes over on hover — avoid showing the name twice. */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  animation: none;
+}
+
 .site-filter__menu {
   display: flex;
   flex-direction: column;
