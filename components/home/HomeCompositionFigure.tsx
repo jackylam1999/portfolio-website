@@ -29,7 +29,10 @@ export default function HomeCompositionFigure({
   placeholder,
   priority,
 }: Props) {
-  const figureStyle: CSSProperties = {
+  // Percentage width/margin must live on the flex row's direct child. Putting
+  // them on an inner <figure> makes the browser resolve % against a shrink-wrapped
+  // link box (~60px wide) instead of the full row.
+  const slotStyle: CSSProperties = {
     marginLeft: `${marginLeftPct}%`,
     width: `${widthPct}%`,
     flex: "0 0 auto",
@@ -37,11 +40,12 @@ export default function HomeCompositionFigure({
   const mediaStyle: CSSProperties = { aspectRatio: `${aspect}` };
 
   return (
-    <EditAwareLink
-      href={`/projects/${slug}`}
-      className="cursor-interactive block"
-    >
-      <figure style={figureStyle}>
+    <div style={slotStyle}>
+      <EditAwareLink
+        href={`/projects/${slug}`}
+        className="cursor-interactive block"
+      >
+        <figure>
         <div
           className="relative w-full overflow-hidden bg-neutral-100"
           style={mediaStyle}
@@ -67,7 +71,8 @@ export default function HomeCompositionFigure({
         {captionBelow && (
           <figcaption className="type-caption mt-2 text-black">{title}</figcaption>
         )}
-      </figure>
-    </EditAwareLink>
+        </figure>
+      </EditAwareLink>
+    </div>
   );
 }
