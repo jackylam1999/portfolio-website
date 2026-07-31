@@ -42,7 +42,8 @@ const project: Project = {
         a("mapping.webp", "Mapping", 1229, 1236, undefined, {
           displayWidthRef: 725,
           marginLeftRef: 542,
-          marginTopRef: 202,
+          // Pull beside history (display height ≈ 726) for the 2-up top row.
+          marginTopRef: -726,
         }),
         a("key moves.webp", "Key moves", 2131, 557, undefined, {
           displayWidthRef: 1482,
@@ -54,7 +55,11 @@ const project: Project = {
       id: "edge-conditions",
       pillLabel: "edge conditions",
       groupBreak: true,
-      images: [a("edge conditions.webp", "Edge conditions", 2105, 605)],
+      images: [
+        a("edge conditions.webp", "Edge conditions", 2105, 605, undefined, {
+          marginLeftRef: 78,
+        }),
+      ],
     },
     {
       id: "ground-floor-plan",
@@ -81,6 +86,7 @@ const project: Project = {
       images: [
         a("open air corridor.jpg", "Open air corridor", 4000, 3000, undefined, {
           displayWidthRef: 1009,
+          marginLeftRef: 350,
         }),
         a("main facade.png", "Main facade", 4000, 1700, undefined, {
           displayWidthRef: 1047,
@@ -93,7 +99,8 @@ const project: Project = {
       pillLabel: "construction details",
       images: [
         a("construction details.webp", "Construction details", 912, 1223, undefined, {
-          displayWidthRef: 912,
+          displayWidthRef: 1165,
+          marginLeftRef: 317,
         }),
       ],
     },
@@ -103,12 +110,15 @@ const project: Project = {
       images: [
         a("corridor floor plan legend 1.webp", "Corridor floor plan legend 1", 304, 196),
         a("corridor floor plan 1.webp", "Corridor floor plan 1", 1032, 964, undefined, {
+          displayWidthRef: 470,
           marginTopRef: 53,
         }),
         a("corridor floor plan legend 2.webp", "Corridor floor plan legend 2", 276, 187, undefined, {
-          marginTopRef: 9,
+          displayWidthRef: 1416,
+          marginTopRef: 308,
         }),
         a("corridor floor plan 2.webp", "Corridor floor plan 2", 982, 937, undefined, {
+          displayWidthRef: 1430,
           marginTopRef: 9,
         }),
       ],
@@ -142,26 +152,35 @@ const project: Project = {
       pillLabel: "grassland domesticity",
       groupBreak: true,
       images: [
-        a("grassland dosmesticity.webp", "Grassland domesticity", 1016, 1224, "narrow"),
+        a("grassland dosmesticity.webp", "Grassland domesticity", 1016, 1224, "narrow", {
+          marginLeftRef: 167,
+        }),
       ],
     },
     {
       id: "build-on-the-land",
       pillLabel: "build on the land",
       images: [
-        a("build on the land.webp", "Build on the land", 1188, 1251, "narrow"),
+        a("build on the land.webp", "Build on the land", 1188, 1251, "narrow", {
+          displayWidthRef: 846,
+          marginLeftRef: 141,
+        }),
       ],
     },
     {
       id: "net-zero-carbon",
       pillLabel: "net-zero carbon",
       images: [
-        a("net zero carbon - legend.webp", "Net-zero carbon legend", 633, 309),
+        a("net zero carbon - legend.webp", "Net-zero carbon legend", 633, 309, undefined, {
+          displayWidthRef: 1297,
+        }),
         a("net zero carbon - graph.webp", "Net-zero carbon graph", 616, 1045, undefined, {
-          marginTopRef: 9,
+          marginLeftRef: 167,
+          marginTopRef: 478,
         }),
         a("net zero carbon - table.webp", "Net-zero carbon table", 635, 1166, undefined, {
-          marginTopRef: 9,
+          marginLeftRef: 164,
+          marginTopRef: 160,
         }),
       ],
     },
@@ -169,12 +188,16 @@ const project: Project = {
       id: "adaptability",
       pillLabel: "adaptability",
       images: [
-        a("adaptability.webp", "Adaptability", 1773, 359),
+        a("adaptability.webp", "Adaptability", 1773, 359, undefined, {
+          marginLeftRef: 167,
+        }),
         a("adaptability 2025.webp", "Adaptability 2025", 1650, 663, undefined, {
-          marginTopRef: 9,
+          marginLeftRef: 167,
+          marginTopRef: 30,
         }),
         a("adaptability 2050.webp", "Adaptability 2050", 1680, 683, undefined, {
-          marginTopRef: 9,
+          marginLeftRef: 164,
+          marginTopRef: 160,
         }),
       ],
     },
@@ -182,7 +205,10 @@ const project: Project = {
       id: "flexibility",
       pillLabel: "flexibility",
       images: [
-        a("flexibility1.png", "Flexibility 1", 2426, 1820),
+        a("flexibility1.png", "Flexibility 1", 2426, 1820, undefined, {
+          displayWidthRef: 846,
+          marginLeftRef: 141,
+        }),
         a("flexibility2.png", "Flexibility 2", 4000, 2500, undefined, { marginTopRef: 9 }),
         a("flexibility3.png", "Flexibility 3", 4000, 2500, undefined, { marginTopRef: 9 }),
       ],

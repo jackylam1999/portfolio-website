@@ -8,10 +8,11 @@ import EditableFigure from "@/components/editor/EditableFigure";
 import { useEditor } from "@/components/editor/EditorProvider";
 import { useProjectGrid } from "@/components/ProjectGridProvider";
 import {
+  imageAspectRatioCss,
+  imageDisplayWidthCss,
+  imageMarginLeftCss,
   imageMarginTopCss,
-  maxBoxContainLayoutRef,
-  maxBoxContainSizesAttr,
-  maxBoxContainWidthCss,
+  imageSizesAttr,
   pageBottomPaddingCss,
   placeholderLayoutCss,
   sectionGapAfterCss,
@@ -179,20 +180,18 @@ function ProjectFigure({
   const w = img.naturalWidth ?? 1600;
   const h = img.naturalHeight ?? 1200;
   const preOptimized = isPreOptimizedSrc(img.src);
-  const contain = maxBoxContainLayoutRef(w, h, grid);
 
   return (
     <figure
       className="project-figure m-0 flex shrink-0 flex-col items-start"
       style={{
-        width: maxBoxContainWidthCss(w, h, grid),
-        marginLeft: 0,
+        width: imageDisplayWidthCss(slug, sectionId, img, grid),
+        marginLeft: imageMarginLeftCss(slug, sectionId, img, grid),
         marginTop: priority
           ? undefined
           : imageMarginTopCss(slug, sectionId, img, grid),
         maxWidth: "100%",
-        maxHeight: "var(--site-image-max-box-height)",
-        aspectRatio: contain.aspectRatio,
+        aspectRatio: imageAspectRatioCss(slug, sectionId, img, grid),
       }}
     >
       {isVideoSrc(img.src) ? (
@@ -210,7 +209,7 @@ function ProjectFigure({
           alt={img.alt}
           width={w}
           height={h}
-          sizes={maxBoxContainSizesAttr(w, h, grid)}
+          sizes={imageSizesAttr(slug, sectionId, img, grid)}
           quality={88}
           priority={priority}
           unoptimized={preOptimized}

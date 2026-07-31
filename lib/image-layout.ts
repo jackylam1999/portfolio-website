@@ -13,7 +13,10 @@ import {
 export { REF_WIDTH };
 
 function refCss(ref: number): string {
-  return `clamp(${Math.round(ref * 0.42)}px, calc(100vw * ${ref} / var(--ref-width)), ${ref}px)`;
+  const floored = Math.round(ref * 0.42);
+  const lo = Math.min(floored, ref);
+  const hi = Math.max(floored, ref);
+  return `clamp(${lo}px, calc(100vw * ${ref} / var(--ref-width)), ${hi}px)`;
 }
 
 /** Display width on the 2560px reference canvas. */

@@ -76,7 +76,12 @@ const project: Project = {
       id: "elevation",
       pillLabel: "elevation",
       groupBreak: true,
-      images: [a("elevation.png", "Elevation", 1875, 1875)],
+      images: [
+        a("elevation.png", "Elevation", 1875, 1875, {
+          displayWidthRef: 1170,
+          marginLeftRef: 188,
+        }),
+      ],
     },
     {
       id: "floor-plan",
@@ -86,18 +91,29 @@ const project: Project = {
     {
       id: "section",
       pillLabel: "section",
-      images: [a("section.jpg", "Section", 2481, 2047)],
+      images: [
+        a("section.jpg", "Section", 2481, 2047, { displayWidthRef: 1280 }),
+      ],
     },
     {
       id: "hut-in-seasons",
       pillLabel: "hut in seasons",
       groupBreak: true,
-      images: [a("hut in seasons.jpg", "Hut in seasons", 4960, 1562)],
+      images: [
+        a("hut in seasons.jpg", "Hut in seasons", 4960, 1562, {
+          displayWidthRef: 1482,
+        }),
+      ],
     },
     {
       id: "exploded",
       pillLabel: "exploded",
-      images: [a("exploded.png", "Exploded", 2105, 2811)],
+      images: [
+        a("exploded.png", "Exploded", 2105, 2811, {
+          displayWidthRef: 1277,
+          marginLeftRef: 102,
+        }),
+      ],
     },
   ],
 };
