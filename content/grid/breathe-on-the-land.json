@@ -1,10 +1,10 @@
 {
   "images": {
     "overview": {
-      "w": 1267,
+      "w": 520,
       "align": "left",
       "x": 813,
-      "gapAfter": 202
+      "gapAfter": 220
     },
     "edge-conditions": {
       "widthTier": "full",

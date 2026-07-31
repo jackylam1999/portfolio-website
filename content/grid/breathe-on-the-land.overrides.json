@@ -1,114 +1,56 @@
 {
   "overview": [
-    {
-      "displayWidthRef": 1267
-    },
-    {
-      "marginLeftRef": 542,
-      "marginTopRef": 202
-    },
-    {
-      "displayWidthRef": 630,
-      "marginTopRef": 255
-    }
+    { "displayWidthRef": 520 },
+    { "displayWidthRef": 940, "marginLeftRef": 542, "marginTopRef": -298 },
+    { "displayWidthRef": 1482, "marginTopRef": 220 }
   ],
   "edge-conditions": [
-    {
-      "marginLeftRef": 78
-    }
+    { "displayWidthRef": 1482 }
   ],
   "ground-floor-plan": [
-    {
-      "displayWidthRef": 1242
-    }
+    { "displayWidthRef": 1242, "marginLeftRef": 120 }
   ],
   "first-floor-plan": [
-    {
-      "displayWidthRef": 1235
-    }
+    { "displayWidthRef": 1235, "marginLeftRef": 124 }
   ],
   "open-air-corridor": [
-    {
-      "displayWidthRef": 1009,
-      "marginLeftRef": 350
-    },
-    {
-      "marginTopRef": 156
-    }
+    { "displayWidthRef": 1009, "marginLeftRef": 236 },
+    { "displayWidthRef": 1047, "marginLeftRef": 218, "marginTopRef": 156 }
   ],
   "construction-details": [
-    {
-      "displayWidthRef": 1165,
-      "marginLeftRef": 317
-    }
+    { "displayWidthRef": 912, "marginLeftRef": 285 }
   ],
   "corridor-floor-plan": [
-    {},
-    {
-      "displayWidthRef": 470,
-      "marginTopRef": 53
-    },
-    {
-      "displayWidthRef": 1416,
-      "marginTopRef": 308
-    },
-    {
-      "displayWidthRef": 1430,
-      "marginTopRef": 9
-    }
+    { "displayWidthRef": 304 },
+    { "displayWidthRef": 720, "marginLeftRef": 381, "marginTopRef": 40 },
+    { "displayWidthRef": 276, "marginTopRef": 80 },
+    { "displayWidthRef": 720, "marginLeftRef": 381, "marginTopRef": 40 }
   ],
   "co-working": [
-    {
-      "displayWidthRef": 1183
-    }
+    { "displayWidthRef": 1183, "marginLeftRef": 150 }
   ],
   "childcare": [
-    {
-      "displayWidthRef": 815,
-      "marginLeftRef": 232
-    }
+    { "displayWidthRef": 1009, "marginLeftRef": 236 }
   ],
   "grassland-domesticity": [
-    {
-      "marginLeftRef": 167
-    }
+    { "displayWidthRef": 736, "marginLeftRef": 373 }
   ],
   "build-on-the-land": [
-    {
-      "displayWidthRef": 846,
-      "marginLeftRef": 141
-    }
+    { "displayWidthRef": 846, "marginLeftRef": 318 }
   ],
   "net-zero-carbon": [
-    {
-      "displayWidthRef": 1297
-    },
-    {
-      "marginLeftRef": 167,
-      "marginTopRef": 478
-    },
-    {
-      "marginLeftRef": 164,
-      "marginTopRef": 160
-    }
+    { "displayWidthRef": 1058, "marginLeftRef": 212 },
+    { "displayWidthRef": 616, "marginLeftRef": 433, "marginTopRef": 80 },
+    { "displayWidthRef": 635, "marginLeftRef": 424, "marginTopRef": 80 }
   ],
   "adaptability": [
-    {
-      "marginLeftRef": 167
-    },
-    {
-      "marginLeftRef": 167,
-      "marginTopRef": 30
-    },
-    {
-      "marginLeftRef": 164,
-      "marginTopRef": 160
-    }
+    { "displayWidthRef": 1482 },
+    { "displayWidthRef": 1482, "marginTopRef": 40 },
+    { "displayWidthRef": 1482, "marginTopRef": 40 }
   ],
   "flexibility": [
-    {
-      "displayWidthRef": 846,
-      "marginLeftRef": 141
-    }
+    { "displayWidthRef": 1058, "marginLeftRef": 212 },
+    { "displayWidthRef": 1058, "marginLeftRef": 212, "marginTopRef": 40 },
+    { "displayWidthRef": 1058, "marginLeftRef": 212, "marginTopRef": 40 }
   ]
 }
