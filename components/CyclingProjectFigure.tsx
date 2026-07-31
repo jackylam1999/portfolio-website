@@ -54,6 +54,17 @@ export default function CyclingProjectFigure({
 
   if (!frame) return null;
 
+  // One shared box for every frame — prefer the first image that declares an
+  // explicit crop height so mismatched natural ARs can't resize the slot.
+  const frameSource =
+    images.find((img) => img.displayHeightRef != null) ?? frame;
+  const aspectRatio = imageAspectRatioCss(
+    slug,
+    sectionId,
+    frameSource,
+    grid
+  );
+
   const layoutStyle = applyDesktopLayout
     ? {
         width: imageDisplayWidthCss(slug, sectionId, frame, grid),
@@ -62,11 +73,11 @@ export default function CyclingProjectFigure({
           ? undefined
           : imageMarginTopCss(slug, sectionId, frame, grid),
         maxWidth: "100%" as const,
-        aspectRatio: imageAspectRatioCss(slug, sectionId, frame, grid),
+        aspectRatio,
       }
     : {
         width: "100%" as const,
-        aspectRatio: imageAspectRatioCss(slug, sectionId, frame, grid),
+        aspectRatio,
       };
 
   return (
@@ -79,8 +90,9 @@ export default function CyclingProjectFigure({
         const h = img.naturalHeight ?? 1200;
         const preOptimized = isPreOptimizedSrc(img.src);
         const visible = i === index;
+        // Cover the fixed frame so every swap lands in the same spot/size.
         const mediaClass =
-          "absolute inset-0 block h-full w-full object-contain object-left-top";
+          "absolute inset-0 block h-full w-full object-cover object-center";
 
         return isVideoSrc(img.src) ? (
           <video

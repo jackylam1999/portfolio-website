@@ -27,7 +27,10 @@ export default function FixedProjectIndex() {
       aria-label="Project index"
       className="site-fixed-index type-nav select-none tracking-tightish text-black"
     >
-      <ul className="flex flex-col gap-px">
+      <ul
+        key={selectedCategory ?? "all"}
+        className="site-fixed-index__list"
+      >
         {visibleProjects.map((p) => {
           const active = p.slug === currentSlug;
           return (

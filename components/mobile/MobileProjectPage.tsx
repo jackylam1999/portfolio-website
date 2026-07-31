@@ -397,9 +397,17 @@ function SlideImage({
   const orientation = w >= h ? "landscape" : "portrait";
 
   if (cycle && cycle.length > 1) {
+    const frameBox =
+      cycle.find((c) => c.displayHeightRef != null && c.displayWidthRef != null) ??
+      cycle[0];
+    const boxW = frameBox.displayWidthRef ?? frameBox.naturalWidth ?? w;
+    const boxH = frameBox.displayHeightRef ?? frameBox.naturalHeight ?? h;
+    const boxOrientation = boxW >= boxH ? "landscape" : "portrait";
+
     return (
       <figure
-        className={`mobile-viewer-slide mobile-viewer-slide--${orientation} project-figure relative overflow-hidden`}
+        className={`mobile-viewer-slide mobile-viewer-slide--${boxOrientation} project-figure relative overflow-hidden`}
+        style={{ aspectRatio: `${boxW} / ${boxH}` }}
       >
         {cycle.map((frame, i) => {
           const fw = frame.naturalWidth ?? 1600;
@@ -414,12 +422,8 @@ function SlideImage({
               loop
               muted
               playsInline
-              className="mobile-viewer-slide__img"
-              style={{
-                position: i === 0 ? undefined : "absolute",
-                inset: i === 0 ? undefined : 0,
-                opacity: visible ? 1 : 0,
-              }}
+              className="mobile-viewer-slide__img absolute inset-0 h-full w-full object-cover object-center"
+              style={{ opacity: visible ? 1 : 0 }}
               aria-hidden={!visible}
             />
           ) : (
@@ -433,13 +437,9 @@ function SlideImage({
               quality={88}
               priority={priority && i === 0}
               unoptimized={preOptimized}
-              className="mobile-viewer-slide__img"
+              className="mobile-viewer-slide__img absolute inset-0 h-full w-full object-cover object-center"
               draggable={false}
-              style={{
-                position: i === 0 ? undefined : "absolute",
-                inset: i === 0 ? undefined : 0,
-                opacity: visible ? 1 : 0,
-              }}
+              style={{ opacity: visible ? 1 : 0 }}
               aria-hidden={!visible}
             />
           );

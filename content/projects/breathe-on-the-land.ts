@@ -245,16 +245,20 @@ const project: Project = {
       /** Three similar states swap in one frame. */
       imageCycleMs: 1000,
       images: [
+        // Shared crop box matches flexibility 2/3 (4000×2500) so swaps don't jump.
         a("flexibility1.png", "Flexibility 1", 2426, 1820, undefined, {
           displayWidthRef: 867,
+          displayHeightRef: 542,
           marginLeftRef: 407,
         }),
         a("flexibility2.png", "Flexibility 2", 4000, 2500, undefined, {
           displayWidthRef: 867,
+          displayHeightRef: 542,
           marginLeftRef: 407,
         }),
         a("flexibility3.png", "Flexibility 3", 4000, 2500, undefined, {
           displayWidthRef: 867,
+          displayHeightRef: 542,
           marginLeftRef: 407,
         }),
       ],

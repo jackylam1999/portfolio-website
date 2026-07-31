@@ -175,6 +175,34 @@ body {
   pointer-events: none;
 }
 
+.site-fixed-index__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* Same reveal as .site-filter__menu when categories expand. */
+  animation: site-chrome-reveal 0.28s ease;
+}
+
+@keyframes site-chrome-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-fixed-index__list {
+    animation: none;
+  }
+}
+
 .site-fixed-index a {
   position: relative;
   z-index: 1;
