@@ -62,7 +62,7 @@ export default function HomeCompositionFigure({
               draggable={false}
               sizes="(max-width: 2560px) 100vw, 100vw"
               quality={85}
-              unoptimized={image.src.endsWith(".webp")}
+              unoptimized={/\.(webp|gif)$/i.test(image.src)}
               priority={priority}
               className="object-cover"
             />
