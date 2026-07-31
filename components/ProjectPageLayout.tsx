@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import type { Project, ProjectImage, ProjectSection } from "@/content/types";
+import CyclingProjectFigure from "@/components/CyclingProjectFigure";
 import FixedSectionText from "@/components/FixedSectionText";
 import MobileProjectPage from "@/components/mobile/MobileProjectPage";
 import EditableFigure from "@/components/editor/EditableFigure";
@@ -119,30 +120,43 @@ function Section({
         style={{
           maxWidth: "var(--site-image-max-box-width)",
           gap:
-            (section.images?.length ?? 0) > 1
+            !section.imageCycleMs && (section.images?.length ?? 0) > 1
               ? "var(--site-section-gap-tight)"
               : undefined,
         }}
       >
         {section.images?.length ? (
-          section.images.map((img, i) =>
-            editing ? (
-              <EditableFigure
-                key={i}
-                slug={slug}
-                img={img}
-                sectionId={section.id}
-                priority={firstImageIndex + i === 0}
-              />
-            ) : (
-              <ProjectFigure
-                key={i}
-                slug={slug}
-                grid={grid}
-                img={img}
-                sectionId={section.id}
-                priority={firstImageIndex + i === 0}
-              />
+          !editing &&
+          section.imageCycleMs &&
+          section.images.length > 1 ? (
+            <CyclingProjectFigure
+              slug={slug}
+              grid={grid}
+              sectionId={section.id}
+              images={section.images}
+              intervalMs={section.imageCycleMs}
+              priority={firstImageIndex === 0}
+            />
+          ) : (
+            section.images.map((img, i) =>
+              editing ? (
+                <EditableFigure
+                  key={i}
+                  slug={slug}
+                  img={img}
+                  sectionId={section.id}
+                  priority={firstImageIndex + i === 0}
+                />
+              ) : (
+                <ProjectFigure
+                  key={i}
+                  slug={slug}
+                  grid={grid}
+                  img={img}
+                  sectionId={section.id}
+                  priority={firstImageIndex + i === 0}
+                />
+              )
             )
           )
         ) : (

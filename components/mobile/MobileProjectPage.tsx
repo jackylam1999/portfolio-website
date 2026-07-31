@@ -16,6 +16,7 @@ import {
   flattenProjectSlides,
   formatImageCount,
   projectInfoContent,
+  type MobileSlide,
 } from "@/lib/mobile-project-slides";
 import { isPreOptimizedSrc, isVideoSrc } from "@/lib/project-media";
 
@@ -369,14 +370,85 @@ function SlideImage({
   slide,
   priority,
 }: {
-  slide: { image: { src: string; alt: string; naturalWidth?: number; naturalHeight?: number } };
+  slide: MobileSlide;
   priority?: boolean;
 }) {
+  const cycle = slide.cycleImages;
+  const intervalMs = slide.cycleIntervalMs ?? 1000;
+  const [cycleIndex, setCycleIndex] = useState(0);
+
+  useEffect(() => {
+    if (!cycle || cycle.length < 2) return;
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+    const id = window.setInterval(() => {
+      setCycleIndex((i) => (i + 1) % cycle.length);
+    }, intervalMs);
+    return () => window.clearInterval(id);
+  }, [cycle, intervalMs]);
+
   const img = slide.image;
   const w = img.naturalWidth ?? 1600;
   const h = img.naturalHeight ?? 1200;
-  const preOptimized = isPreOptimizedSrc(img.src);
   const orientation = w >= h ? "landscape" : "portrait";
+
+  if (cycle && cycle.length > 1) {
+    return (
+      <figure
+        className={`mobile-viewer-slide mobile-viewer-slide--${orientation} project-figure relative overflow-hidden`}
+      >
+        {cycle.map((frame, i) => {
+          const fw = frame.naturalWidth ?? 1600;
+          const fh = frame.naturalHeight ?? 1200;
+          const preOptimized = isPreOptimizedSrc(frame.src);
+          const visible = i === cycleIndex;
+          return isVideoSrc(frame.src) ? (
+            <video
+              key={frame.src}
+              src={frame.src}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="mobile-viewer-slide__img"
+              style={{
+                position: i === 0 ? undefined : "absolute",
+                inset: i === 0 ? undefined : 0,
+                opacity: visible ? 1 : 0,
+              }}
+              aria-hidden={!visible}
+            />
+          ) : (
+            <Image
+              key={frame.src}
+              src={frame.src}
+              alt={visible ? frame.alt : ""}
+              width={fw}
+              height={fh}
+              sizes="100vw"
+              quality={88}
+              priority={priority && i === 0}
+              unoptimized={preOptimized}
+              className="mobile-viewer-slide__img"
+              draggable={false}
+              style={{
+                position: i === 0 ? undefined : "absolute",
+                inset: i === 0 ? undefined : 0,
+                opacity: visible ? 1 : 0,
+              }}
+              aria-hidden={!visible}
+            />
+          );
+        })}
+      </figure>
+    );
+  }
+
+  const preOptimized = isPreOptimizedSrc(img.src);
 
   return (
     <figure

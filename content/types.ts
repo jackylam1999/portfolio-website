@@ -71,6 +71,11 @@ export interface ProjectSection {
   specs?: ProjectSpecRow[];
   /** Images stacked in the centre of this section */
   images?: ProjectImage[];
+  /**
+   * When set (ms) and the section has 2+ images, render them in one shared
+   * frame that swaps on this interval instead of stacking.
+   */
+  imageCycleMs?: number;
 }
 
 export interface Project extends ProjectMeta {

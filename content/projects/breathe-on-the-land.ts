@@ -242,6 +242,8 @@ const project: Project = {
     {
       id: "flexibility",
       pillLabel: "flexibility",
+      /** Three similar states swap in one frame. */
+      imageCycleMs: 1000,
       images: [
         a("flexibility1.png", "Flexibility 1", 2426, 1820, undefined, {
           displayWidthRef: 867,
@@ -250,12 +252,10 @@ const project: Project = {
         a("flexibility2.png", "Flexibility 2", 4000, 2500, undefined, {
           displayWidthRef: 867,
           marginLeftRef: 407,
-          marginTopRef: 180,
         }),
         a("flexibility3.png", "Flexibility 3", 4000, 2500, undefined, {
           displayWidthRef: 867,
           marginLeftRef: 407,
-          marginTopRef: 180,
         }),
       ],
     },

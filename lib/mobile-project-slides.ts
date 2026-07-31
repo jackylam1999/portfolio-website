@@ -4,6 +4,9 @@ export type MobileSlide = {
   sectionId: string;
   pillLabel: string;
   image: ProjectImage;
+  /** When set, this slide is one frame that cycles through these images. */
+  cycleImages?: ProjectImage[];
+  cycleIntervalMs?: number;
   index: number;
 };
 
@@ -13,7 +16,20 @@ export function flattenProjectSlides(project: Project): MobileSlide[] {
   let index = 0;
 
   for (const section of project.sections) {
-    for (const image of section.images ?? []) {
+    const images = section.images ?? [];
+    if (section.imageCycleMs && images.length > 1) {
+      slides.push({
+        sectionId: section.id,
+        pillLabel: section.pillLabel,
+        image: images[0],
+        cycleImages: images,
+        cycleIntervalMs: section.imageCycleMs,
+        index,
+      });
+      index += 1;
+      continue;
+    }
+    for (const image of images) {
       slides.push({
         sectionId: section.id,
         pillLabel: section.pillLabel,
