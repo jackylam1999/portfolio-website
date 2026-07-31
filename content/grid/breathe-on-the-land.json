@@ -4,7 +4,7 @@
       "w": 1410,
       "align": "left",
       "x": 964,
-      "gapAfter": 220
+      "gapAfter": 380
     },
     "edge-conditions": {
       "w": 1062,
@@ -15,71 +15,71 @@
     "ground-floor-plan": {
       "widthTier": "full",
       "align": "left",
-      "gapAfter": 296
+      "gapAfter": 380
     },
     "first-floor-plan": {
       "widthTier": "full",
       "align": "left",
-      "gapAfter": 291
+      "gapAfter": 380
     },
     "open-air-corridor": {
       "w": 1033,
       "align": "left",
       "x": 1434,
-      "gapAfter": 156
+      "gapAfter": 340
     },
     "construction-details": {
       "w": 792,
       "align": "left",
       "x": 813,
-      "gapAfter": 342
+      "gapAfter": 380
     },
     "corridor-floor-plan": {
       "w": 573,
       "align": "left",
       "x": 926,
-      "gapAfter": 268
+      "gapAfter": 380
     },
     "co-working": {
       "w": 721,
       "align": "left",
       "x": 833,
-      "gapAfter": 122
+      "gapAfter": 340
     },
     "childcare": {
       "w": 722,
       "align": "left",
       "x": 835,
-      "gapAfter": 149
+      "gapAfter": 380
     },
     "long-section": {
       "widthTier": "full",
       "align": "left",
-      "gapAfter": 149
+      "gapAfter": 380
     },
     "grassland-domesticity": {
       "w": 796,
       "align": "left",
       "x": 813,
-      "gapAfter": 149
+      "gapAfter": 340
     },
     "build-on-the-land": {
       "w": 817,
       "align": "left",
       "x": 1309,
-      "gapAfter": 149
+      "gapAfter": 380
     },
     "net-zero-carbon": {
       "w": 381,
       "align": "left",
       "x": 1062,
-      "gapAfter": 149
+      "gapAfter": 380
     },
     "adaptability": {
       "w": 1381,
       "align": "left",
       "x": 914,
-      "gapAfter": 149
+      "gapAfter": 380
     },
     "flexibility": {
       "w": 867,
@@ -87,5 +87,5 @@
       "x": 1220
     }
   },
-  "pageBottom": 149
+  "pageBottom": 298
 }

@@ -54,16 +54,19 @@ const project: Project = {
         a("history.webp", "History", 1440, 825, undefined, {
           displayWidthRef: 695,
           marginLeftRef: AREA - 695,
+          marginTopRef: 260,
         }),
         // 3. Site map — solo below history.
         a("mapping.webp", "Mapping", 1229, 1236, undefined, {
           displayWidthRef: 881,
           marginLeftRef: 29,
+          marginTopRef: 260,
         }),
         // 4. Three axonometric key moves.
         a("key moves.webp", "Key moves", 2131, 557, undefined, {
           displayWidthRef: 1110,
           marginLeftRef: 320,
+          marginTopRef: 260,
         }),
       ],
     },
@@ -137,7 +140,7 @@ const project: Project = {
         a("corridor floor plan legend 1.webp", "Corridor floor plan legend 1", 304, 196, undefined, {
           displayWidthRef: 147,
           marginLeftRef: 640,
-          marginTopRef: 40,
+          marginTopRef: 120,
         }),
         a("corridor floor plan legend 2.webp", "Corridor floor plan legend 2", 276, 187, undefined, {
           displayWidthRef: 133,
@@ -227,12 +230,12 @@ const project: Project = {
         a("adaptability 2025.webp", "Adaptability 2025", 1650, 663, undefined, {
           displayWidthRef: 796,
           marginLeftRef: 428,
-          marginTopRef: 40,
+          marginTopRef: 180,
         }),
         a("adaptability 2050.webp", "Adaptability 2050", 1680, 683, undefined, {
           displayWidthRef: 810,
           marginLeftRef: 414,
-          marginTopRef: 40,
+          marginTopRef: 180,
         }),
       ],
     },
@@ -247,12 +250,12 @@ const project: Project = {
         a("flexibility2.png", "Flexibility 2", 4000, 2500, undefined, {
           displayWidthRef: 867,
           marginLeftRef: 407,
-          marginTopRef: 40,
+          marginTopRef: 180,
         }),
         a("flexibility3.png", "Flexibility 3", 4000, 2500, undefined, {
           displayWidthRef: 867,
           marginLeftRef: 407,
-          marginTopRef: 40,
+          marginTopRef: 180,
         }),
       ],
     },
