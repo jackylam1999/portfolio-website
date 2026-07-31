@@ -4,10 +4,12 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
+import { usePathname } from "next/navigation";
 import type { ProjectCategory } from "@/content/types";
 
 export const PROJECT_FILTER_TYPES: ProjectCategory[] = [
@@ -29,8 +31,16 @@ const ProjectFilterContext = createContext<ProjectFilterContextValue | null>(
 );
 
 export function ProjectFilterProvider({ children }: { children: ReactNode }) {
+  const pathname = usePathname() || "";
   const [selectedCategory, setSelectedCategory] =
     useState<ProjectCategory | null>(null);
+
+  // Home always shows the original unfiltered project-list order.
+  useEffect(() => {
+    if (pathname === "/") {
+      setSelectedCategory(null);
+    }
+  }, [pathname]);
 
   const toggleCategory = useCallback((category: ProjectCategory) => {
     setSelectedCategory((prev) => (prev === category ? null : category));

@@ -113,6 +113,9 @@
   /* CV page — content x≈358, not aligned with nav (x≈22); starts level with nav top */
   --site-cv-content-left: clamp(200px, calc(100vw * 358 / var(--ref-width)), 358px);
   --site-cv-content-width: clamp(360px, calc(100vw * 628 / var(--ref-width)), 628px);
+  /* Space between Awards / Publications / Exhibitions / Work / Education blocks */
+  --site-cv-section-gap: clamp(56px, calc(100vw * 88 / var(--ref-width)), 112px);
+  --site-cv-heading-gap: clamp(20px, calc(100vw * 28 / var(--ref-width)), 36px);
   /* Home gallery — FALA fixed thumb rows (gap only between images, not per grid track) */
   --home-gallery-gap: var(--site-home-col-gap);
   --home-gallery-top: var(--site-content-top);
@@ -412,6 +415,27 @@ body {
 .type-meta {
   font-size: var(--font-site);
   line-height: calc(var(--font-site) * 1.33);
+}
+
+.cv-section {
+  display: block;
+}
+
+.cv-section__heading {
+  margin: 0 0 var(--site-cv-heading-gap);
+  font-size: var(--font-site);
+  font-weight: 400;
+  line-height: calc(var(--font-site) * 1.36);
+  color: var(--color-fg);
+}
+
+.cv-section__list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .type-lg {

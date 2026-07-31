@@ -28,11 +28,11 @@ export default function CvPage({
           }}
         >
           {cvSections.map((section) => (
-            <section key={section.heading}>
-              <h2 className="type-body mb-7">{section.heading}</h2>
-              <ul className="flex flex-col gap-[22px]">
+            <section key={section.heading} className="cv-section">
+              <h2 className="cv-section__heading">{section.heading}</h2>
+              <ul className="cv-section__list">
                 {section.entries.map((e, i) => (
-                  <li key={i} className="type-body">
+                  <li key={`${section.heading}-${i}`} className="type-body">
                     <div className="type-meta mb-0.5 italic text-black">{e.year}</div>
                     <div>{e.title}</div>
                     {e.subtitle ? <div>{e.subtitle}</div> : null}
