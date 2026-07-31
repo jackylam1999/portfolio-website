@@ -1,18 +1,25 @@
 import { allProjects } from "@/content/projects";
-import ProjectThumb from "@/components/ProjectThumb";
+import type { Project, ProjectImage } from "@/content/types";
+import { HOME_LAYOUT_ROWS, type HomeLayoutSlot } from "@/content/home-layout";
+import HomeCompositionFigure from "@/components/home/HomeCompositionFigure";
 import SiteEditPageShell from "@/components/editor/SiteEditPageShell";
 import MobileHomePage from "@/components/mobile/MobileHomePage";
 
-const homePagePairings: Array<{
-  left?: { slug: string; size?: "sm" | "md" | "lg" };
-  right?: { slug: string; size?: "sm" | "md" | "lg" };
-}> = [
-  { left: { slug: "parliament-sports-complex", size: "md" }, right: { slug: "16-units-above-a-city-brewery", size: "lg" } },
-  { left: { slug: "symbiosis", size: "lg" } },
-  { left: { slug: "inflection-journal-vol-10", size: "sm" }, right: { slug: "shack-in-the-paddyfield", size: "md" } },
-  { left: { slug: "eternal-voyage", size: "md" }, right: { slug: "breathe-on-the-land", size: "md" } },
-  { right: { slug: "stool-sm-1-39-03", size: "sm" } },
-];
+/**
+ * Resolve which ProjectImage a slot should render. Defaults to the project's
+ * `homeThumbnail`; `variant: "side-street"` picks Parliament Sports Complex's
+ * second home-page photo (the street-level facade) out of its sections.
+ */
+function resolveSlotImage(
+  project: Project | undefined,
+  variant: HomeLayoutSlot["variant"]
+): ProjectImage | undefined {
+  if (!project) return undefined;
+  if (variant === "side-street") {
+    return project.sections.find((s) => s.id === "side-street")?.images?.[0];
+  }
+  return project.homeThumbnail;
+}
 
 export const dynamic = "force-dynamic";
 
@@ -38,30 +45,54 @@ export default function HomePage({
             className="flex flex-col"
             style={{ gap: "var(--site-home-row-gap)" }}
           >
-            {homePagePairings.map((row, i) => (
-              <div
-                key={i}
-                className="flex items-end justify-center"
-                style={{ gap: "var(--site-home-col-gap)" }}
-              >
-                {row.left && bySlug.get(row.left.slug) && (
-                  <ProjectThumb
-                    slug={row.left.slug}
-                    title={bySlug.get(row.left.slug)!.title}
-                    thumbnail={bySlug.get(row.left.slug)!.homeThumbnail}
-                    size={row.left.size}
-                  />
-                )}
-                {row.right && bySlug.get(row.right.slug) && (
-                  <ProjectThumb
-                    slug={row.right.slug}
-                    title={bySlug.get(row.right.slug)!.title}
-                    thumbnail={bySlug.get(row.right.slug)!.homeThumbnail}
-                    size={row.right.size}
-                  />
-                )}
-              </div>
-            ))}
+            {HOME_LAYOUT_ROWS.map((row, rowIndex) => {
+              // Convert each slot's absolute leftPct into a margin-left relative
+              // to the previous slot's right edge, so slots lay out correctly as
+              // flex children in normal document flow (no absolute positioning,
+              // so row height stays driven by content).
+              let cursorPct = 0;
+              const slots = row.map((slot) => {
+                const marginLeftPct = slot.leftPct - cursorPct;
+                cursorPct = slot.leftPct + slot.widthPct;
+                return { slot, marginLeftPct };
+              });
+
+              return (
+                <div key={rowIndex} className="flex items-start">
+                  {slots.map(({ slot, marginLeftPct }, i) => {
+                    const project = bySlug.get(slot.slug);
+                    if (!project) return null;
+
+                    // TODO(eternal-voyage): the reference site shows a looping
+                    // aerial water/marsh video here. No video asset exists in
+                    // the repo yet — this renders the existing homeThumbnail
+                    // ("4WD on thte field 1.png", a truck photo) positioned
+                    // correctly per the spec so nothing breaks. Swap the real
+                    // video in once it's provided (content/home-readymag-spec.json
+                    // marks this repoFile as NEEDS_USER_CHOICE).
+
+                    return (
+                      <HomeCompositionFigure
+                        key={`${slot.slug}-${slot.variant ?? "home"}-${i}`}
+                        slug={slot.slug}
+                        title={project.title}
+                        marginLeftPct={marginLeftPct}
+                        widthPct={slot.widthPct}
+                        aspect={slot.aspect}
+                        captionBelow={slot.captionBelow}
+                        placeholder={slot.placeholder}
+                        image={
+                          slot.placeholder
+                            ? undefined
+                            : resolveSlotImage(project, slot.variant)
+                        }
+                        priority={rowIndex === 0}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
