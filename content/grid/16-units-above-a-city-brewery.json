@@ -1,4 +1,40 @@
 {
-  "images": {},
-  "pageBottom": 200
+  "images": {
+    "overview": {
+      "w": 705,
+      "align": "left",
+      "x": 813,
+      "gapAfter": 340
+    },
+    "beer-garden": {
+      "w": 763,
+      "align": "left",
+      "x": 1272,
+      "gapAfter": 340
+    },
+    "overall-floor-plan": {
+      "w": 1158,
+      "align": "left",
+      "x": 1137,
+      "gapAfter": 300
+    },
+    "overall-section": {
+      "w": 1080,
+      "align": "left",
+      "x": 1161,
+      "gapAfter": 380
+    },
+    "unit-floor-plan": {
+      "w": 1181,
+      "align": "left",
+      "x": 1076,
+      "gapAfter": 220
+    },
+    "unit-section": {
+      "w": 1235,
+      "align": "left",
+      "x": 1049
+    }
+  },
+  "pageBottom": 298
 }
