@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ProjectImage } from "@/content/types";
 import type { ProjectGrid } from "@/content/grid/registry";
 import {
@@ -39,19 +39,16 @@ export default function CyclingProjectFigure({
   className,
 }: Props) {
   const [index, setIndex] = useState(0);
+  const countRef = useRef(images.length);
+  countRef.current = images.length;
   const frame = images[0];
 
   useEffect(() => {
     if (images.length < 2) return;
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      return;
-    }
+    const ms = Math.max(200, intervalMs || 1000);
     const id = window.setInterval(() => {
-      setIndex((i) => (i + 1) % images.length);
-    }, intervalMs);
+      setIndex((i) => (i + 1) % countRef.current);
+    }, ms);
     return () => window.clearInterval(id);
   }, [images.length, intervalMs]);
 
@@ -86,6 +83,7 @@ export default function CyclingProjectFigure({
     <figure
       className={`project-figure relative m-0 shrink-0 overflow-hidden bg-black ${className ?? ""}`}
       style={layoutStyle}
+      data-cycle-index={index}
     >
       {images.map((img, i) => {
         const w = img.naturalWidth ?? 1600;
