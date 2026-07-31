@@ -53,8 +53,9 @@
       "gapAfter": 380
     },
     "long-section": {
-      "widthTier": "full",
+      "w": 1482,
       "align": "left",
+      "x": 813,
       "gapAfter": 380
     },
     "grassland-domesticity": {

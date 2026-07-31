@@ -174,8 +174,12 @@ const project: Project = {
       id: "long-section",
       pillLabel: "long section",
       groupBreak: true,
-      // Asset not in repo yet — placeholder box keeps scroll rhythm.
-      images: [],
+      images: [
+        a("long section.webp", "Long section", 3816, 1728, "full", {
+          displayWidthRef: AREA,
+          marginLeftRef: 0,
+        }),
+      ],
     },
     {
       id: "grassland-domesticity",
