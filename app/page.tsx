@@ -58,7 +58,7 @@ export default function HomePage({
               });
 
               return (
-                <div key={rowIndex} className="flex items-start">
+                <div key={rowIndex} className="flex w-full items-start">
                   {slots.map(({ slot, marginLeftPct }, i) => {
                     const project = bySlug.get(slot.slug);
                     if (!project) return null;
