@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -34,10 +35,14 @@ export function ProjectFilterProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname() || "";
   const [selectedCategory, setSelectedCategory] =
     useState<ProjectCategory | null>(null);
+  const prevPathRef = useRef(pathname);
 
-  // Home always shows the original unfiltered project-list order.
+  // Clear filter only when navigating onto home from another route,
+  // so home can still use filter (and show the pinned type) while you stay there.
   useEffect(() => {
-    if (pathname === "/") {
+    const prev = prevPathRef.current;
+    prevPathRef.current = pathname;
+    if (pathname === "/" && prev !== "/") {
       setSelectedCategory(null);
     }
   }, [pathname]);

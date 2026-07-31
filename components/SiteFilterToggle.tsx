@@ -7,8 +7,8 @@ import {
 
 /**
  * Fixed top-right "filter" control (home + project pages).
- * Hover reveals project types; click selects one and filters the middle list.
- * When a type is selected, its name stays pinned directly under "filter".
+ * Hover the "filter" label to reveal types; a selected type pins under the label.
+ * Hovering the pinned name does not open the full menu.
  */
 export default function SiteFilterToggle() {
   const { selectedCategory, toggleCategory } = useProjectFilter();
@@ -20,14 +20,46 @@ export default function SiteFilterToggle() {
         (selectedCategory ? " site-filter--has-selection" : "")
       }
     >
-      <button
-        type="button"
-        className="site-filter__label cursor-interactive"
-        aria-haspopup="listbox"
-        aria-label="Filter projects by type"
-      >
-        filter
-      </button>
+      <div className="site-filter__trigger">
+        <button
+          type="button"
+          className="site-filter__label cursor-interactive"
+          aria-haspopup="listbox"
+          aria-label="Filter projects by type"
+        >
+          filter
+        </button>
+
+        <ul
+          className="site-filter__menu"
+          role="listbox"
+          aria-label="Project types"
+        >
+          {PROJECT_FILTER_TYPES.map((type) => {
+            const selected = selectedCategory === type;
+            return (
+              <li key={type}>
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={selected}
+                  className={
+                    "site-filter__type cursor-interactive" +
+                    (selected ? " site-filter__type--selected" : "")
+                  }
+                  onClick={(e) => {
+                    toggleCategory(type);
+                    // Drop focus so the menu can close and the pinned name can show.
+                    e.currentTarget.blur();
+                  }}
+                >
+                  {type}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
 
       {selectedCategory ? (
         <button
@@ -40,28 +72,6 @@ export default function SiteFilterToggle() {
           {selectedCategory}
         </button>
       ) : null}
-
-      <ul className="site-filter__menu" role="listbox" aria-label="Project types">
-        {PROJECT_FILTER_TYPES.map((type) => {
-          const selected = selectedCategory === type;
-          return (
-            <li key={type}>
-              <button
-                type="button"
-                role="option"
-                aria-selected={selected}
-                className={
-                  "site-filter__type cursor-interactive" +
-                  (selected ? " site-filter__type--selected" : "")
-                }
-                onClick={() => toggleCategory(type)}
-              >
-                {type}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
     </div>
   );
 }

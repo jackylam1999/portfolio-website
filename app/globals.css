@@ -235,6 +235,13 @@ body {
   pointer-events: auto;
 }
 
+/* Only this block opens the type list — not the pinned selection below. */
+.site-filter__trigger {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
 .site-filter__label {
   padding-block: 1px;
   border: none;
@@ -254,9 +261,9 @@ body {
   pointer-events: auto;
 }
 
-.site-filter:hover .site-filter__pinned,
-.site-filter:focus-within .site-filter__pinned {
-  /* Full menu takes over on hover — avoid showing the name twice. */
+.site-filter__trigger:hover ~ .site-filter__pinned,
+.site-filter__trigger:focus-within ~ .site-filter__pinned {
+  /* Full menu open — hide pinned duplicate while choosing. */
   position: absolute;
   width: 1px;
   height: 1px;
@@ -290,8 +297,8 @@ body {
   pointer-events: none;
 }
 
-.site-filter:hover .site-filter__menu,
-.site-filter:focus-within .site-filter__menu {
+.site-filter__trigger:hover .site-filter__menu,
+.site-filter__trigger:focus-within .site-filter__menu {
   max-height: 240px;
   opacity: 1;
   transform: translateY(0);
