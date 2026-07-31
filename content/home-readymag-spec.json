@@ -90,7 +90,7 @@
           "aspect": 0.81,
           "description": "looping aerial video of marsh/water infrastructure, birds over green water, bridge crossing",
           "captionBelow": true,
-          "repoFile": "NEEDS_USER_CHOICE",
+          "repoFile": "/images/projects/eternal-voyage/sewage canal to pool 2.gif",
           "confidence": "medium"
         },
         {
@@ -102,7 +102,7 @@
           "aspect": 1.33,
           "description": "timber-clad farmhouse with solar panels in a dry paddy field",
           "captionBelow": true,
-          "repoFile": "/images/projects/shack-in-the-paddyfield/farm with the hut.webp",
+          "repoFile": "/images/projects/shack-in-the-paddyfield/paddy field hut.png",
           "confidence": "high"
         }
       ]

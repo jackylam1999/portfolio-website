@@ -63,14 +63,6 @@ export default function HomePage({
                     const project = bySlug.get(slot.slug);
                     if (!project) return null;
 
-                    // TODO(eternal-voyage): the reference site shows a looping
-                    // aerial water/marsh video here. No video asset exists in
-                    // the repo yet — this renders the existing homeThumbnail
-                    // ("4WD on thte field 1.png", a truck photo) positioned
-                    // correctly per the spec so nothing breaks. Swap the real
-                    // video in once it's provided (content/home-readymag-spec.json
-                    // marks this repoFile as NEEDS_USER_CHOICE).
-
                     return (
                       <HomeCompositionFigure
                         key={`${slot.slug}-${slot.variant ?? "home"}-${i}`}

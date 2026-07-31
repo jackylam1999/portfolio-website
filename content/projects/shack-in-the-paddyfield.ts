@@ -16,7 +16,7 @@ const project: Project = {
   year: "2024",
   category: "Residential",
   location: "Urato Islands",
-  homeThumbnail: a("farm with the hut.webp", "Shack in the Paddyfield", 1166, 1244),
+  homeThumbnail: a("paddy field hut.png", "Paddy field hut", 2000, 2500),
   sections: [
     {
       id: "overview",

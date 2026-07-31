@@ -17,7 +17,7 @@ const project: Project = {
   year: "2022",
   category: "Infrastructure",
   location: "Western Plains",
-  homeThumbnail: a("4WD on thte field 1.png", "Eternal Voyage", 4961, 7016),
+  homeThumbnail: a("sewage canal to pool 2.gif", "Sewage canal to pool 2", 504, 672),
   sections: [
     {
       id: "overview",
