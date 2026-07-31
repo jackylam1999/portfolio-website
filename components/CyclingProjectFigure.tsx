@@ -25,6 +25,9 @@ interface Props {
   className?: string;
 }
 
+/** Brief crossfade so furniture morphs while architecture stays locked. */
+const CROSSFADE_MS = 180;
+
 export default function CyclingProjectFigure({
   slug,
   grid,
@@ -54,8 +57,7 @@ export default function CyclingProjectFigure({
 
   if (!frame) return null;
 
-  // One shared box for every frame — prefer the first image that declares an
-  // explicit crop height so mismatched natural ARs can't resize the slot.
+  // Locked frame from explicit crop height when present (identical across cycle).
   const frameSource =
     images.find((img) => img.displayHeightRef != null) ?? frame;
   const aspectRatio = imageAspectRatioCss(
@@ -82,7 +84,7 @@ export default function CyclingProjectFigure({
 
   return (
     <figure
-      className={`project-figure relative m-0 shrink-0 overflow-hidden ${className ?? ""}`}
+      className={`project-figure relative m-0 shrink-0 overflow-hidden bg-black ${className ?? ""}`}
       style={layoutStyle}
     >
       {images.map((img, i) => {
@@ -90,9 +92,9 @@ export default function CyclingProjectFigure({
         const h = img.naturalHeight ?? 1200;
         const preOptimized = isPreOptimizedSrc(img.src);
         const visible = i === index;
-        // Cover the fixed frame so every swap lands in the same spot/size.
+        // Fill the locked box exactly — assets are pre-aligned to one FOV.
         const mediaClass =
-          "absolute inset-0 block h-full w-full object-cover object-center";
+          "absolute inset-0 block h-full w-full object-fill";
 
         return isVideoSrc(img.src) ? (
           <video
@@ -103,7 +105,10 @@ export default function CyclingProjectFigure({
             muted
             playsInline
             className={mediaClass}
-            style={{ opacity: visible ? 1 : 0 }}
+            style={{
+              opacity: visible ? 1 : 0,
+              transition: `opacity ${CROSSFADE_MS}ms linear`,
+            }}
             aria-hidden={!visible}
           />
         ) : (
@@ -122,7 +127,10 @@ export default function CyclingProjectFigure({
             priority={priority && i === 0}
             unoptimized={preOptimized}
             className={mediaClass}
-            style={{ opacity: visible ? 1 : 0 }}
+            style={{
+              opacity: visible ? 1 : 0,
+              transition: `opacity ${CROSSFADE_MS}ms linear`,
+            }}
             aria-hidden={!visible}
           />
         );

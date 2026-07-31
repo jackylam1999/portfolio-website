@@ -406,7 +406,7 @@ function SlideImage({
 
     return (
       <figure
-        className={`mobile-viewer-slide mobile-viewer-slide--${boxOrientation} project-figure relative overflow-hidden`}
+        className={`mobile-viewer-slide mobile-viewer-slide--${boxOrientation} project-figure relative overflow-hidden bg-black`}
         style={{ aspectRatio: `${boxW} / ${boxH}` }}
       >
         {cycle.map((frame, i) => {
@@ -414,6 +414,10 @@ function SlideImage({
           const fh = frame.naturalHeight ?? 1200;
           const preOptimized = isPreOptimizedSrc(frame.src);
           const visible = i === cycleIndex;
+          const mediaStyle = {
+            opacity: visible ? 1 : 0,
+            transition: "opacity 180ms linear",
+          };
           return isVideoSrc(frame.src) ? (
             <video
               key={frame.src}
@@ -422,8 +426,8 @@ function SlideImage({
               loop
               muted
               playsInline
-              className="mobile-viewer-slide__img absolute inset-0 h-full w-full object-cover object-center"
-              style={{ opacity: visible ? 1 : 0 }}
+              className="mobile-viewer-slide__img absolute inset-0 h-full w-full object-fill"
+              style={mediaStyle}
               aria-hidden={!visible}
             />
           ) : (
@@ -437,9 +441,9 @@ function SlideImage({
               quality={88}
               priority={priority && i === 0}
               unoptimized={preOptimized}
-              className="mobile-viewer-slide__img absolute inset-0 h-full w-full object-cover object-center"
+              className="mobile-viewer-slide__img absolute inset-0 h-full w-full object-fill"
               draggable={false}
-              style={{ opacity: visible ? 1 : 0 }}
+              style={mediaStyle}
               aria-hidden={!visible}
             />
           );

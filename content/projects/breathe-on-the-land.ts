@@ -242,23 +242,23 @@ const project: Project = {
     {
       id: "flexibility",
       pillLabel: "flexibility",
-      /** Three similar states swap in one frame. */
+      /** Same camera; furniture states swap in one locked frame. */
       imageCycleMs: 1000,
       images: [
-        // Shared crop box matches flexibility 2/3 (4000×2500) so swaps don't jump.
-        a("flexibility1.png", "Flexibility 1", 2426, 1820, undefined, {
+        // Assets pre-cropped to identical 3300×2500 (black pads removed).
+        a("flexibility1.png", "Flexibility 1", 3300, 2500, undefined, {
           displayWidthRef: 867,
-          displayHeightRef: 542,
+          displayHeightRef: 657,
           marginLeftRef: 407,
         }),
-        a("flexibility2.png", "Flexibility 2", 4000, 2500, undefined, {
+        a("flexibility2.png", "Flexibility 2", 3300, 2500, undefined, {
           displayWidthRef: 867,
-          displayHeightRef: 542,
+          displayHeightRef: 657,
           marginLeftRef: 407,
         }),
-        a("flexibility3.png", "Flexibility 3", 4000, 2500, undefined, {
+        a("flexibility3.png", "Flexibility 3", 3300, 2500, undefined, {
           displayWidthRef: 867,
-          displayHeightRef: 542,
+          displayHeightRef: 657,
           marginLeftRef: 407,
         }),
       ],
