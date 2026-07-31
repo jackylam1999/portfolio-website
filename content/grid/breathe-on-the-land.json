@@ -1,55 +1,55 @@
 {
   "images": {
     "overview": {
-      "w": 520,
+      "w": 1410,
       "align": "left",
-      "x": 813,
+      "x": 964,
       "gapAfter": 220
     },
     "edge-conditions": {
-      "widthTier": "full",
+      "w": 1062,
       "align": "left",
+      "x": 1204,
       "gapAfter": 1028
     },
     "ground-floor-plan": {
-      "w": 1242,
+      "widthTier": "full",
       "align": "left",
-      "x": 813,
       "gapAfter": 296
     },
     "first-floor-plan": {
-      "w": 1235,
+      "widthTier": "full",
       "align": "left",
-      "x": 813,
       "gapAfter": 291
     },
     "open-air-corridor": {
-      "w": 1009,
+      "w": 1033,
       "align": "left",
-      "x": 813,
+      "x": 1434,
       "gapAfter": 156
     },
     "construction-details": {
-      "w": 912,
+      "w": 792,
       "align": "left",
       "x": 813,
       "gapAfter": 342
     },
     "corridor-floor-plan": {
-      "widthTier": "standard",
-      "align": "standard",
+      "w": 573,
+      "align": "left",
+      "x": 926,
       "gapAfter": 268
     },
     "co-working": {
-      "w": 1183,
+      "w": 721,
       "align": "left",
-      "x": 813,
+      "x": 833,
       "gapAfter": 122
     },
     "childcare": {
-      "w": 815,
-      "align": "standard",
-      "x": 1045,
+      "w": 722,
+      "align": "left",
+      "x": 835,
       "gapAfter": 149
     },
     "long-section": {
@@ -58,28 +58,33 @@
       "gapAfter": 149
     },
     "grassland-domesticity": {
-      "widthTier": "narrow",
-      "align": "standard",
+      "w": 796,
+      "align": "left",
+      "x": 813,
       "gapAfter": 149
     },
     "build-on-the-land": {
-      "widthTier": "narrow",
-      "align": "standard",
+      "w": 817,
+      "align": "left",
+      "x": 1309,
       "gapAfter": 149
     },
     "net-zero-carbon": {
-      "widthTier": "standard",
-      "align": "standard",
+      "w": 381,
+      "align": "left",
+      "x": 1062,
       "gapAfter": 149
     },
     "adaptability": {
-      "widthTier": "full",
+      "w": 1381,
       "align": "left",
+      "x": 914,
       "gapAfter": 149
     },
     "flexibility": {
-      "widthTier": "standard",
-      "align": "standard"
+      "w": 867,
+      "align": "left",
+      "x": 1220
     }
   },
   "pageBottom": 149
