@@ -45,7 +45,10 @@ interface DragState {
 }
 
 function refCss(refPx: number): string {
-  return `clamp(${Math.round(refPx * 0.42)}px, calc(100vw * ${refPx} / var(--ref-width)), ${refPx}px)`;
+  const floored = Math.round(refPx * 0.42);
+  const lo = Math.min(floored, refPx);
+  const hi = Math.max(floored, refPx);
+  return `clamp(${lo}px, calc(100vw * ${refPx} / var(--ref-width)), ${hi}px)`;
 }
 
 function isCornerMode(mode: DragMode): boolean {
