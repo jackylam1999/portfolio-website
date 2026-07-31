@@ -1,17 +1,26 @@
 "use client";
 
 import EditAwareLink from "@/components/EditAwareLink";
+import { useProjectFilter } from "@/components/ProjectFilterContext";
 import { usePathname } from "next/navigation";
-import { projects } from "@/content/projects";
-import { projectIndexLine } from "@/content/utils";
+import { useMemo } from "react";
+import { allProjects, projects } from "@/content/projects";
+import { projectIndexLine, sortProjectsByYearDesc } from "@/content/utils";
 
 export default function FixedProjectIndex() {
   const pathname = usePathname() || "";
-  if (pathname.startsWith("/projects/")) return null;
+  const { selectedCategory } = useProjectFilter();
 
   const currentSlug = pathname.startsWith("/projects/")
     ? pathname.replace("/projects/", "").split("/")[0]
     : null;
+
+  const visibleProjects = useMemo(() => {
+    if (!selectedCategory) return projects;
+    return sortProjectsByYearDesc(
+      allProjects.filter((p) => p.category === selectedCategory)
+    );
+  }, [selectedCategory]);
 
   return (
     <aside
@@ -19,7 +28,7 @@ export default function FixedProjectIndex() {
       className="site-fixed-index type-nav select-none tracking-tightish text-black"
     >
       <ul className="flex flex-col gap-px">
-        {projects.map((p) => {
+        {visibleProjects.map((p) => {
           const active = p.slug === currentSlug;
           return (
             <li

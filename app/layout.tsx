@@ -3,7 +3,8 @@ import "./globals.css";
 import FixedNav from "@/components/FixedNav";
 import FixedProjectIndex from "@/components/FixedProjectIndex";
 import ProjectDrawingList from "@/components/ProjectDrawingList";
-import SiteIndexToggle from "@/components/SiteIndexToggle";
+import { ProjectFilterProvider } from "@/components/ProjectFilterContext";
+import SiteFilterToggle from "@/components/SiteFilterToggle";
 import CustomCursor from "@/components/CustomCursor";
 import { CURSOR_BOOT_SCRIPT } from "@/lib/cursor";
 import { siteConfig } from "@/content/site";
@@ -38,10 +39,12 @@ export default function RootLayout({
       </head>
       <body className="font-serif text-black antialiased">
         <CustomCursor />
-        <FixedNav />
-        <FixedProjectIndex />
-        <SiteIndexToggle />
-        <ProjectDrawingList />
+        <ProjectFilterProvider>
+          <FixedNav />
+          <FixedProjectIndex />
+          <SiteFilterToggle />
+          <ProjectDrawingList />
+        </ProjectFilterProvider>
         <main className="site-main min-h-screen">{children}</main>
       </body>
     </html>

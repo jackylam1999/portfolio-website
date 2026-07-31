@@ -192,6 +192,86 @@ body {
   pointer-events: none;
 }
 
+/* Fixed top-right project-type filter (home + project pages) */
+.site-filter {
+  position: fixed;
+  top: var(--site-top);
+  right: var(--site-margin-x);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: auto;
+}
+
+.site-filter__label {
+  padding-block: 1px;
+  border: none;
+  background: transparent;
+  font: inherit;
+  color: var(--color-fg);
+  text-transform: lowercase;
+  cursor: pointer;
+}
+
+.site-filter__menu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    max-height 0.28s ease,
+    opacity 0.22s ease,
+    transform 0.22s ease;
+  pointer-events: none;
+}
+
+.site-filter:hover .site-filter__menu,
+.site-filter:focus-within .site-filter__menu {
+  max-height: 240px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.site-filter__type {
+  position: relative;
+  display: inline-block;
+  padding-block: 1px;
+  border: none;
+  background: transparent;
+  font: inherit;
+  color: #9a9a9a;
+  text-transform: none;
+  cursor: pointer;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+.site-filter__type--selected {
+  color: var(--color-fg);
+}
+
+.site-filter__type--selected::after {
+  content: "";
+  position: absolute;
+  left: -10px;
+  right: -10px;
+  top: 50%;
+  height: 1px;
+  background: var(--color-accent);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Legacy class kept so mobile hide list and any residual markup stay safe */
 .site-index-toggle {
   position: fixed;
   top: var(--site-top);
@@ -1332,6 +1412,7 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
   .site-fixed-left,
   .site-fixed-index,
   .site-fixed-drawings,
+  .site-filter,
   .site-index-toggle,
   .site-index-overlay,
   .site-fixed-section-text,
