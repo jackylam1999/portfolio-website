@@ -375,19 +375,25 @@ function SlideImage({
 }) {
   const cycle = slide.cycleImages;
   const intervalMs = slide.cycleIntervalMs ?? 1000;
-  const [cycleIndex, setCycleIndex] = useState(0);
+  const [active, setActive] = useState(0);
+  const [base, setBase] = useState(0);
+  const [overlayOn, setOverlayOn] = useState(true);
+  const activeRef = useRef(0);
 
   useEffect(() => {
     if (!cycle || cycle.length < 2) return;
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      return;
-    }
+    const ms = Math.max(400, intervalMs);
     const id = window.setInterval(() => {
-      setCycleIndex((i) => (i + 1) % cycle.length);
-    }, intervalMs);
+      const from = activeRef.current;
+      const to = (from + 1) % cycle.length;
+      setBase(from);
+      setActive(to);
+      setOverlayOn(false);
+      activeRef.current = to;
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => setOverlayOn(true));
+      });
+    }, ms);
     return () => window.clearInterval(id);
   }, [cycle, intervalMs]);
 
@@ -403,51 +409,65 @@ function SlideImage({
     const boxW = frameBox.displayWidthRef ?? frameBox.naturalWidth ?? w;
     const boxH = frameBox.displayHeightRef ?? frameBox.naturalHeight ?? h;
     const boxOrientation = boxW >= boxH ? "landscape" : "portrait";
+    const baseImg = cycle[base] ?? cycle[0];
+    const activeImg = cycle[active] ?? cycle[0];
+    const same = base === active;
+
+    const renderFrame = (
+      frame: NonNullable<typeof baseImg>,
+      opacity: number,
+      zIndex: number,
+      fade: boolean,
+      isPriority?: boolean
+    ) => {
+      const fw = frame.naturalWidth ?? 1600;
+      const fh = frame.naturalHeight ?? 1200;
+      const preOptimized = isPreOptimizedSrc(frame.src);
+      const style = {
+        opacity,
+        zIndex,
+        transition: fade ? "opacity 280ms linear" : undefined,
+      };
+      return isVideoSrc(frame.src) ? (
+        <video
+          key={`${frame.src}-${zIndex}`}
+          src={frame.src}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="mobile-viewer-slide__img absolute inset-0 h-full w-full object-fill"
+          style={style}
+          aria-hidden={opacity < 1}
+        />
+      ) : (
+        <Image
+          key={`${frame.src}-${zIndex}`}
+          src={frame.src}
+          alt={opacity > 0 ? frame.alt : ""}
+          width={fw}
+          height={fh}
+          sizes="100vw"
+          quality={88}
+          priority={isPriority}
+          unoptimized={preOptimized}
+          className="mobile-viewer-slide__img absolute inset-0 h-full w-full object-fill"
+          draggable={false}
+          style={style}
+          aria-hidden={opacity < 1}
+        />
+      );
+    };
 
     return (
       <figure
-        className={`mobile-viewer-slide mobile-viewer-slide--${boxOrientation} project-figure relative overflow-hidden bg-black`}
+        className={`mobile-viewer-slide mobile-viewer-slide--${boxOrientation} project-figure relative overflow-hidden`}
         style={{ aspectRatio: `${boxW} / ${boxH}` }}
       >
-        {cycle.map((frame, i) => {
-          const fw = frame.naturalWidth ?? 1600;
-          const fh = frame.naturalHeight ?? 1200;
-          const preOptimized = isPreOptimizedSrc(frame.src);
-          const visible = i === cycleIndex;
-          const mediaStyle = {
-            opacity: visible ? 1 : 0,
-            transition: "opacity 180ms linear",
-          };
-          return isVideoSrc(frame.src) ? (
-            <video
-              key={frame.src}
-              src={frame.src}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="mobile-viewer-slide__img absolute inset-0 h-full w-full object-fill"
-              style={mediaStyle}
-              aria-hidden={!visible}
-            />
-          ) : (
-            <Image
-              key={frame.src}
-              src={frame.src}
-              alt={visible ? frame.alt : ""}
-              width={fw}
-              height={fh}
-              sizes="100vw"
-              quality={88}
-              priority={priority && i === 0}
-              unoptimized={preOptimized}
-              className="mobile-viewer-slide__img absolute inset-0 h-full w-full object-fill"
-              draggable={false}
-              style={mediaStyle}
-              aria-hidden={!visible}
-            />
-          );
-        })}
+        {renderFrame(baseImg, 1, 1, false, priority)}
+        {!same
+          ? renderFrame(activeImg, overlayOn ? 1 : 0, 2, true)
+          : null}
       </figure>
     );
   }
