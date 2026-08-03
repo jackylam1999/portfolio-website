@@ -224,6 +224,12 @@ Content paths:
 - **Fix:** Height-cap vertical tokens with `min(widthClamp, 100dvh × MacValue / 900)` so 1440×900 is unchanged while shorter screens tighten chrome. Hide aside scrollbar as safety. Verify: `node scripts/verify-viewport-scale.mjs`.
 - **Prevent:** New vertical spacing must use the height-cap pattern; do not raise floors without checking 1280×720 text availability.
 
+### 2026-08-03 — Font scales with viewport like Mac
+- **Symptom:** Text looked too large on non-Mac ratios (left column scrollbar); Mac 1440×900 was correct.
+- **Root cause:** `--font-site` used a loose `vw`/`rem` clamp that did not track height the same way as layout chrome.
+- **Fix:** `--font-site = clamp(10px, min(vw×13.5/1440, vh×13.5/900), 17px)` — 13.5px at Mac, shrinks/grows with the tighter axis.
+- **Prevent:** Keep all site type on `--font-site`; verify with `node scripts/verify-viewport-scale.mjs`.
+
 ### 2026-08-03 — Missing drawing titles + Sabusawa order
 - **Symptom:** Breathe/16 Units drawing menus missing titles; Sabusawa rice layout wrong vs Readymag.
 - **Root cause:** Overview sections bundled multiple drawings under one pill; Sabusawa images ordered craft→tools→building with wrong offsets.

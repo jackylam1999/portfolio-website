@@ -19,15 +19,24 @@
   --color-accent: #ed4d24;
   --ref-width: 2560;
   --ref-height: 1440;
-  /* Jacky's reference desktop — vertical chrome scales relative to this height */
+  /* Jacky's reference desktop — type + vertical chrome scale relative to this */
+  --site-ref-vw: 1440;
   --site-ref-vh: 900;
   --site-vh: 100dvh;
 
-  /* Single site font — matches the per-section drawing bar (type-nav). */
+  /*
+   * Site type — Georgia everywhere (nav, body, drawings).
+   * ~13.5px at Mac 1440×900; scales with min(width, height) so odd ratios
+   * keep the same text-to-viewport proportion as the Mac reference.
+   */
+  --font-site-mac: 13.5;
   --font-site: clamp(
-    calc(11px + 1pt),
-    min(calc(0.4rem + 0.4vw + 1pt), calc(0.4rem + 0.55vh + 1pt)),
-    calc(17px + 1pt)
+    10px,
+    min(
+      calc(100vw * var(--font-site-mac) / var(--site-ref-vw)),
+      calc(var(--site-vh) * var(--font-site-mac) / var(--site-ref-vh))
+    ),
+    17px
   );
   --font-base: var(--font-site);
   --font-sm: var(--font-site);
