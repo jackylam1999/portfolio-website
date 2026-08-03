@@ -7,15 +7,28 @@
      margin (22) + text col (642) + gap (149) = image area left (813)
      image area width (1482) + right reserve (265) = remainder to 2560
      right reserve = drawing bar (~240) + gutter + page margin
+
+   Horizontal tokens scale with viewport width (floors preserve laptop look).
+   Vertical tokens also height-cap against the Mac verify viewport (1440×900)
+   so short / odd-ratio screens keep similar first-viewport proportions and
+   the fixed left description still fits without a nested scrollbar.
    ────────────────────────────────────────────────────────────────────────── */
 :root {
   --color-bg: #ffffff;
   --color-fg: #000000;
   --color-accent: #ed4d24;
   --ref-width: 2560;
+  --ref-height: 1440;
+  /* Jacky's reference desktop — vertical chrome scales relative to this height */
+  --site-ref-vh: 900;
+  --site-vh: 100dvh;
 
   /* Single site font — matches the per-section drawing bar (type-nav). */
-  --font-site: clamp(calc(12px + 1pt), calc(0.4rem + 0.4vw + 1pt), calc(17px + 1pt));
+  --font-site: clamp(
+    calc(11px + 1pt),
+    min(calc(0.4rem + 0.4vw + 1pt), calc(0.4rem + 0.55vh + 1pt)),
+    calc(17px + 1pt)
+  );
   --font-base: var(--font-site);
   --font-sm: var(--font-site);
   --font-xs: var(--font-site);
@@ -59,10 +72,10 @@
   );
   /* Green max-image box — full image area × 7 major rows from content top */
   --site-image-max-box-width: var(--site-image-area-width);
-  --site-image-max-box-height: clamp(
-    440px,
-    calc(100vw * 1043 / var(--ref-width)),
-    1043px
+  /* ~586px @ 1440×900 — height-cap keeps first viewport image band proportional */
+  --site-image-max-box-height: min(
+    clamp(440px, calc(100vw * 1043 / var(--ref-width)), 1043px),
+    calc(var(--site-vh) * 586 / var(--site-ref-vh))
   );
   --site-standard-axis-x: calc(
     var(--site-image-area-left) + 100vw * 529 / var(--ref-width)
@@ -70,14 +83,31 @@
   --site-grid-unit: clamp(80px, calc(100vw * 149 / var(--ref-width)), 149px);
   --site-grid-subdivision: 2;
   --site-grid-subunit: calc(var(--site-grid-unit) / var(--site-grid-subdivision));
-  --site-section-gap: clamp(120px, calc(100vw * 174 / var(--ref-width)), 174px);
+  --site-section-gap: min(
+    clamp(120px, calc(100vw * 174 / var(--ref-width)), 174px),
+    calc(var(--site-vh) * 120 / var(--site-ref-vh))
+  );
   --site-section-gap-tight: clamp(8px, calc(100vw * 9 / var(--ref-width)), 9px);
-  --site-spec-gap: clamp(100px, calc(100vw * 149 / var(--ref-width)), 149px);
-  --site-paragraph-gap: 16px;
-  --site-group-break: clamp(40px, calc(100vw * 66 / var(--ref-width)), 66px);
-  /* Spec block top (y=242); scroll-spy purple line (y=312) */
-  --site-spec-top: clamp(200px, calc(100vw * 242 / var(--ref-width)), 242px);
-  --site-content-top: clamp(220px, calc(100vw * 312 / var(--ref-width)), 312px);
+  /* Spec→copy gap: large on Mac; shrink on short screens so left text fits */
+  --site-spec-gap: min(
+    clamp(100px, calc(100vw * 149 / var(--ref-width)), 149px),
+    calc(var(--site-vh) * 100 / var(--site-ref-vh))
+  );
+  --site-paragraph-gap: min(16px, calc(var(--site-vh) * 16 / var(--site-ref-vh)));
+  --site-group-break: min(
+    clamp(40px, calc(100vw * 66 / var(--ref-width)), 66px),
+    calc(var(--site-vh) * 40 / var(--site-ref-vh))
+  );
+  /* Spec block top (y=242); scroll-spy purple line (y=312).
+     min(..., vh×Mac) preserves 1440×900 and tightens short / ultrawide-short. */
+  --site-spec-top: min(
+    clamp(200px, calc(100vw * 242 / var(--ref-width)), 242px),
+    calc(var(--site-vh) * 200 / var(--site-ref-vh))
+  );
+  --site-content-top: min(
+    clamp(220px, calc(100vw * 312 / var(--ref-width)), 312px),
+    calc(var(--site-vh) * 220 / var(--site-ref-vh))
+  );
   /* Drawing menu + image column top = description / spec block top */
   --site-drawings-top: var(--site-section-text-top);
   --site-spec-label-width: clamp(120px, calc(100vw * 154 / var(--ref-width)), 154px);
@@ -94,8 +124,14 @@
   --site-image-width-full: var(--site-image-area-width);
 
   /* Home grid (pixel: row-1 left x=636 w=989, row-1 right x=1649 w=734) */
-  --site-home-content-top: clamp(200px, calc(100vw * 373 / var(--ref-width)), 373px);
-  --site-home-row-gap: clamp(200px, calc(100vw * 497 / var(--ref-width)), 497px);
+  --site-home-content-top: min(
+    clamp(200px, calc(100vw * 373 / var(--ref-width)), 373px),
+    calc(var(--site-vh) * 210 / var(--site-ref-vh))
+  );
+  --site-home-row-gap: min(
+    clamp(200px, calc(100vw * 497 / var(--ref-width)), 497px),
+    calc(var(--site-vh) * 279 / var(--site-ref-vh))
+  );
   --site-home-col-gap: clamp(48px, calc(100vw * 24 / var(--ref-width)), 96px);
   --site-thumb-sm: clamp(200px, calc(100vw * 338 / var(--ref-width)), 338px);
   /* Floors match FALA @ 1440 so thumbs never shrink to ant size on laptop */
@@ -121,7 +157,7 @@
   --home-gallery-top: var(--site-content-top);
   --home-gallery-pad-x: var(--site-margin-x);
   --home-gallery-caption-gap: calc(var(--font-site) * 0.45);
-  --home-gallery-max-image-height: calc(100vh / 3 * 1.25);
+  --home-gallery-max-image-height: calc(var(--site-vh) / 3 * 1.25);
   /* ~1:1 whitespace between rows (gap ≈ prior row image + caption height) */
   --home-gallery-row-spacing: calc(
     var(--home-gallery-max-image-height) + var(--home-gallery-caption-gap) +
@@ -558,11 +594,27 @@ body {
   top: var(--site-section-text-top);
   left: var(--site-margin-x);
   width: var(--site-left-col);
-  max-height: calc(100vh - var(--site-section-text-top) - 24px);
+  max-height: calc(var(--site-vh) - var(--site-section-text-top) - 24px);
+  overflow-x: hidden;
   overflow-y: auto;
+  /* Nested scrollbar is a failure mode — hide it; spacing should keep copy fitting */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   z-index: 30;
   background: var(--color-bg);
   pointer-events: none;
+}
+
+.site-fixed-section-text::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+@supports not (height: 100dvh) {
+  :root {
+    --site-vh: 100vh;
+  }
 }
 
 .site-fixed-section-text,

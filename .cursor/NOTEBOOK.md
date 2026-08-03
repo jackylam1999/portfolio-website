@@ -217,3 +217,9 @@ Content paths:
 - **Root cause:** Pieces of one drawing were stacked as independent figures/slides; spy only watched first anchor / section top, and composition code sat uncommitted.
 - **Fix:** `asComposition` / `compositionId` + `layoutComposition` → one `.project-composition` frame (desktop + one mobile slide). Spy primary = `elementsFromPoint` at `--site-content-top` across the image column; fallback = figure rect crossing.
 - **Prevent:** Never leave composition/spy work unpushed. Corridor-like layouts need `asComposition: true` or shared `compositionId`. Test: `node scripts/test-drawing-composition.mjs`.
+
+### 2026-08-03 — Cross-viewport vertical scale (left text scrollbar)
+- **Symptom:** On non-Mac ratios, fixed left description showed a nested scrollbar; first-viewport images sat in awkward white bands.
+- **Root cause:** Vertical tokens (`--site-content-top`, `--site-spec-top`, `--site-spec-gap`, …) scaled with `100vw` only and high floors; short/ultrawide-short viewports left too little height for pinned copy.
+- **Fix:** Height-cap vertical tokens with `min(widthClamp, 100dvh × MacValue / 900)` so 1440×900 is unchanged while shorter screens tighten chrome. Hide aside scrollbar as safety. Verify: `node scripts/verify-viewport-scale.mjs`.
+- **Prevent:** New vertical spacing must use the height-cap pattern; do not raise floors without checking 1280×720 text availability.
