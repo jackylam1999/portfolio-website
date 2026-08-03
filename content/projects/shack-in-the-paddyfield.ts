@@ -1,5 +1,7 @@
-import type { Project } from "../types";
+import type { DrawingOverlays, Project } from "../types";
 import { projectAsset } from "@/lib/project-media";
+import curatedOverlays from "./shack-overlays.json";
+import { shackOverlays } from "./shack-overlays";
 
 const base = "/images/projects/shack-in-the-paddyfield";
 const a = (
@@ -9,6 +11,17 @@ const a = (
   h: number,
   layout?: Parameters<typeof projectAsset>[6]
 ) => projectAsset(base, file, alt, w, h, undefined, layout);
+
+type CuratedFile = Record<
+  string,
+  { texts?: DrawingOverlays["texts"]; lines?: DrawingOverlays["lines"] }
+>;
+
+function curated(sectionId: string): DrawingOverlays | undefined {
+  const block = (curatedOverlays as CuratedFile)[sectionId];
+  if (!block?.texts?.length) return undefined;
+  return { texts: block.texts, lines: block.lines ?? [] };
+}
 
 const project: Project = {
   slug: "shack-in-the-paddyfield",
@@ -49,15 +62,19 @@ const project: Project = {
     {
       id: "sabusawa-rice",
       pillLabel: "sabusawa rice",
-      // One drawing: tools strip → traditional craft → building units (Readymag order).
+      /**
+       * Readymag: left column tools → craft → building; right consumption plan
+       * beside craft+. Gutter titles are HTML overlays.
+       */
       asComposition: true,
+      overlays: shackOverlays["sabusawa-rice"],
       images: [
         a("sabusawa rice - tools.webp", "Sabusawa rice tools", 1724, 340, {
-          displayWidthRef: 726,
+          displayWidthRef: 792,
           marginLeftRef: 0,
         }),
         a("sabusawa rice - traditional craft.webp", "Sabusawa rice traditional craft", 1752, 744, {
-          displayWidthRef: 1257,
+          displayWidthRef: 727,
           marginLeftRef: 0,
           marginTopRef: 40,
         }),
@@ -66,7 +83,22 @@ const project: Project = {
           "Sabusawa rice building integrated units",
           1254,
           642,
-          { displayWidthRef: 750, marginLeftRef: 495, marginTopRef: 214 }
+          {
+            displayWidthRef: 727,
+            marginLeftRef: 0,
+            marginTopRef: 151,
+          }
+        ),
+        a(
+          "sabusawa rice - consumption plan.png",
+          "Sabusawa rice consumption plan",
+          572,
+          1573,
+          {
+            displayWidthRef: 572,
+            marginLeftRef: 727,
+            marginTopRef: -832,
+          }
         ),
       ],
     },
@@ -89,11 +121,13 @@ const project: Project = {
     {
       id: "floor-plan",
       pillLabel: "floor plan",
+      overlays: curated("floor-plan"),
       images: [a("floor plan.jpg", "Floor plan", 3612, 2651)],
     },
     {
       id: "section",
       pillLabel: "section",
+      overlays: curated("section"),
       images: [
         a("section.jpg", "Section", 2481, 2047, { displayWidthRef: 1280 }),
       ],
@@ -102,6 +136,7 @@ const project: Project = {
       id: "hut-in-seasons",
       pillLabel: "hut in seasons",
       groupBreak: true,
+      overlays: curated("hut-in-seasons"),
       images: [
         a("hut in seasons.jpg", "Hut in seasons", 4960, 1562, {
           displayWidthRef: 1482,
@@ -111,6 +146,7 @@ const project: Project = {
     {
       id: "exploded",
       pillLabel: "exploded",
+      overlays: curated("exploded"),
       images: [
         a("exploded.png", "Exploded", 2105, 2811, {
           displayWidthRef: 1277,

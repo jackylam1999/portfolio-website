@@ -1,9 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import type { Project, ProjectImage, ProjectSection } from "@/content/types";
+import type {
+  DrawingOverlays,
+  Project,
+  ProjectImage,
+  ProjectSection,
+} from "@/content/types";
 import CompositionFigure from "@/components/CompositionFigure";
 import CyclingProjectFigure from "@/components/CyclingProjectFigure";
+import DrawingOverlaysLayer from "@/components/DrawingOverlays";
 import FixedSectionText from "@/components/FixedSectionText";
 import MobileProjectPage from "@/components/mobile/MobileProjectPage";
 import EditableFigure from "@/components/editor/EditableFigure";
@@ -123,7 +129,7 @@ function Section({
       />
 
       <div
-        className="project-image-column flex min-w-0 flex-1 flex-col items-start overflow-x-clip"
+        className="project-image-column flex min-w-0 flex-1 flex-col items-start overflow-x-visible"
         style={{
           maxWidth: "var(--site-image-max-box-width)",
           gap: multiStack ? "var(--site-section-gap-tight)" : undefined,
@@ -163,6 +169,7 @@ function Section({
                   priority={firstImageIndex === 0 && gi === 0}
                   isAnchor={gi === 0}
                   stackGap={gi > 0}
+                  overlays={gi === 0 ? section.overlays : undefined}
                 />
               ) : (
                 <ProjectFigure
@@ -173,6 +180,11 @@ function Section({
                   sectionId={section.id}
                   priority={firstImageIndex === 0 && gi === 0}
                   isAnchor={gi === 0}
+                  overlays={
+                    gi === 0 && groups.length === 1
+                      ? section.overlays
+                      : undefined
+                  }
                 />
               )
             )
@@ -203,6 +215,7 @@ function ProjectFigure({
   sectionId,
   priority,
   isAnchor,
+  overlays,
 }: {
   slug: string;
   grid: ProjectGrid;
@@ -211,14 +224,21 @@ function ProjectFigure({
   priority?: boolean;
   /** Sole scroll-spy hit for this section when not part of a composition. */
   isAnchor?: boolean;
+  overlays?: DrawingOverlays;
 }) {
   const w = img.naturalWidth ?? 1600;
   const h = img.naturalHeight ?? 1200;
   const preOptimized = isPreOptimizedSrc(img.src);
+  const frameW = img.displayWidthRef ?? w;
+  const frameH =
+    img.displayHeightRef ??
+    (img.displayWidthRef != null
+      ? (img.displayWidthRef * h) / w
+      : h);
 
   return (
     <figure
-      className="project-figure m-0 flex shrink-0 flex-col items-start"
+      className="project-figure relative m-0 flex shrink-0 flex-col items-start overflow-visible"
       data-drawing-anchor={isAnchor ? sectionId : undefined}
       data-section-id={sectionId}
       style={{
@@ -255,6 +275,13 @@ function ProjectFigure({
       )}
       {img.caption ? (
         <figcaption className="type-caption text-black/70">{img.caption}</figcaption>
+      ) : null}
+      {overlays ? (
+        <DrawingOverlaysLayer
+          overlays={overlays}
+          frameW={frameW}
+          frameH={frameH}
+        />
       ) : null}
     </figure>
   );

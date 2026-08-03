@@ -230,6 +230,12 @@ Content paths:
 - **Fix:** `--font-site = clamp(10px, min(vw×13.5/1440, vh×13.5/900), 17px)` — 13.5px at Mac, shrinks/grows with the tighter axis.
 - **Prevent:** Keep all site type on `--font-site`; verify with `node scripts/verify-viewport-scale.mjs`.
 
+### 2026-08-04 — Drawing overlays + Sabusawa composition
+- **Symptom:** Missing gutter titles / Kingspan callouts; Sabusawa sizes wrong vs Readymag; right-hand consumption plan missing.
+- **Root cause:** Readymag text/lines were separate layers (not in photo exports); craft was shown at 1257px (left column is ~727); consumption plan never exported as an asset.
+- **Fix:** `DrawingOverlays` on sections; crop `sabusawa rice - consumption plan.png` from screenshot; sabusawa layout tools 792 + craft/building 727 + plan 572@ml727; gutter titles + curated callouts. Symbiosis still has no image assets — overlays deferred.
+- **Prevent:** When screenshots show text beside drawings, check whether it is outside the image file before assuming the export is complete.
+
 ### 2026-08-03 — Missing drawing titles + Sabusawa order
 - **Symptom:** Breathe/16 Units drawing menus missing titles; Sabusawa rice layout wrong vs Readymag.
 - **Root cause:** Overview sections bundled multiple drawings under one pill; Sabusawa images ordered craft→tools→building with wrong offsets.

@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import type { ProjectImage } from "@/content/types";
+import type { DrawingOverlays, ProjectImage } from "@/content/types";
 import type { ProjectGrid } from "@/content/grid/registry";
 import { REF_WIDTH, imageMarginTopCss } from "@/lib/image-layout";
 import { layoutComposition } from "@/lib/drawing-composition";
 import { isPreOptimizedSrc, isVideoSrc } from "@/lib/project-media";
+import DrawingOverlaysLayer from "@/components/DrawingOverlays";
 
 function refCss(ref: number): string {
   const floored = Math.round(Math.abs(ref) * 0.42);
@@ -24,13 +25,9 @@ interface Props {
   sectionId: string;
   images: ProjectImage[];
   priority?: boolean;
-  /** When false, omit scroll-spy click target (later stack in a multi-drawing section). */
   isAnchor?: boolean;
-  /**
-   * When this composition is stacked under another drawing in the same section,
-   * apply the first piece's marginTop outside the frame (layout zeros piece 0 mt).
-   */
   stackGap?: boolean;
+  overlays?: DrawingOverlays;
 }
 
 /**
@@ -45,6 +42,7 @@ export default function CompositionFigure({
   priority,
   isAnchor = true,
   stackGap = false,
+  overlays,
 }: Props) {
   const layout = layoutComposition(slug, sectionId, images, grid);
   const lead = images[0];
@@ -106,6 +104,13 @@ export default function CompositionFigure({
           </div>
         );
       })}
+      {overlays ? (
+        <DrawingOverlaysLayer
+          overlays={overlays}
+          frameW={layout.frameW}
+          frameH={layout.frameH}
+        />
+      ) : null}
     </figure>
   );
 }

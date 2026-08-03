@@ -35,6 +35,46 @@ export interface ProjectSpecRow {
   value: string;
 }
 
+/** 2560-ref px overlay on a drawing (gutter titles, callouts, leader lines). */
+export type OverlayTextRole =
+  | "gutter-title"
+  | "callout-text"
+  | "season-label"
+  | "caption-on-image"
+  | "numbered-label";
+
+export interface DrawingOverlayText {
+  id: string;
+  role: OverlayTextRole;
+  text: string;
+  /** Left relative to the drawing frame origin (image-area left = 0). May be negative (gutter). */
+  xRef: number;
+  /** Top relative to the drawing frame origin (first figure / composition top). */
+  yRef: number;
+  fontSizeRef?: number;
+  maxWidthRef?: number;
+  align?: "left" | "center" | "right";
+  color?: string;
+}
+
+export type OverlayLineStyle = "solid" | "dashed";
+
+export interface DrawingOverlayLine {
+  id: string;
+  style: OverlayLineStyle;
+  x1Ref: number;
+  y1Ref: number;
+  x2Ref: number;
+  y2Ref: number;
+  strokeRef?: number;
+  color?: string;
+}
+
+export interface DrawingOverlays {
+  texts?: DrawingOverlayText[];
+  lines?: DrawingOverlayLine[];
+}
+
 export interface ProjectImage {
   /** Path relative to /public, e.g. "/images/projects/parliament/01-hero.jpg" */
   src: string;
@@ -87,6 +127,12 @@ export interface ProjectSection {
    * frame that swaps on this interval instead of stacking.
    */
   imageCycleMs?: number;
+  /**
+   * Text / lines drawn over or beside the section's drawing(s), in 2560-ref
+   * coordinates relative to the drawing frame origin (composition top-left
+   * or single figure top-left). Gutter titles use negative xRef.
+   */
+  overlays?: DrawingOverlays;
 }
 
 export interface Project extends ProjectMeta {
