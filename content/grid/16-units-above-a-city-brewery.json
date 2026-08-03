@@ -1,9 +1,27 @@
 {
   "images": {
-    "overview": {
+    "facade-site-plan": {
       "w": 705,
       "align": "left",
       "x": 813,
+      "gapAfter": 604
+    },
+    "history": {
+      "w": 1057,
+      "align": "left",
+      "x": 1084,
+      "gapAfter": 500
+    },
+    "key-moves": {
+      "w": 1058,
+      "align": "left",
+      "x": 1098,
+      "gapAfter": 300
+    },
+    "summer-morning": {
+      "w": 763,
+      "align": "left",
+      "x": 1273,
       "gapAfter": 340
     },
     "beer-garden": {

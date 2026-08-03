@@ -10,16 +10,18 @@
   ],
   "sabusawa-rice": [
     {
-      "displayWidthRef": 1257
+      "displayWidthRef": 726,
+      "marginLeftRef": 0
     },
     {
-      "displayWidthRef": 792,
-      "marginLeftRef": 465,
-      "marginTopRef": 10
+      "displayWidthRef": 1257,
+      "marginLeftRef": 0,
+      "marginTopRef": 40
     },
     {
-      "marginLeftRef": 418,
-      "marginTopRef": 9
+      "displayWidthRef": 750,
+      "marginLeftRef": 495,
+      "marginTopRef": 214
     }
   ],
   "farm-with-the-hut": [

@@ -1,56 +1,61 @@
 {
   "overview": [
-    { "displayWidthRef": 520 },
-    { "displayWidthRef": 940, "marginLeftRef": 542, "marginTopRef": -298 },
-    { "displayWidthRef": 1482, "marginTopRef": 220 }
+    { "displayWidthRef": 1410, "marginLeftRef": 151 }
+  ],
+  "history": [
+    { "displayWidthRef": 695, "marginLeftRef": 787 }
+  ],
+  "mapping": [
+    { "displayWidthRef": 881, "marginLeftRef": 29 }
+  ],
+  "key-moves": [
+    { "displayWidthRef": 1110, "marginLeftRef": 320 }
   ],
   "edge-conditions": [
-    { "displayWidthRef": 1482 }
+    { "displayWidthRef": 1062, "marginLeftRef": 391 }
   ],
   "ground-floor-plan": [
-    { "displayWidthRef": 1242, "marginLeftRef": 120 }
+    { "displayWidthRef": 1482 }
   ],
   "first-floor-plan": [
-    { "displayWidthRef": 1235, "marginLeftRef": 124 }
+    { "displayWidthRef": 1482 }
   ],
   "open-air-corridor": [
-    { "displayWidthRef": 1009, "marginLeftRef": 236 },
-    { "displayWidthRef": 1047, "marginLeftRef": 218, "marginTopRef": 156 }
+    { "displayWidthRef": 1033, "marginLeftRef": 621 }
   ],
   "construction-details": [
-    { "displayWidthRef": 912, "marginLeftRef": 285 }
+    { "displayWidthRef": 792 }
   ],
   "corridor-floor-plan": [
-    { "displayWidthRef": 304 },
-    { "displayWidthRef": 720, "marginLeftRef": 381, "marginTopRef": 40 },
-    { "displayWidthRef": 276, "marginTopRef": 80 },
-    { "displayWidthRef": 720, "marginLeftRef": 381, "marginTopRef": 40 }
+    { "displayWidthRef": 573, "marginLeftRef": 113 },
+    { "displayWidthRef": 547, "marginLeftRef": 821, "marginTopRef": -535 },
+    { "displayWidthRef": 147, "marginLeftRef": 640, "marginTopRef": 120 },
+    { "displayWidthRef": 133, "marginLeftRef": 1205, "marginTopRef": -94 }
   ],
   "co-working": [
-    { "displayWidthRef": 1183, "marginLeftRef": 150 }
+    { "displayWidthRef": 721, "marginLeftRef": 20 }
   ],
   "childcare": [
-    { "displayWidthRef": 1009, "marginLeftRef": 236 }
+    { "displayWidthRef": 722, "marginLeftRef": 22 }
+  ],
+  "long-section": [
+    { "displayWidthRef": 1482 }
   ],
   "grassland-domesticity": [
-    { "displayWidthRef": 736, "marginLeftRef": 373 }
+    { "displayWidthRef": 796 }
   ],
   "build-on-the-land": [
-    { "displayWidthRef": 846, "marginLeftRef": 318 }
+    { "displayWidthRef": 817, "marginLeftRef": 496 }
   ],
   "net-zero-carbon": [
-    { "displayWidthRef": 1058, "marginLeftRef": 212 },
-    { "displayWidthRef": 616, "marginLeftRef": 433, "marginTopRef": 80 },
-    { "displayWidthRef": 635, "marginLeftRef": 424, "marginTopRef": 80 }
+    { "displayWidthRef": 381, "marginLeftRef": 249 },
+    { "displayWidthRef": 353, "marginLeftRef": 709, "marginTopRef": -569 },
+    { "displayWidthRef": 407, "marginLeftRef": 1075, "marginTopRef": -573 }
   ],
   "adaptability": [
-    { "displayWidthRef": 1482 },
-    { "displayWidthRef": 1482, "marginTopRef": 40 },
-    { "displayWidthRef": 1482, "marginTopRef": 40 }
+    { "displayWidthRef": 1381, "marginLeftRef": 101 }
   ],
   "flexibility": [
-    { "displayWidthRef": 1058, "marginLeftRef": 212 },
-    { "displayWidthRef": 1058, "marginLeftRef": 212, "marginTopRef": 40 },
-    { "displayWidthRef": 1058, "marginLeftRef": 212, "marginTopRef": 40 }
+    { "displayWidthRef": 867, "marginLeftRef": 407 }
   ]
 }

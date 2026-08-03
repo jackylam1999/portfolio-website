@@ -4,6 +4,24 @@
       "w": 1410,
       "align": "left",
       "x": 964,
+      "gapAfter": 260
+    },
+    "history": {
+      "w": 695,
+      "align": "left",
+      "x": 1600,
+      "gapAfter": 260
+    },
+    "mapping": {
+      "w": 881,
+      "align": "left",
+      "x": 842,
+      "gapAfter": 260
+    },
+    "key-moves": {
+      "w": 1110,
+      "align": "left",
+      "x": 1133,
       "gapAfter": 380
     },
     "edge-conditions": {

@@ -223,3 +223,9 @@ Content paths:
 - **Root cause:** Vertical tokens (`--site-content-top`, `--site-spec-top`, `--site-spec-gap`, …) scaled with `100vw` only and high floors; short/ultrawide-short viewports left too little height for pinned copy.
 - **Fix:** Height-cap vertical tokens with `min(widthClamp, 100dvh × MacValue / 900)` so 1440×900 is unchanged while shorter screens tighten chrome. Hide aside scrollbar as safety. Verify: `node scripts/verify-viewport-scale.mjs`.
 - **Prevent:** New vertical spacing must use the height-cap pattern; do not raise floors without checking 1280×720 text availability.
+
+### 2026-08-03 — Missing drawing titles + Sabusawa order
+- **Symptom:** Breathe/16 Units drawing menus missing titles; Sabusawa rice layout wrong vs Readymag.
+- **Root cause:** Overview sections bundled multiple drawings under one pill; Sabusawa images ordered craft→tools→building with wrong offsets.
+- **Fix:** Split into per-drawing sections (OCR from `PORTFOLIO WEBSITE/*.png`). Sabusawa: tools→craft→building, measured refs, `asComposition: true`. Diff aid: `.verify-screenshots/title-ocr/MISSING-TITLES.md`.
+- **Prevent:** When adding stacked overview images, give each Readymag menu title its own section/`pillLabel`.

@@ -45,28 +45,40 @@ const project: Project = {
         "In response, this project proposes an alternative grassland management model. The approach aims to restore disappearing native grasslands while accommodating gentrification. This symbiotic model demonstrates that urban expansion and remnant grasslands are not mutually exclusive, but mutually reinforcing. It reimagines a new form of domesticity and establishes a new norm of living peacefully on grassland, in harmony with the diverse souls that inhabit it.",
       ],
       images: [
-        // 1. Wide grassland facade — FIRST on Readymag (not after corridor).
+        // Wide grassland facade — FIRST on Readymag (not after corridor).
         a("main facade.png", "Main facade", 4000, 1700, undefined, {
           displayWidthRef: 1410,
           marginLeftRef: 151,
         }),
-        // 2. History diptych — alone, right-aligned (NOT paired with mapping).
+      ],
+    },
+    {
+      id: "history",
+      pillLabel: "history",
+      images: [
         a("history.webp", "History", 1440, 825, undefined, {
           displayWidthRef: 695,
           marginLeftRef: AREA - 695,
-          marginTopRef: 260,
         }),
-        // 3. Site map — solo below history.
+      ],
+    },
+    {
+      id: "mapping",
+      pillLabel: "mapping",
+      images: [
         a("mapping.webp", "Mapping", 1229, 1236, undefined, {
           displayWidthRef: 881,
           marginLeftRef: 29,
-          marginTopRef: 260,
         }),
-        // 4. Three axonometric key moves.
+      ],
+    },
+    {
+      id: "key-moves",
+      pillLabel: "key moves",
+      images: [
         a("key moves.webp", "Key moves", 2131, 557, undefined, {
           displayWidthRef: 1110,
           marginLeftRef: 320,
-          marginTopRef: 260,
         }),
       ],
     },

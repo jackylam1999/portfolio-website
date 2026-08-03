@@ -49,21 +49,24 @@ const project: Project = {
     {
       id: "sabusawa-rice",
       pillLabel: "sabusawa rice",
+      // One drawing: tools strip → traditional craft → building units (Readymag order).
+      asComposition: true,
       images: [
+        a("sabusawa rice - tools.webp", "Sabusawa rice tools", 1724, 340, {
+          displayWidthRef: 726,
+          marginLeftRef: 0,
+        }),
         a("sabusawa rice - traditional craft.webp", "Sabusawa rice traditional craft", 1752, 744, {
           displayWidthRef: 1257,
-        }),
-        a("sabusawa rice - tools.webp", "Sabusawa rice tools", 1724, 340, {
-          displayWidthRef: 792,
-          marginLeftRef: 465,
-          marginTopRef: 10,
+          marginLeftRef: 0,
+          marginTopRef: 40,
         }),
         a(
           "sabusawa rice - building integrated units.webp",
           "Sabusawa rice building integrated units",
           1254,
           642,
-          { displayWidthRef: 750, marginLeftRef: 418, marginTopRef: 9 }
+          { displayWidthRef: 750, marginLeftRef: 495, marginTopRef: 214 }
         ),
       ],
     },

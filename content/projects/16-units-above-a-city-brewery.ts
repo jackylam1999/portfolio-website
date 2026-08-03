@@ -32,8 +32,8 @@ const project: Project = {
   ),
   sections: [
     {
-      id: "overview",
-      pillLabel: "summer morning",
+      id: "facade-site-plan",
+      pillLabel: "facade/site plan",
       specs: [
         { label: "Category", value: "Residential" },
         { label: "Location", value: "Melbourne/AU" },
@@ -53,7 +53,7 @@ const project: Project = {
         "Perhaps it's all about a sense of tough subtlety, just like the season of summer. Tough in its uncompromising openness towards the delicacy and changing light and air throughout the days, subtle enough that it actively filters, softens and mediate with its surroundings, tolerating and anticipating changes. Let's embrace another kind of summer comfort.",
       ],
       images: [
-        // 1–2. Facade + site plan 2-up (one drawing; later overview images stack alone).
+        // Facade + site plan 2-up — one drawing composition.
         a("facade.webp", "Facade", 1036, 1182, undefined, {
           displayWidthRef: 705,
           marginLeftRef: 0,
@@ -65,23 +65,35 @@ const project: Project = {
           marginTopRef: -714,
           compositionId: "facade-site",
         }),
-        // 3. History diptych (single wide file).
+      ],
+    },
+    {
+      id: "history",
+      pillLabel: "history",
+      images: [
         a("history 1.webp", "History", 1868, 663, undefined, {
           displayWidthRef: 1057,
           marginLeftRef: 271,
-          marginTopRef: 604,
         }),
-        // 4. Key moves / open frames.
+      ],
+    },
+    {
+      id: "key-moves",
+      pillLabel: "key moves",
+      images: [
         a("key moves.webp", "Key moves", 1869, 874, undefined, {
           displayWidthRef: 1058,
           marginLeftRef: 285,
-          marginTopRef: 500,
         }),
-        // 5. Summer morning interior.
+      ],
+    },
+    {
+      id: "summer-morning",
+      pillLabel: "summer morning",
+      images: [
         a("summer morning.webp", "Summer morning", 944, 1174, undefined, {
           displayWidthRef: 763,
           marginLeftRef: 460,
-          marginTopRef: 300,
         }),
       ],
     },
