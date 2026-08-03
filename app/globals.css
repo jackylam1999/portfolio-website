@@ -177,6 +177,7 @@
 html {
   font-size: 16px;
   touch-action: manipulation;
+  overflow-x: hidden;
 }
 
 body {
@@ -187,6 +188,7 @@ body {
   line-height: var(--line-height-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 .site-fixed-left {

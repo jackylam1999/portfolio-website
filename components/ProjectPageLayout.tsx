@@ -129,7 +129,7 @@ function Section({
       />
 
       <div
-        className="project-image-column flex min-w-0 flex-1 flex-col items-start overflow-x-visible"
+        className="project-image-column flex min-w-0 flex-1 flex-col items-start overflow-x-clip"
         style={{
           maxWidth: "var(--site-image-max-box-width)",
           gap: multiStack ? "var(--site-section-gap-tight)" : undefined,

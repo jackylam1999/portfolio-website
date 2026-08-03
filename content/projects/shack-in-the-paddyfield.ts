@@ -1,7 +1,6 @@
 import type { DrawingOverlays, Project } from "../types";
 import { projectAsset } from "@/lib/project-media";
 import curatedOverlays from "./shack-overlays.json";
-import { shackOverlays } from "./shack-overlays";
 
 const base = "/images/projects/shack-in-the-paddyfield";
 const a = (
@@ -20,7 +19,12 @@ type CuratedFile = Record<
 function curated(sectionId: string): DrawingOverlays | undefined {
   const block = (curatedOverlays as CuratedFile)[sectionId];
   if (!block?.texts?.length) return undefined;
-  return { texts: block.texts, lines: block.lines ?? [] };
+  // Keep callouts inside the figure (no negative x) to avoid page horizontal scroll.
+  const texts = block.texts.map((t) => ({
+    ...t,
+    xRef: Math.max(0, t.xRef),
+  }));
+  return { texts, lines: block.lines ?? [] };
 }
 
 const project: Project = {
@@ -63,43 +67,14 @@ const project: Project = {
       id: "sabusawa-rice",
       pillLabel: "sabusawa rice",
       /**
-       * Readymag: left column tools → craft → building; right consumption plan
-       * beside craft+. Gutter titles are HTML overlays.
+       * Single screenshot-faithful plate (tools + craft + building units +
+       * consumption plan). Multi-piece composition caused overflow/crop bugs.
        */
-      asComposition: true,
-      overlays: shackOverlays["sabusawa-rice"],
       images: [
-        a("sabusawa rice - tools.webp", "Sabusawa rice tools", 1724, 340, {
-          displayWidthRef: 792,
+        a("sabusawa rice.webp", "Sabusawa rice", 1302, 1760, {
+          displayWidthRef: 1302,
           marginLeftRef: 0,
         }),
-        a("sabusawa rice - traditional craft.webp", "Sabusawa rice traditional craft", 1752, 744, {
-          displayWidthRef: 727,
-          marginLeftRef: 0,
-          marginTopRef: 40,
-        }),
-        a(
-          "sabusawa rice - building integrated units.webp",
-          "Sabusawa rice building integrated units",
-          1254,
-          642,
-          {
-            displayWidthRef: 727,
-            marginLeftRef: 0,
-            marginTopRef: 151,
-          }
-        ),
-        a(
-          "sabusawa rice - consumption plan.png",
-          "Sabusawa rice consumption plan",
-          572,
-          1573,
-          {
-            displayWidthRef: 572,
-            marginLeftRef: 727,
-            marginTopRef: -832,
-          }
-        ),
       ],
     },
     {

@@ -40,38 +40,15 @@ export default function DrawingOverlaysLayer({
   const lines = overlays.lines ?? [];
   if (!texts.length && !lines.length) return null;
 
-  const minX = Math.min(0, ...texts.map((t) => t.xRef), ...lines.flatMap((l) => [l.x1Ref, l.x2Ref]));
-  const minY = Math.min(0, ...texts.map((t) => t.yRef), ...lines.flatMap((l) => [l.y1Ref, l.y2Ref]));
-  const maxX = Math.max(
-    frameW,
-    ...texts.map((t) => t.xRef + (t.maxWidthRef ?? 220)),
-    ...lines.flatMap((l) => [l.x1Ref, l.x2Ref])
-  );
-  const maxY = Math.max(
-    frameH,
-    ...texts.map((t) => t.yRef + (t.fontSizeRef ?? 12) * 1.4),
-    ...lines.flatMap((l) => [l.y1Ref, l.y2Ref])
-  );
-
-  const layerW = maxX - minX;
-  const layerH = maxY - minY;
-
   return (
     <div
-      className="drawing-overlays pointer-events-none absolute"
+      className="drawing-overlays pointer-events-none absolute inset-0 overflow-hidden"
       aria-hidden
-      style={{
-        left: refCss(minX),
-        top: refCss(minY),
-        width: refCss(layerW),
-        height: refCss(layerH),
-        overflow: "visible",
-      }}
     >
       {lines.length > 0 ? (
         <svg
-          className="absolute inset-0 h-full w-full overflow-visible"
-          viewBox={`${minX} ${minY} ${layerW} ${layerH}`}
+          className="absolute inset-0 h-full w-full"
+          viewBox={`0 0 ${frameW} ${frameH}`}
           preserveAspectRatio="none"
         >
           {lines.map((line) => (
@@ -95,9 +72,9 @@ export default function DrawingOverlaysLayer({
           key={t.id}
           className="absolute whitespace-pre-wrap"
           style={{
-            left: refCss(t.xRef - minX),
-            top: refCss(t.yRef - minY),
-            maxWidth: t.maxWidthRef != null ? refCss(t.maxWidthRef) : refCss(240),
+            left: `${(Math.max(0, t.xRef) / frameW) * 100}%`,
+            top: `${(Math.max(0, t.yRef) / frameH) * 100}%`,
+            maxWidth: t.maxWidthRef != null ? refCss(t.maxWidthRef) : "40%",
             fontSize: fontCss(t.fontSizeRef ?? (t.role === "gutter-title" ? 14 : 11)),
             lineHeight: 1.35,
             textAlign: t.align ?? "left",
