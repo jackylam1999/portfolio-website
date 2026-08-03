@@ -10,7 +10,11 @@ export function isPreOptimizedSrc(src: string): boolean {
 
 type ImageLayout = Pick<
   ProjectImage,
-  "displayWidthRef" | "displayHeightRef" | "marginLeftRef" | "marginTopRef"
+  | "displayWidthRef"
+  | "displayHeightRef"
+  | "marginLeftRef"
+  | "marginTopRef"
+  | "compositionId"
 >;
 
 export function projectAsset(

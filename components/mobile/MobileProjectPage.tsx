@@ -402,6 +402,68 @@ function SlideImage({
   const h = img.naturalHeight ?? 1200;
   const orientation = w >= h ? "landscape" : "portrait";
 
+  const composition = slide.compositionImages;
+  const compositionLayout = slide.compositionLayout;
+
+  if (composition && compositionLayout && composition.length > 1) {
+    const { frameW, frameH, pieces } = compositionLayout;
+    return (
+      <figure className="mobile-viewer-slide mobile-viewer-slide--composition project-figure">
+        <div
+          className="mobile-viewer-composition relative"
+          style={{
+            aspectRatio: `${frameW} / ${frameH}`,
+            // Shrink width when the frame is height-capped so legends stay in proportion.
+            width: `min(100%, calc((100dvh - var(--mobile-frame-top) - var(--mobile-frame-bottom) - (var(--mobile-slide-pad-y) * 2)) * ${frameW} / ${frameH}))`,
+          }}
+        >
+          {pieces.map((piece, i) => {
+            const p = piece.img;
+            const pw = p.naturalWidth ?? 1600;
+            const ph = p.naturalHeight ?? 1200;
+            const preOptimized = isPreOptimizedSrc(p.src);
+            return (
+              <div
+                key={`${p.src}-${i}`}
+                className="mobile-viewer-composition__piece absolute"
+                style={{
+                  left: `${(piece.x / frameW) * 100}%`,
+                  top: `${(piece.y / frameH) * 100}%`,
+                  width: `${(piece.w / frameW) * 100}%`,
+                  aspectRatio: `${piece.w} / ${piece.h}`,
+                }}
+              >
+                {isVideoSrc(p.src) ? (
+                  <video
+                    src={p.src}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="block h-full w-full object-contain object-left-top"
+                  />
+                ) : (
+                  <Image
+                    src={p.src}
+                    alt={p.alt}
+                    width={pw}
+                    height={ph}
+                    sizes="100vw"
+                    quality={88}
+                    priority={priority && i === 0}
+                    unoptimized={preOptimized}
+                    className="block h-full w-full object-contain object-left-top"
+                    draggable={false}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </figure>
+    );
+  }
+
   if (cycle && cycle.length > 1) {
     const frameBox =
       cycle.find((c) => c.displayHeightRef != null && c.displayWidthRef != null) ??

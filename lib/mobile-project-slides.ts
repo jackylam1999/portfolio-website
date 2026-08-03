@@ -1,4 +1,10 @@
 import type { Project, ProjectImage } from "@/content/types";
+import {
+  groupSectionImages,
+  layoutComposition,
+  sectionIsComposition,
+  type CompositionLayout,
+} from "@/lib/drawing-composition";
 
 export type MobileSlide = {
   sectionId: string;
@@ -7,16 +13,21 @@ export type MobileSlide = {
   /** When set, this slide is one frame that cycles through these images. */
   cycleImages?: ProjectImage[];
   cycleIntervalMs?: number;
+  /** Spatial multi-image drawing — one slide, pieces keep relative layout. */
+  compositionImages?: ProjectImage[];
+  compositionLayout?: CompositionLayout;
   index: number;
 };
 
-/** Flat list of every project image for the mobile swipe viewer. */
+/** Flat list of project drawings for the mobile swipe viewer. */
 export function flattenProjectSlides(project: Project): MobileSlide[] {
   const slides: MobileSlide[] = [];
   let index = 0;
 
   for (const section of project.sections) {
     const images = section.images ?? [];
+    if (!images.length) continue;
+
     if (section.imageCycleMs && images.length > 1) {
       slides.push({
         sectionId: section.id,
@@ -29,13 +40,48 @@ export function flattenProjectSlides(project: Project): MobileSlide[] {
       index += 1;
       continue;
     }
-    for (const image of images) {
+
+    if (sectionIsComposition(section)) {
+      const layout = layoutComposition(
+        project.slug,
+        section.id,
+        images
+      );
       slides.push({
         sectionId: section.id,
         pillLabel: section.pillLabel,
-        image,
+        image: images[0],
+        compositionImages: images,
+        compositionLayout: layout,
         index,
       });
+      index += 1;
+      continue;
+    }
+
+    for (const group of groupSectionImages(section)) {
+      if (group.type === "composition") {
+        const layout = layoutComposition(
+          project.slug,
+          section.id,
+          group.images
+        );
+        slides.push({
+          sectionId: section.id,
+          pillLabel: section.pillLabel,
+          image: group.images[0],
+          compositionImages: group.images,
+          compositionLayout: layout,
+          index,
+        });
+      } else {
+        slides.push({
+          sectionId: section.id,
+          pillLabel: section.pillLabel,
+          image: group.image,
+          index,
+        });
+      }
       index += 1;
     }
   }

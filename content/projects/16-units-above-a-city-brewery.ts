@@ -53,15 +53,17 @@ const project: Project = {
         "Perhaps it's all about a sense of tough subtlety, just like the season of summer. Tough in its uncompromising openness towards the delicacy and changing light and air throughout the days, subtle enough that it actively filters, softens and mediate with its surroundings, tolerating and anticipating changes. Let's embrace another kind of summer comfort.",
       ],
       images: [
-        // 1–2. Facade + site plan 2-up (site pulled up beside facade).
+        // 1–2. Facade + site plan 2-up (one drawing; later overview images stack alone).
         a("facade.webp", "Facade", 1036, 1182, undefined, {
           displayWidthRef: 705,
           marginLeftRef: 0,
+          compositionId: "facade-site",
         }),
         a("site plan.webp", "Site plan", 1119, 1068, undefined, {
           displayWidthRef: 678,
           marginLeftRef: 730,
           marginTopRef: -714,
+          compositionId: "facade-site",
         }),
         // 3. History diptych (single wide file).
         a("history 1.webp", "History", 1868, 663, undefined, {
@@ -73,7 +75,7 @@ const project: Project = {
         a("key moves.webp", "Key moves", 1869, 874, undefined, {
           displayWidthRef: 1058,
           marginLeftRef: 285,
-          marginTopRef: 380,
+          marginTopRef: 500,
         }),
         // 5. Summer morning interior.
         a("summer morning.webp", "Summer morning", 944, 1174, undefined, {

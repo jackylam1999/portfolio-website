@@ -1781,6 +1781,32 @@ body.editor-dragging[data-editor-drag-mode="resize-bl"] .editable-figure__corner
     object-position: center;
   }
 
+  /* Multi-image drawing — one slide; pieces keep desktop-relative layout */
+  .mobile-viewer-slide--composition {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-viewer-composition {
+    position: relative;
+    width: 100%;
+    max-height: calc(
+      100dvh - var(--mobile-frame-top) - var(--mobile-frame-bottom) -
+        calc(var(--mobile-slide-pad-y) * 2)
+    );
+  }
+
+  .mobile-viewer-composition__piece img,
+  .mobile-viewer-composition__piece video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: left top;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
   /* Gallery grid — 4 columns, full image extent, top-aligned rows */
   .mobile-viewer-gallery {
     position: absolute;

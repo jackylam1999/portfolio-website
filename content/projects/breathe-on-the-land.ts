@@ -125,6 +125,7 @@ const project: Project = {
     {
       id: "corridor-floor-plan",
       pillLabel: "corridor floor plan",
+      asComposition: true,
       images: [
         // 2-up plans (fitted inside 1482).
         a("corridor floor plan 1.webp", "Corridor floor plan 1", 1032, 964, undefined, {
@@ -205,6 +206,7 @@ const project: Project = {
     {
       id: "net-zero-carbon",
       pillLabel: "net-zero carbon",
+      asComposition: true,
       images: [
         // Readymag 3-up: table | graph | legend (not stacked legend-first).
         a("net zero carbon - table.webp", "Net-zero carbon table", 635, 1166, undefined, {

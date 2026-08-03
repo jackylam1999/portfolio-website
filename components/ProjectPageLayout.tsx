@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import type { Project, ProjectImage, ProjectSection } from "@/content/types";
+import CompositionFigure from "@/components/CompositionFigure";
 import CyclingProjectFigure from "@/components/CyclingProjectFigure";
 import FixedSectionText from "@/components/FixedSectionText";
 import MobileProjectPage from "@/components/mobile/MobileProjectPage";
@@ -18,6 +19,7 @@ import {
   placeholderLayoutCss,
   sectionGapAfterCss,
 } from "@/lib/image-layout";
+import { groupSectionImages } from "@/lib/drawing-composition";
 import { getPageBottomRef, type ProjectGrid } from "@/content/grid/registry";
 import { isPreOptimizedSrc, isVideoSrc } from "@/lib/project-media";
 
@@ -102,6 +104,11 @@ function Section({
 }) {
   const editor = useEditor();
   const editing = editor.enabled;
+  const groups = groupSectionImages(section);
+  const multiStack =
+    !section.imageCycleMs &&
+    !editing &&
+    groups.length > 1;
 
   return (
     <section
@@ -119,10 +126,7 @@ function Section({
         className="project-image-column flex min-w-0 flex-1 flex-col items-start overflow-x-clip"
         style={{
           maxWidth: "var(--site-image-max-box-width)",
-          gap:
-            !section.imageCycleMs && (section.images?.length ?? 0) > 1
-              ? "var(--site-section-gap-tight)"
-              : undefined,
+          gap: multiStack ? "var(--site-section-gap-tight)" : undefined,
         }}
       >
         {section.images?.length ? (
@@ -137,24 +141,38 @@ function Section({
               intervalMs={section.imageCycleMs}
               priority={firstImageIndex === 0}
             />
+          ) : editing ? (
+            section.images.map((img, i) => (
+              <EditableFigure
+                key={i}
+                slug={slug}
+                img={img}
+                sectionId={section.id}
+                priority={firstImageIndex + i === 0}
+              />
+            ))
           ) : (
-            section.images.map((img, i) =>
-              editing ? (
-                <EditableFigure
-                  key={i}
+            groups.map((group, gi) =>
+              group.type === "composition" ? (
+                <CompositionFigure
+                  key={`comp-${gi}`}
                   slug={slug}
-                  img={img}
+                  grid={grid}
                   sectionId={section.id}
-                  priority={firstImageIndex + i === 0}
+                  images={group.images}
+                  priority={firstImageIndex === 0 && gi === 0}
+                  isAnchor={gi === 0}
+                  stackGap={gi > 0}
                 />
               ) : (
                 <ProjectFigure
-                  key={i}
+                  key={`img-${gi}`}
                   slug={slug}
                   grid={grid}
-                  img={img}
+                  img={group.image}
                   sectionId={section.id}
-                  priority={firstImageIndex + i === 0}
+                  priority={firstImageIndex === 0 && gi === 0}
+                  isAnchor={gi === 0}
                 />
               )
             )
@@ -184,12 +202,15 @@ function ProjectFigure({
   img,
   sectionId,
   priority,
+  isAnchor,
 }: {
   slug: string;
   grid: ProjectGrid;
   img: ProjectImage;
   sectionId: string;
   priority?: boolean;
+  /** Sole scroll-spy hit for this section when not part of a composition. */
+  isAnchor?: boolean;
 }) {
   const w = img.naturalWidth ?? 1600;
   const h = img.naturalHeight ?? 1200;
@@ -198,6 +219,8 @@ function ProjectFigure({
   return (
     <figure
       className="project-figure m-0 flex shrink-0 flex-col items-start"
+      data-drawing-anchor={isAnchor ? sectionId : undefined}
+      data-section-id={sectionId}
       style={{
         width: imageDisplayWidthCss(slug, sectionId, img, grid),
         marginLeft: imageMarginLeftCss(slug, sectionId, img, grid),

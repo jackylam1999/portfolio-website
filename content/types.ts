@@ -52,6 +52,11 @@ export interface ProjectImage {
   marginLeftRef?: number;
   /** Vertical gap above this image when stacked in a multi-image section (2560 ref px). */
   marginTopRef?: number;
+  /**
+   * Images sharing the same compositionId form one drawing (one spy hit,
+   * one mobile slide) even inside a section that also has other images.
+   */
+  compositionId?: string;
   /** Natural pixel size — preserves drawing aspect ratio (no crop) */
   naturalWidth?: number;
   naturalHeight?: number;
@@ -71,6 +76,12 @@ export interface ProjectSection {
   specs?: ProjectSpecRow[];
   /** Images stacked in the centre of this section */
   images?: ProjectImage[];
+  /**
+   * When true, all images in this section are one drawing composition
+   * (plans + legends, 2-up pairs, etc.) — one scroll-spy anchor and one
+   * mobile slide that preserves relative sizes/positions.
+   */
+  asComposition?: boolean;
   /**
    * When set (ms) and the section has 2+ images, render them in one shared
    * frame that swaps on this interval instead of stacking.

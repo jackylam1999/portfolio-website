@@ -167,6 +167,8 @@ export default function CyclingProjectFigure({
       className={`project-figure relative m-0 shrink-0 overflow-hidden ${className ?? ""}`}
       style={layoutStyle}
       data-cycle-index={active}
+      data-drawing-anchor={sectionId}
+      data-section-id={sectionId}
     >
       {/* Opaque under-layer — holds the previous frame so the fade never hits black. */}
       <CycleMedia

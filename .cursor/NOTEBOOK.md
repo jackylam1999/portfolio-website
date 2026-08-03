@@ -37,6 +37,19 @@ Zombie node → EMFILE, white pages, stale chunks (400), "Failed to compile". Ag
 
 ---
 
+## Home gallery — ant-sized images (2026-06-01)
+
+- **Scatter layout:** Random single-item rows + `space-between`/`flex-end` spread tiny images across empty viewport — not FALA. Fix: always **2-up rows** (`md+md`), `justify: flex-start`, align gallery to `--site-image-area-left`.
+- **Video ant-size:** `aspect-ratio` on `.home-gallery-tile__media--video` shrinks tile width when `max-height` caps — visible video becomes ~160px wide. Fix: full tile width + `--video-content-ratio` horizontal crop on `<video>`.
+- **Tier floors @ 1440:** `--site-thumb-md` min **387px**, `--site-thumb-lg` min **556px**. `lg+md` pairs overflow image area (834px) — use **md+md** only for pairs.
+- **Plans in pool:** block `4WD in motion 2.png` (reads as line drawing on home).
+
+## Home gallery — Eternal Voyage video (2026-06-01)
+
+- **Wrong crop (bottom-only):** `videoScaleX: 5.8` + `width:580%` was based on ~17% content width; **measured** content is **804/1920 (41.9%)** (`node scripts/measure-video-letterbox.mjs` uses ffmpeg-static).
+- **Fix:** `contentWidthRatio` → tile `aspect-ratio: 804/1080`; video `object-fit: cover; object-position: center` (no horizontal scale hack).
+- **Column gap:** `--home-gallery-gap: var(--site-home-col-gap)` (~48px @ 1440); not grid-subunit (~84px → ~41px columns).
+
 ## Automated verification (run before claiming done)
 
 ```bash
@@ -194,3 +207,13 @@ Content paths:
 3. Images in `public/projects/{slug}/`.
 4. Register grid import in `content/grid/registry.ts` if new slug.
 5. Verify routes + visual alignment against screenshot.
+
+---
+
+## Lessons learned
+
+### 2026-08-03 — Multi-image drawings + scroll-spy hit-test
+- **Symptom:** Red drawing-menu arrow on wrong title; mobile treated corridor plan legends as separate slides at wrong size.
+- **Root cause:** Pieces of one drawing were stacked as independent figures/slides; spy only watched first anchor / section top, and composition code sat uncommitted.
+- **Fix:** `asComposition` / `compositionId` + `layoutComposition` → one `.project-composition` frame (desktop + one mobile slide). Spy primary = `elementsFromPoint` at `--site-content-top` across the image column; fallback = figure rect crossing.
+- **Prevent:** Never leave composition/spy work unpushed. Corridor-like layouts need `asComposition: true` or shared `compositionId`. Test: `node scripts/test-drawing-composition.mjs`.
