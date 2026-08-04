@@ -236,6 +236,12 @@ Content paths:
 - **Fix:** Screenshot-measured widths/margins; `asComposition` + pull-up for 4WD motion / ranger / wetland / WTP / sewage; 4WD field stack gap 97.
 - **Prevent:** For Eternal Voyage pairs, match WTP geometry (~560+590 side-by-side), not single full-column portraits.
 
+### 2026-08-05 — Eternal Voyage size inconsistency (viewport-fit + wrong 4WD field)
+- **Symptom:** Drawing sizes inconsistent vs screenshot after WTP-sized pairs shipped.
+- **Root cause:** (1) `4WD on the field` was two stacked full-width 1315 portraits → viewport-fit ~738 each; screenshot is one side-by-side pair (513+801 @ ml 543). (2) Tall singles used preferred widths that shrink unevenly (water infra 935→509, masterplan 1086→738) so relative size vs WTP drifted.
+- **Fix:** 4WD field → `asComposition` 513/801; water infra `displayWidthRef: 513` (band height); masterplan `738` (max-box fit width). Pair frames stay ~1200–1340.
+- **Prevent:** Re-measure screenshot bands before trusting preferred widths; set tall singles to their post-fit width when viewport-fit would otherwise hide the intended size.
+
 ### 2026-08-04 — Tall drawings fit first viewport (max-box height)
 - **Symptom:** Eternal Voyage (and other portrait plates) required scrolling to see the full drawing.
 - **Root cause:** Figures sized by `displayWidthRef` only; no height cap vs `--site-image-max-box-height`.

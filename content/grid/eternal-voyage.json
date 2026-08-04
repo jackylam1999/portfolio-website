@@ -7,7 +7,7 @@
       "gapAfter": 246
     },
     "water-infrastructure": {
-      "w": 935,
+      "w": 513,
       "align": "left",
       "x": 813,
       "gapAfter": 9
@@ -19,7 +19,7 @@
       "gapAfter": 9
     },
     "masterplan": {
-      "w": 1086,
+      "w": 738,
       "align": "left",
       "x": 813,
       "gapAfter": 124
@@ -37,7 +37,7 @@
       "gapAfter": 253
     },
     "4wd-on-the-field": {
-      "w": 1315,
+      "w": 1344,
       "align": "left",
       "x": 813,
       "gapAfter": 395

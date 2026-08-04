@@ -7,7 +7,7 @@
   ],
   "water-infrastructure": [
     {
-      "displayWidthRef": 935,
+      "displayWidthRef": 513,
       "marginLeftRef": 0
     }
   ],
@@ -26,7 +26,7 @@
   ],
   "masterplan": [
     {
-      "displayWidthRef": 1086,
+      "displayWidthRef": 738,
       "marginLeftRef": 0
     }
   ],
@@ -44,13 +44,13 @@
   ],
   "4wd-on-the-field": [
     {
-      "displayWidthRef": 1315,
+      "displayWidthRef": 513,
       "marginLeftRef": 0
     },
     {
-      "displayWidthRef": 1324,
-      "marginLeftRef": 0,
-      "marginTopRef": 97
+      "displayWidthRef": 801,
+      "marginLeftRef": 543,
+      "marginTopRef": -726
     }
   ],
   "4wd-in-motion": [

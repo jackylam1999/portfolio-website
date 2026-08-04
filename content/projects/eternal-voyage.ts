@@ -49,8 +49,10 @@ const project: Project = {
       pillLabel: "water infrastructure",
       groupBreak: true,
       images: [
+        // Screenshot band ≈1051 tall → w = 1051 × 1500/3074 ≈ 513 (not 935;
+        // wider preferred widths shrink via viewport-fit and look smaller than WTP).
         a("water infrastrucutre.png", "Water infrastructure", 1500, 3074, undefined, {
-          displayWidthRef: 935,
+          displayWidthRef: 513,
           marginLeftRef: 0,
         }),
       ],
@@ -64,8 +66,9 @@ const project: Project = {
       id: "masterplan",
       pillLabel: "masterplan",
       images: [
+        // Max width that fits --site-image-max-box-height (1043 × 4961/7016).
         a("masterplan.png", "Masterplan", 4961, 7016, undefined, {
-          displayWidthRef: 1086,
+          displayWidthRef: 738,
           marginLeftRef: 0,
         }),
       ],
@@ -89,16 +92,18 @@ const project: Project = {
     {
       id: "4wd-on-the-field",
       pillLabel: "4WD on the field",
-      // Two full-width stacked plates; screenshot gap ≈97 (not 394).
+      // Screenshot: axonometric + site plan side-by-side (513+801 @ ml 543),
+      // not two stacked full-width portraits.
+      asComposition: true,
       images: [
         a("4WD on thte field 1.png", "4WD on the field 1", 4961, 7016, undefined, {
-          displayWidthRef: 1315,
+          displayWidthRef: 513,
           marginLeftRef: 0,
         }),
         a("4WD on thte field 2.png", "4WD on the field 2", 4961, 7016, undefined, {
-          displayWidthRef: 1324,
-          marginLeftRef: 0,
-          marginTopRef: 97,
+          displayWidthRef: 801,
+          marginLeftRef: 543,
+          marginTopRef: -hAt(4961, 7016, 513),
         }),
       ],
     },
