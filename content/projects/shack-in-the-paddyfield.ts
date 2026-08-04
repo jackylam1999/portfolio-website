@@ -1,6 +1,5 @@
-import type { DrawingOverlays, Project } from "../types";
+import type { Project } from "../types";
 import { projectAsset } from "@/lib/project-media";
-import curatedOverlays from "./shack-overlays.json";
 
 const base = "/images/projects/shack-in-the-paddyfield";
 const a = (
@@ -10,22 +9,6 @@ const a = (
   h: number,
   layout?: Parameters<typeof projectAsset>[6]
 ) => projectAsset(base, file, alt, w, h, undefined, layout);
-
-type CuratedFile = Record<
-  string,
-  { texts?: DrawingOverlays["texts"]; lines?: DrawingOverlays["lines"] }
->;
-
-function curated(sectionId: string): DrawingOverlays | undefined {
-  const block = (curatedOverlays as CuratedFile)[sectionId];
-  if (!block?.texts?.length) return undefined;
-  // Keep callouts inside the figure (no negative x) to avoid page horizontal scroll.
-  const texts = block.texts.map((t) => ({
-    ...t,
-    xRef: Math.max(0, t.xRef),
-  }));
-  return { texts, lines: block.lines ?? [] };
-}
 
 const project: Project = {
   slug: "shack-in-the-paddyfield",
@@ -96,13 +79,11 @@ const project: Project = {
     {
       id: "floor-plan",
       pillLabel: "floor plan",
-      overlays: curated("floor-plan"),
       images: [a("floor plan.jpg", "Floor plan", 3612, 2651)],
     },
     {
       id: "section",
       pillLabel: "section",
-      overlays: curated("section"),
       images: [
         a("section.jpg", "Section", 2481, 2047, { displayWidthRef: 1280 }),
       ],
@@ -111,7 +92,6 @@ const project: Project = {
       id: "hut-in-seasons",
       pillLabel: "hut in seasons",
       groupBreak: true,
-      overlays: curated("hut-in-seasons"),
       images: [
         a("hut in seasons.jpg", "Hut in seasons", 4960, 1562, {
           displayWidthRef: 1482,
@@ -121,7 +101,6 @@ const project: Project = {
     {
       id: "exploded",
       pillLabel: "exploded",
-      overlays: curated("exploded"),
       images: [
         a("exploded.png", "Exploded", 2105, 2811, {
           displayWidthRef: 1277,

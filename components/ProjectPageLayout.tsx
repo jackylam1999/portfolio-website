@@ -17,7 +17,7 @@ import { useEditor } from "@/components/editor/EditorProvider";
 import { useProjectGrid } from "@/components/ProjectGridProvider";
 import {
   imageAspectRatioCss,
-  imageDisplayWidthCss,
+  imageViewportFitWidthCss,
   imageMarginLeftCss,
   imageMarginTopCss,
   imageSizesAttr,
@@ -242,12 +242,13 @@ function ProjectFigure({
       data-drawing-anchor={isAnchor ? sectionId : undefined}
       data-section-id={sectionId}
       style={{
-        width: imageDisplayWidthCss(slug, sectionId, img, grid),
+        width: imageViewportFitWidthCss(slug, sectionId, img, grid),
         marginLeft: imageMarginLeftCss(slug, sectionId, img, grid),
         marginTop: priority
           ? undefined
           : imageMarginTopCss(slug, sectionId, img, grid),
         maxWidth: "100%",
+        maxHeight: "var(--site-image-max-box-height)",
         aspectRatio: imageAspectRatioCss(slug, sectionId, img, grid),
       }}
     >

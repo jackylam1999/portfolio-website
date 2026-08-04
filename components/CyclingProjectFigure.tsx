@@ -6,7 +6,7 @@ import type { ProjectImage } from "@/content/types";
 import type { ProjectGrid } from "@/content/grid/registry";
 import {
   imageAspectRatioCss,
-  imageDisplayWidthCss,
+  imageViewportFitWidthCss,
   imageMarginLeftCss,
   imageMarginTopCss,
   imageSizesAttr,
@@ -145,12 +145,13 @@ export default function CyclingProjectFigure({
 
   const layoutStyle = applyDesktopLayout
     ? {
-        width: imageDisplayWidthCss(slug, sectionId, frame, grid),
+        width: imageViewportFitWidthCss(slug, sectionId, frame, grid),
         marginLeft: imageMarginLeftCss(slug, sectionId, frame, grid),
         marginTop: priority
           ? undefined
           : imageMarginTopCss(slug, sectionId, frame, grid),
         maxWidth: "100%" as const,
+        maxHeight: "var(--site-image-max-box-height)" as const,
         aspectRatio,
       }
     : {

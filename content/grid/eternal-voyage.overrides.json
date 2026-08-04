@@ -1,12 +1,14 @@
 {
   "overview": [
     {
-      "displayWidthRef": 1217
+      "displayWidthRef": 1217,
+      "marginLeftRef": 132
     }
   ],
   "water-infrastructure": [
     {
-      "displayWidthRef": 935
+      "displayWidthRef": 935,
+      "marginLeftRef": 0
     }
   ],
   "transect-sections": [
@@ -23,11 +25,15 @@
     }
   ],
   "masterplan": [
-    {}
+    {
+      "displayWidthRef": 1086,
+      "marginLeftRef": 0
+    }
   ],
   "dam": [
     {
-      "displayWidthRef": 442
+      "displayWidthRef": 442,
+      "marginLeftRef": 0
     }
   ],
   "pivot-irrigation-cycle": [
@@ -38,44 +44,68 @@
   ],
   "4wd-on-the-field": [
     {
-      "displayWidthRef": 1324
+      "displayWidthRef": 1315,
+      "marginLeftRef": 0
     },
     {
-      "displayWidthRef": 1195,
-      "marginTopRef": 394
+      "displayWidthRef": 1324,
+      "marginLeftRef": 0,
+      "marginTopRef": 97
     }
   ],
   "4wd-in-motion": [
     {
-      "displayWidthRef": 1356
+      "displayWidthRef": 566,
+      "marginLeftRef": 0
+    },
+    {
+      "displayWidthRef": 590,
+      "marginLeftRef": 605,
+      "marginTopRef": -755
     }
   ],
   "ranger-station": [
     {
-      "displayWidthRef": 1199
+      "displayWidthRef": 566,
+      "marginLeftRef": 0
     },
     {
-      "displayWidthRef": 1329,
-      "marginTopRef": 149
+      "displayWidthRef": 594,
+      "marginLeftRef": 605,
+      "marginTopRef": -800
     }
   ],
   "station-to-wetland": [
     {
-      "displayWidthRef": 1201
+      "displayWidthRef": 520,
+      "marginLeftRef": 0
+    },
+    {
+      "displayWidthRef": 665,
+      "marginLeftRef": 666,
+      "marginTopRef": -693
     }
   ],
   "water-treatment-plant": [
     {
-      "displayWidthRef": 1199
+      "displayWidthRef": 561,
+      "marginLeftRef": 0
     },
     {
-      "displayWidthRef": 1329,
-      "marginTopRef": 149
+      "displayWidthRef": 585,
+      "marginLeftRef": 616,
+      "marginTopRef": -793
     }
   ],
   "sewage-canal-to-pool": [
     {
-      "displayWidthRef": 1201
+      "displayWidthRef": 561,
+      "marginLeftRef": 0
+    },
+    {
+      "displayWidthRef": 585,
+      "marginLeftRef": 616,
+      "marginTopRef": -748
     }
   ]
 }

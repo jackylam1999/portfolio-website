@@ -53,13 +53,14 @@ export default function CompositionFigure({
       data-drawing-anchor={isAnchor ? sectionId : undefined}
       data-section-id={sectionId}
       style={{
-        width: refCss(layout.frameW),
+        width: `min(${refCss(layout.frameW)}, calc(var(--site-image-max-box-height) * ${layout.frameW} / ${layout.frameH}))`,
         marginLeft: refCss(layout.frameX),
         marginTop:
           stackGap && lead
             ? imageMarginTopCss(slug, sectionId, lead, grid)
             : undefined,
         maxWidth: "100%",
+        maxHeight: "var(--site-image-max-box-height)",
         aspectRatio: `${layout.frameW} / ${layout.frameH}`,
       }}
     >

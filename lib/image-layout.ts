@@ -39,6 +39,25 @@ export function imageDisplayWidthCss(
   return refCss(imageDisplayWidthRef(slug, sectionId, img, grid));
 }
 
+/**
+ * Width that never exceeds the preferred display width, but shrinks when the
+ * natural aspect would make the figure taller than `--site-image-max-box-height`
+ * (so one drawing fits the first viewport without scrolling).
+ */
+export function imageViewportFitWidthCss(
+  slug: string,
+  sectionId: string,
+  img: ProjectImage,
+  grid?: ProjectGrid
+): string {
+  const preferred = imageDisplayWidthCss(slug, sectionId, img, grid);
+  const nw = img.naturalWidth ?? 1;
+  const nh = img.naturalHeight ?? 1;
+  if (nh <= 0 || nw <= 0) return preferred;
+  // width = height × (nw/nh); cap height via CSS var so short viewports still fit
+  return `min(${preferred}, calc(var(--site-image-max-box-height) * ${nw} / ${nh}))`;
+}
+
 /** Offset from the image-column origin (813px ref). */
 export function imageMarginLeftCss(
   slug: string,

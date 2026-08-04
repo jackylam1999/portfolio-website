@@ -230,11 +230,34 @@ Content paths:
 - **Fix:** `--font-site = clamp(10px, min(vw×13.5/1440, vh×13.5/900), 17px)` — 13.5px at Mac, shrinks/grows with the tighter axis.
 - **Prevent:** Keep all site type on `--font-site`; verify with `node scripts/verify-viewport-scale.mjs`.
 
+### 2026-08-04 — Eternal Voyage sizes match screenshot (WTP reference)
+- **Symptom:** Pair drawings looked too large / stacked; water treatment size was the good reference.
+- **Root cause:** Content used full-width stacked plates (1199/1329); screenshot shows side-by-side ~561+585.
+- **Fix:** Screenshot-measured widths/margins; `asComposition` + pull-up for 4WD motion / ranger / wetland / WTP / sewage; 4WD field stack gap 97.
+- **Prevent:** For Eternal Voyage pairs, match WTP geometry (~560+590 side-by-side), not single full-column portraits.
+
+### 2026-08-04 — Tall drawings fit first viewport (max-box height)
+- **Symptom:** Eternal Voyage (and other portrait plates) required scrolling to see the full drawing.
+- **Root cause:** Figures sized by `displayWidthRef` only; no height cap vs `--site-image-max-box-height`.
+- **Fix:** `imageViewportFitWidthCss` — `min(preferredWidth, maxBoxHeight × aspect)`; `max-height` on project figures / compositions / cycling frames.
+- **Prevent:** Prefer this over shrinking per-project `displayWidthRef` when the goal is “whole drawing visible without scroll.”
+
+### 2026-08-04 — Sabusawa plate had baked-in project-index ghosts
+- **Symptom:** “Eternal Voyage / Symbiosis / Stool” text sitting on sabusawa rice drawing.
+- **Root cause:** Full-page screenshot stitch baked the fixed project-index into `sabusawa rice.webp` (not HTML overlays). Also the live FixedProjectIndex sits over drawings by design (do not move).
+- **Fix:** `scripts/wipe_sabusawa_ghosts.py` whites OCR line boxes on the plate.
+- **Prevent:** Prefer clean exported assets over screenshot plates when chrome is fixed/stitched.
+
+### 2026-08-04 — OCR overlay text removed (do not re-add blindly)
+- **Symptom:** Weird / wrong-position callout text on Shack (section, hut, exploded, floor plan). OCR cannot tell baked-in screenshot text from separate Readymag layers.
+- **Fix:** Removed all `overlays` from Shack; deleted `shack-overlays.json` / `shack-overlays.ts`. Sabusawa stays single plate + overflow clip.
+- **Prevent:** Do not invent HTML overlay callouts from OCR. Only add separate text when Jacky marks them or provides clear assets.
+
 ### 2026-08-04 — Drawing overlays + Sabusawa composition
 - **Symptom:** Missing gutter titles / Kingspan callouts; Sabusawa sizes wrong vs Readymag; right-hand consumption plan missing.
 - **Root cause:** Readymag text/lines were separate layers (not in photo exports); craft was shown at 1257px (left column is ~727); consumption plan never exported as an asset.
 - **Fix (v1):** Overlay system + multi-piece sabusawa — **regressed** (horizontal scrollbar + bad crop).
-- **Fix (v2 / b66f950):** Single screenshot plate `sabusawa rice.webp` (1302×1760) inside image area; restore `overflow-x-clip`; `overflow-x:hidden` on html/body; overlays clipped inside figures (no negative x).
+- **Fix (v2 / b66f950):** Single screenshot plate `sabusawa rice.webp` (1302×1760) inside image area; restore `overflow-x-clip`; `overflow-x:hidden` on html/body.
 - **Prevent:** Never set image-column `overflow-x: visible` for gutter overlays — it creates page horizontal scroll. Prefer a single plate when multi-piece pull-ups fight the image-area width.
 
 ### 2026-08-03 — Missing drawing titles + Sabusawa order
