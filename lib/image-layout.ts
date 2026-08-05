@@ -43,6 +43,9 @@ export function imageDisplayWidthCss(
  * Width that never exceeds the preferred display width, but shrinks when the
  * natural aspect would make the figure taller than `--site-image-max-box-height`
  * (so one drawing fits the first viewport without scrolling).
+ *
+ * When `displayHeightRef` is set, aspect follows the forced box (not the file),
+ * matching Readymag crop-to-height plates.
  */
 export function imageViewportFitWidthCss(
   slug: string,
@@ -51,6 +54,10 @@ export function imageViewportFitWidthCss(
   grid?: ProjectGrid
 ): string {
   const preferred = imageDisplayWidthCss(slug, sectionId, img, grid);
+  const dw = imageDisplayWidthRef(slug, sectionId, img, grid);
+  if (img.displayHeightRef != null && img.displayHeightRef > 0 && dw > 0) {
+    return `min(${preferred}, calc(var(--site-image-max-box-height) * ${dw} / ${img.displayHeightRef}))`;
+  }
   const nw = img.naturalWidth ?? 1;
   const nh = img.naturalHeight ?? 1;
   if (nh <= 0 || nw <= 0) return preferred;

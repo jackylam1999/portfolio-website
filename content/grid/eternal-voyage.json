@@ -7,7 +7,7 @@
       "gapAfter": 246
     },
     "water-infrastructure": {
-      "w": 513,
+      "w": 347,
       "align": "left",
       "x": 813,
       "gapAfter": 9
@@ -19,13 +19,14 @@
       "gapAfter": 9
     },
     "masterplan": {
-      "w": 738,
+      "w": 1086,
       "align": "left",
       "x": 813,
       "gapAfter": 124
     },
     "dam": {
       "w": 442,
+      "h": 778,
       "align": "left",
       "x": 813,
       "gapAfter": 241
@@ -38,36 +39,42 @@
     },
     "4wd-on-the-field": {
       "w": 1344,
+      "h": 778,
       "align": "left",
       "x": 813,
       "gapAfter": 395
     },
     "4wd-in-motion": {
       "w": 1195,
+      "h": 778,
       "align": "left",
       "x": 813,
       "gapAfter": 369
     },
     "ranger-station": {
       "w": 1199,
+      "h": 778,
       "align": "left",
       "x": 813,
       "gapAfter": 149
     },
     "station-to-wetland": {
       "w": 1331,
+      "h": 778,
       "align": "left",
       "x": 813,
       "gapAfter": 316
     },
     "water-treatment-plant": {
       "w": 1201,
+      "h": 778,
       "align": "left",
       "x": 813,
       "gapAfter": 149
     },
     "sewage-canal-to-pool": {
       "w": 1201,
+      "h": 778,
       "align": "left",
       "x": 813
     }

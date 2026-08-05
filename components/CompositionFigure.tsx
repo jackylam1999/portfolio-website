@@ -87,7 +87,9 @@ export default function CompositionFigure({
                 loop
                 muted
                 playsInline
-                className="block h-full w-full object-contain object-left-top"
+                className={`block h-full w-full object-left-top ${
+                  img.displayHeightRef != null ? "object-cover" : "object-contain"
+                }`}
               />
             ) : (
               <Image
@@ -99,7 +101,9 @@ export default function CompositionFigure({
                 quality={88}
                 priority={priority && i === 0}
                 unoptimized={preOptimized}
-                className="block h-full w-full object-contain object-left-top"
+                className={`block h-full w-full object-left-top ${
+                  img.displayHeightRef != null ? "object-cover" : "object-contain"
+                }`}
               />
             )}
           </div>

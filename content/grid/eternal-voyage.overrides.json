@@ -7,7 +7,7 @@
   ],
   "water-infrastructure": [
     {
-      "displayWidthRef": 513,
+      "displayWidthRef": 347,
       "marginLeftRef": 0
     }
   ],
@@ -26,7 +26,7 @@
   ],
   "masterplan": [
     {
-      "displayWidthRef": 738,
+      "displayWidthRef": 1086,
       "marginLeftRef": 0
     }
   ],
@@ -45,67 +45,79 @@
   "4wd-on-the-field": [
     {
       "displayWidthRef": 513,
+      "displayHeightRef": 778,
       "marginLeftRef": 0
     },
     {
       "displayWidthRef": 801,
+      "displayHeightRef": 778,
       "marginLeftRef": 543,
-      "marginTopRef": -726
+      "marginTopRef": -778
     }
   ],
   "4wd-in-motion": [
     {
       "displayWidthRef": 566,
+      "displayHeightRef": 778,
       "marginLeftRef": 0
     },
     {
       "displayWidthRef": 590,
+      "displayHeightRef": 778,
       "marginLeftRef": 605,
-      "marginTopRef": -755
+      "marginTopRef": -778
     }
   ],
   "ranger-station": [
     {
       "displayWidthRef": 566,
+      "displayHeightRef": 778,
       "marginLeftRef": 0
     },
     {
       "displayWidthRef": 594,
+      "displayHeightRef": 778,
       "marginLeftRef": 605,
-      "marginTopRef": -800
+      "marginTopRef": -778
     }
   ],
   "station-to-wetland": [
     {
       "displayWidthRef": 520,
+      "displayHeightRef": 778,
       "marginLeftRef": 0
     },
     {
       "displayWidthRef": 665,
+      "displayHeightRef": 778,
       "marginLeftRef": 666,
-      "marginTopRef": -693
+      "marginTopRef": -778
     }
   ],
   "water-treatment-plant": [
     {
       "displayWidthRef": 561,
+      "displayHeightRef": 778,
       "marginLeftRef": 0
     },
     {
       "displayWidthRef": 585,
+      "displayHeightRef": 778,
       "marginLeftRef": 616,
-      "marginTopRef": -793
+      "marginTopRef": -778
     }
   ],
   "sewage-canal-to-pool": [
     {
       "displayWidthRef": 561,
+      "displayHeightRef": 778,
       "marginLeftRef": 0
     },
     {
       "displayWidthRef": 585,
+      "displayHeightRef": 778,
       "marginLeftRef": 616,
-      "marginTopRef": -748
+      "marginTopRef": -778
     }
   ]
 }

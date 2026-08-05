@@ -242,6 +242,12 @@ Content paths:
 - **Fix:** 4WD field → `asComposition` 513/801; water infra `displayWidthRef: 513` (band height); masterplan `738` (max-box fit width). Pair frames stay ~1200–1340.
 - **Prevent:** Re-measure screenshot bands before trusting preferred widths; set tall singles to their post-fit width when viewport-fit would otherwise hide the intended size.
 
+### 2026-08-05 — Eternal Voyage shared plate height (dam short, pairs uneven)
+- **Symptom:** Dam looked much smaller than WTP; pair L/R heights mismatched (field 450 vs 703).
+- **Root cause:** Screenshot dam/motion/ranger/WTP share plate height ≈778; dam.gif aspect 0.75 at w=442 only yields h=589. Pair pieces sized by natural aspect at different widths → different heights. Water-infra “1065” bbox was fixed-index ink; real collage ≈347 wide.
+- **Fix:** `dam-plate.webp` cropped to SS aspect (442→h≈776); `water-infrastructure-plate.webp` from SS (~347×997); all pairs `displayHeightRef: 778` + `object-cover`; viewport-fit respects forced height aspect.
+- **Prevent:** For side-by-side plates, lock a shared `displayHeightRef` from the screenshot band height; don’t trust sparse-ink full-band widths.
+
 ### 2026-08-04 — Tall drawings fit first viewport (max-box height)
 - **Symptom:** Eternal Voyage (and other portrait plates) required scrolling to see the full drawing.
 - **Root cause:** Figures sized by `displayWidthRef` only; no height cap vs `--site-image-max-box-height`.

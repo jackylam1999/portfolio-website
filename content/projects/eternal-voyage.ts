@@ -11,9 +11,11 @@ const a = (
   layout?: Parameters<typeof projectAsset>[6]
 ) => projectAsset(base, file, alt, w, h, width, layout);
 
-/** Pull-up so img2 top aligns with img1 (displayW × naturalH / naturalW). */
-const hAt = (nw: number, nh: number, dw: number) =>
-  Math.round((dw * nh) / nw);
+/**
+ * Shared plate height from screenshot (dam / motion / ranger / WTP bands ≈776–778).
+ * Pair pieces set displayHeightRef to this and use object-cover so left/right match.
+ */
+const PLATE_H = 778;
 
 const project: Project = {
   slug: "eternal-voyage",
@@ -49,10 +51,9 @@ const project: Project = {
       pillLabel: "water infrastructure",
       groupBreak: true,
       images: [
-        // Screenshot band ≈1051 tall → w = 1051 × 1500/3074 ≈ 513 (not 935;
-        // wider preferred widths shrink via viewport-fit and look smaller than WTP).
-        a("water infrastrucutre.png", "Water infrastructure", 1500, 3074, undefined, {
-          displayWidthRef: 513,
+        // Screenshot collage is ~347×997 (earlier 1065 bbox included fixed-index ink).
+        a("water-infrastructure-plate.webp", "Water infrastructure", 347, 997, undefined, {
+          displayWidthRef: 347,
           marginLeftRef: 0,
         }),
       ],
@@ -66,9 +67,8 @@ const project: Project = {
       id: "masterplan",
       pillLabel: "masterplan",
       images: [
-        // Max width that fits --site-image-max-box-height (1043 × 4961/7016).
         a("masterplan.png", "Masterplan", 4961, 7016, undefined, {
-          displayWidthRef: 738,
+          displayWidthRef: 1086,
           marginLeftRef: 0,
         }),
       ],
@@ -78,7 +78,8 @@ const project: Project = {
       pillLabel: "dam",
       groupBreak: true,
       images: [
-        a("dam.gif", "Dam", 553, 737, "narrow", {
+        // Cropped to screenshot aspect so w=442 → h≈776 (same plate height as WTP).
+        a("dam-plate.webp", "Dam", 420, 737, "narrow", {
           displayWidthRef: 442,
           marginLeftRef: 0,
         }),
@@ -92,18 +93,18 @@ const project: Project = {
     {
       id: "4wd-on-the-field",
       pillLabel: "4WD on the field",
-      // Screenshot: axonometric + site plan side-by-side (513+801 @ ml 543),
-      // not two stacked full-width portraits.
       asComposition: true,
       images: [
         a("4WD on thte field 1.png", "4WD on the field 1", 4961, 7016, undefined, {
           displayWidthRef: 513,
+          displayHeightRef: PLATE_H,
           marginLeftRef: 0,
         }),
         a("4WD on thte field 2.png", "4WD on the field 2", 4961, 7016, undefined, {
           displayWidthRef: 801,
+          displayHeightRef: PLATE_H,
           marginLeftRef: 543,
-          marginTopRef: -hAt(4961, 7016, 513),
+          marginTopRef: -PLATE_H,
         }),
       ],
     },
@@ -114,12 +115,14 @@ const project: Project = {
       images: [
         a("4WD in motion 1.gif", "4WD in motion 1", 516, 688, undefined, {
           displayWidthRef: 566,
+          displayHeightRef: PLATE_H,
           marginLeftRef: 0,
         }),
         a("4WD in motion 2.png", "4WD in motion 2", 2076, 2768, undefined, {
           displayWidthRef: 590,
+          displayHeightRef: PLATE_H,
           marginLeftRef: 605,
-          marginTopRef: -hAt(516, 688, 566),
+          marginTopRef: -PLATE_H,
         }),
       ],
     },
@@ -131,12 +134,14 @@ const project: Project = {
       images: [
         a("ranger station 1.png", "Ranger station 1", 4961, 7016, undefined, {
           displayWidthRef: 566,
+          displayHeightRef: PLATE_H,
           marginLeftRef: 0,
         }),
         a("ranger station 2.png", "Ranger station 2", 4961, 7016, undefined, {
           displayWidthRef: 594,
+          displayHeightRef: PLATE_H,
           marginLeftRef: 605,
-          marginTopRef: -hAt(4961, 7016, 566),
+          marginTopRef: -PLATE_H,
         }),
       ],
     },
@@ -147,46 +152,51 @@ const project: Project = {
       images: [
         a("station to wetland 1.gif", "Station to wetland 1", 553, 737, undefined, {
           displayWidthRef: 520,
+          displayHeightRef: PLATE_H,
           marginLeftRef: 0,
         }),
         a("station to wetland 2.gif", "Station to wetland 2", 497, 662, undefined, {
           displayWidthRef: 665,
+          displayHeightRef: PLATE_H,
           marginLeftRef: 666,
-          marginTopRef: -hAt(553, 737, 520),
+          marginTopRef: -PLATE_H,
         }),
       ],
     },
     {
       id: "water-treatment-plant",
       pillLabel: "water treatment plant",
-      /** Size reference for Eternal Voyage pair plates (screenshot 561+585). */
+      /** Size reference — screenshot plates 561+585 @ h≈778. */
       asComposition: true,
       images: [
         a("water treatment plant 1.png", "Water treatment plant 1", 4961, 7016, undefined, {
           displayWidthRef: 561,
+          displayHeightRef: PLATE_H,
           marginLeftRef: 0,
         }),
         a("water treatment plant 2.png", "Water treatment plant 2", 4961, 7016, undefined, {
           displayWidthRef: 585,
+          displayHeightRef: PLATE_H,
           marginLeftRef: 616,
-          marginTopRef: -hAt(4961, 7016, 561),
+          marginTopRef: -PLATE_H,
         }),
       ],
     },
     {
       id: "sewage-canal-to-pool",
       pillLabel: "sewage canal to pool",
-      // Not in screenshot band — mirror water-treatment pair geometry.
       asComposition: true,
       images: [
         a("sewage canal to pool 1.gif", "Sewage canal to pool 1", 737, 983, undefined, {
           displayWidthRef: 561,
+          displayHeightRef: PLATE_H,
           marginLeftRef: 0,
         }),
         a("sewage canal to pool 2.gif", "Sewage canal to pool 2", 504, 672, undefined, {
           displayWidthRef: 585,
+          displayHeightRef: PLATE_H,
           marginLeftRef: 616,
-          marginTopRef: -hAt(737, 983, 561),
+          marginTopRef: -PLATE_H,
         }),
       ],
     },
