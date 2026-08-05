@@ -7,7 +7,7 @@
   ],
   "water-infrastructure": [
     {
-      "displayWidthRef": 347,
+      "displayWidthRef": 387,
       "marginLeftRef": 0
     }
   ],
@@ -32,7 +32,7 @@
   ],
   "dam": [
     {
-      "displayWidthRef": 442,
+      "displayWidthRef": 595,
       "marginLeftRef": 0
     }
   ],
@@ -44,80 +44,68 @@
   ],
   "4wd-on-the-field": [
     {
-      "displayWidthRef": 513,
-      "displayHeightRef": 778,
+      "displayWidthRef": 561,
       "marginLeftRef": 0
     },
     {
-      "displayWidthRef": 801,
-      "displayHeightRef": 778,
-      "marginLeftRef": 543,
-      "marginTopRef": -778
+      "displayWidthRef": 585,
+      "marginLeftRef": 616,
+      "marginTopRef": -793
     }
   ],
   "4wd-in-motion": [
     {
-      "displayWidthRef": 566,
-      "displayHeightRef": 778,
+      "displayWidthRef": 595,
       "marginLeftRef": 0
     },
     {
-      "displayWidthRef": 590,
-      "displayHeightRef": 778,
-      "marginLeftRef": 605,
-      "marginTopRef": -778
+      "displayWidthRef": 595,
+      "marginLeftRef": 634,
+      "marginTopRef": -793
     }
   ],
   "ranger-station": [
     {
-      "displayWidthRef": 566,
-      "displayHeightRef": 778,
+      "displayWidthRef": 561,
       "marginLeftRef": 0
     },
     {
-      "displayWidthRef": 594,
-      "displayHeightRef": 778,
-      "marginLeftRef": 605,
-      "marginTopRef": -778
+      "displayWidthRef": 585,
+      "marginLeftRef": 616,
+      "marginTopRef": -793
     }
   ],
   "station-to-wetland": [
     {
-      "displayWidthRef": 520,
-      "displayHeightRef": 778,
+      "displayWidthRef": 595,
       "marginLeftRef": 0
     },
     {
-      "displayWidthRef": 665,
-      "displayHeightRef": 778,
-      "marginLeftRef": 666,
-      "marginTopRef": -778
+      "displayWidthRef": 595,
+      "marginLeftRef": 650,
+      "marginTopRef": -793
     }
   ],
   "water-treatment-plant": [
     {
       "displayWidthRef": 561,
-      "displayHeightRef": 778,
       "marginLeftRef": 0
     },
     {
       "displayWidthRef": 585,
-      "displayHeightRef": 778,
       "marginLeftRef": 616,
-      "marginTopRef": -778
+      "marginTopRef": -793
     }
   ],
   "sewage-canal-to-pool": [
     {
-      "displayWidthRef": 561,
-      "displayHeightRef": 778,
+      "displayWidthRef": 595,
       "marginLeftRef": 0
     },
     {
-      "displayWidthRef": 585,
-      "displayHeightRef": 778,
-      "marginLeftRef": 616,
-      "marginTopRef": -778
+      "displayWidthRef": 595,
+      "marginLeftRef": 650,
+      "marginTopRef": -793
     }
   ]
 }

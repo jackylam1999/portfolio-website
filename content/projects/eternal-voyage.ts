@@ -11,11 +11,20 @@ const a = (
   layout?: Parameters<typeof projectAsset>[6]
 ) => projectAsset(base, file, alt, w, h, width, layout);
 
+/** Pull-up so img2 top aligns with img1 (full natural aspect, no crop). */
+const hAt = (nw: number, nh: number, dw: number) =>
+  Math.round((dw * nh) / nw);
+
 /**
- * Shared plate height from screenshot (dam / motion / ranger / WTP bands ≈776–778).
- * Pair pieces set displayHeightRef to this and use object-cover so left/right match.
+ * Target plate height = WTP left at screenshot width (561 × 7016/4961).
+ * Other assets get displayWidthRef = PLATE_H × (nw/nh) so they match height
+ * uncropped (object-contain).
  */
-const PLATE_H = 778;
+const PLATE_H = hAt(4961, 7016, 561); // ≈793
+
+/** Width that yields PLATE_H at the asset’s natural aspect (uncropped). */
+const wForH = (nw: number, nh: number, h = PLATE_H) =>
+  Math.round((h * nw) / nh);
 
 const project: Project = {
   slug: "eternal-voyage",
@@ -51,9 +60,8 @@ const project: Project = {
       pillLabel: "water infrastructure",
       groupBreak: true,
       images: [
-        // Screenshot collage is ~347×997 (earlier 1065 bbox included fixed-index ink).
-        a("water-infrastructure-plate.webp", "Water infrastructure", 347, 997, undefined, {
-          displayWidthRef: 347,
+        a("water infrastrucutre.png", "Water infrastructure", 1500, 3074, undefined, {
+          displayWidthRef: wForH(1500, 3074),
           marginLeftRef: 0,
         }),
       ],
@@ -68,6 +76,7 @@ const project: Project = {
       pillLabel: "masterplan",
       images: [
         a("masterplan.png", "Masterplan", 4961, 7016, undefined, {
+          // Same aspect as WTP plates — match plate width language (taller → viewport-fit).
           displayWidthRef: 1086,
           marginLeftRef: 0,
         }),
@@ -78,9 +87,8 @@ const project: Project = {
       pillLabel: "dam",
       groupBreak: true,
       images: [
-        // Cropped to screenshot aspect so w=442 → h≈776 (same plate height as WTP).
-        a("dam-plate.webp", "Dam", 420, 737, "narrow", {
-          displayWidthRef: 442,
+        a("dam.gif", "Dam", 553, 737, "narrow", {
+          displayWidthRef: wForH(553, 737),
           marginLeftRef: 0,
         }),
       ],
@@ -93,17 +101,16 @@ const project: Project = {
     {
       id: "4wd-on-the-field",
       pillLabel: "4WD on the field",
+      // Same-aspect plates → equal widths for equal height (uncropped).
       asComposition: true,
       images: [
         a("4WD on thte field 1.png", "4WD on the field 1", 4961, 7016, undefined, {
-          displayWidthRef: 513,
-          displayHeightRef: PLATE_H,
+          displayWidthRef: 561,
           marginLeftRef: 0,
         }),
         a("4WD on thte field 2.png", "4WD on the field 2", 4961, 7016, undefined, {
-          displayWidthRef: 801,
-          displayHeightRef: PLATE_H,
-          marginLeftRef: 543,
+          displayWidthRef: 585,
+          marginLeftRef: 616,
           marginTopRef: -PLATE_H,
         }),
       ],
@@ -114,14 +121,12 @@ const project: Project = {
       asComposition: true,
       images: [
         a("4WD in motion 1.gif", "4WD in motion 1", 516, 688, undefined, {
-          displayWidthRef: 566,
-          displayHeightRef: PLATE_H,
+          displayWidthRef: wForH(516, 688),
           marginLeftRef: 0,
         }),
         a("4WD in motion 2.png", "4WD in motion 2", 2076, 2768, undefined, {
-          displayWidthRef: 590,
-          displayHeightRef: PLATE_H,
-          marginLeftRef: 605,
+          displayWidthRef: wForH(2076, 2768),
+          marginLeftRef: wForH(516, 688) + 39,
           marginTopRef: -PLATE_H,
         }),
       ],
@@ -133,14 +138,12 @@ const project: Project = {
       asComposition: true,
       images: [
         a("ranger station 1.png", "Ranger station 1", 4961, 7016, undefined, {
-          displayWidthRef: 566,
-          displayHeightRef: PLATE_H,
+          displayWidthRef: 561,
           marginLeftRef: 0,
         }),
         a("ranger station 2.png", "Ranger station 2", 4961, 7016, undefined, {
-          displayWidthRef: 594,
-          displayHeightRef: PLATE_H,
-          marginLeftRef: 605,
+          displayWidthRef: 585,
+          marginLeftRef: 616,
           marginTopRef: -PLATE_H,
         }),
       ],
@@ -151,14 +154,12 @@ const project: Project = {
       asComposition: true,
       images: [
         a("station to wetland 1.gif", "Station to wetland 1", 553, 737, undefined, {
-          displayWidthRef: 520,
-          displayHeightRef: PLATE_H,
+          displayWidthRef: wForH(553, 737),
           marginLeftRef: 0,
         }),
         a("station to wetland 2.gif", "Station to wetland 2", 497, 662, undefined, {
-          displayWidthRef: 665,
-          displayHeightRef: PLATE_H,
-          marginLeftRef: 666,
+          displayWidthRef: wForH(497, 662),
+          marginLeftRef: wForH(553, 737) + 55,
           marginTopRef: -PLATE_H,
         }),
       ],
@@ -166,17 +167,15 @@ const project: Project = {
     {
       id: "water-treatment-plant",
       pillLabel: "water treatment plant",
-      /** Size reference — screenshot plates 561+585 @ h≈778. */
+      /** Size reference — uncropped natural aspect at 561+585. */
       asComposition: true,
       images: [
         a("water treatment plant 1.png", "Water treatment plant 1", 4961, 7016, undefined, {
           displayWidthRef: 561,
-          displayHeightRef: PLATE_H,
           marginLeftRef: 0,
         }),
         a("water treatment plant 2.png", "Water treatment plant 2", 4961, 7016, undefined, {
           displayWidthRef: 585,
-          displayHeightRef: PLATE_H,
           marginLeftRef: 616,
           marginTopRef: -PLATE_H,
         }),
@@ -188,14 +187,12 @@ const project: Project = {
       asComposition: true,
       images: [
         a("sewage canal to pool 1.gif", "Sewage canal to pool 1", 737, 983, undefined, {
-          displayWidthRef: 561,
-          displayHeightRef: PLATE_H,
+          displayWidthRef: wForH(737, 983),
           marginLeftRef: 0,
         }),
         a("sewage canal to pool 2.gif", "Sewage canal to pool 2", 504, 672, undefined, {
-          displayWidthRef: 585,
-          displayHeightRef: PLATE_H,
-          marginLeftRef: 616,
+          displayWidthRef: wForH(504, 672),
+          marginLeftRef: wForH(737, 983) + 55,
           marginTopRef: -PLATE_H,
         }),
       ],

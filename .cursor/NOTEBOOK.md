@@ -248,6 +248,12 @@ Content paths:
 - **Fix:** `dam-plate.webp` cropped to SS aspect (442→h≈776); `water-infrastructure-plate.webp` from SS (~347×997); all pairs `displayHeightRef: 778` + `object-cover`; viewport-fit respects forced height aspect.
 - **Prevent:** For side-by-side plates, lock a shared `displayHeightRef` from the screenshot band height; don’t trust sparse-ink full-band widths.
 
+### 2026-08-05 — Uncropped equal plate size (no object-cover)
+- **Symptom:** Many Eternal Voyage drawings looked cropped after the height-lock pass.
+- **Root cause:** `displayHeightRef: 778` + `object-cover` forced a box and cropped content; `dam-plate.webp` was also a center-crop of the GIF.
+- **Fix:** Remove cover/forced height. Size every plate to WTP left height (≈793) via `displayWidthRef = h × nw/nh` (uncropped `object-contain`). Same-aspect pair PNGs use WTP 561+585 geometry; GIFs use ~595×793.
+- **Prevent:** Never use `object-cover` to equalize portfolio drawings — match height by choosing width from natural aspect instead.
+
 ### 2026-08-04 — Tall drawings fit first viewport (max-box height)
 - **Symptom:** Eternal Voyage (and other portrait plates) required scrolling to see the full drawing.
 - **Root cause:** Figures sized by `displayWidthRef` only; no height cap vs `--site-image-max-box-height`.

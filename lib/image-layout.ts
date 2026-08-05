@@ -44,8 +44,7 @@ export function imageDisplayWidthCss(
  * natural aspect would make the figure taller than `--site-image-max-box-height`
  * (so one drawing fits the first viewport without scrolling).
  *
- * When `displayHeightRef` is set, aspect follows the forced box (not the file),
- * matching Readymag crop-to-height plates.
+ * When `displayHeightRef` is set, aspect follows that box width/height ratio.
  */
 export function imageViewportFitWidthCss(
   slug: string,
@@ -61,7 +60,6 @@ export function imageViewportFitWidthCss(
   const nw = img.naturalWidth ?? 1;
   const nh = img.naturalHeight ?? 1;
   if (nh <= 0 || nw <= 0) return preferred;
-  // width = height × (nw/nh); cap height via CSS var so short viewports still fit
   return `min(${preferred}, calc(var(--site-image-max-box-height) * ${nw} / ${nh}))`;
 }
 
