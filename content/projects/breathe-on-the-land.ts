@@ -118,9 +118,10 @@ const project: Project = {
       pillLabel: "open air corridor",
       groupBreak: true,
       images: [
+        // Screenshot: ml=350, w≈1009 (621+1033 overflowed image area → right edge clipped).
         a("open air corridor.jpg", "Open air corridor", 4000, 3000, undefined, {
-          displayWidthRef: 1033,
-          marginLeftRef: 621,
+          displayWidthRef: 1009,
+          marginLeftRef: 350,
         }),
       ],
     },

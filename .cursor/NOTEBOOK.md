@@ -248,6 +248,12 @@ Content paths:
 - **Fix:** `dam-plate.webp` cropped to SS aspect (442→h≈776); `water-infrastructure-plate.webp` from SS (~347×997); all pairs `displayHeightRef: 778` + `object-cover`; viewport-fit respects forced height aspect.
 - **Prevent:** For side-by-side plates, lock a shared `displayHeightRef` from the screenshot band height; don’t trust sparse-ink full-band widths.
 
+### 2026-08-05 — Breathe open air corridor right-edge clip
+- **Symptom:** Open air corridor looked cropped on the right.
+- **Root cause:** `marginLeftRef: 621` + `displayWidthRef: 1033` = 1654 > image area 1482; column `overflow-x-clip` cut the overflow. Screenshot measures ml=350, w≈1009.
+- **Fix:** `displayWidthRef: 1009`, `marginLeftRef: 350`.
+- **Prevent:** Always check `marginLeftRef + displayWidthRef ≤ 1482` before shipping a project figure.
+
 ### 2026-08-05 — Uncropped equal plate size (no object-cover)
 - **Symptom:** Many Eternal Voyage drawings looked cropped after the height-lock pass.
 - **Root cause:** `displayHeightRef: 778` + `object-cover` forced a box and cropped content; `dam-plate.webp` was also a center-crop of the GIF.
