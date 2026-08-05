@@ -6,7 +6,8 @@ import {
 } from "@/components/ProjectFilterContext";
 
 /**
- * Fixed top-right "filter" control (home + project pages).
+ * Fixed "filter" control (home + project pages).
+ * Left edge aligns with the project index column (`--site-index-left`).
  * Hover the "filter" label to reveal types; a selected type pins under the label.
  * Hovering the pinned name does not open the full menu.
  */

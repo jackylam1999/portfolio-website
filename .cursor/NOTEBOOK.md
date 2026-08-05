@@ -248,6 +248,11 @@ Content paths:
 - **Fix:** `dam-plate.webp` cropped to SS aspect (442→h≈776); `water-infrastructure-plate.webp` from SS (~347×997); all pairs `displayHeightRef: 778` + `object-cover`; viewport-fit respects forced height aspect.
 - **Prevent:** For side-by-side plates, lock a shared `displayHeightRef` from the screenshot band height; don’t trust sparse-ink full-band widths.
 
+### 2026-08-05 — Filter aligns with project index column
+- **Symptom:** "filter" sat on the far right; project titles start at `--site-index-left` (1340/2560).
+- **Fix:** `.site-filter` uses `left: var(--site-index-left)` + `align-items: flex-start`; index `top` sits under the filter row (`+1.5em`, `+3em` when a type is pinned).
+- **Prevent:** Keep filter and project index on the same vertical line (`--site-index-left`); do not pin filter to `right: margin`.
+
 ### 2026-08-05 — Project description must fit one viewport (no nested scroll)
 - **Symptom:** 16 Units (and other long copy) cut off in the fixed left description; scrollbar was hidden.
 - **Root cause:** Specs + many paragraphs exceed `max-height: vh − spec-top`; `overflow-y: auto` + hidden scrollbar hid the rest.
