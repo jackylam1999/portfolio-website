@@ -209,8 +209,7 @@ body {
 
 .site-fixed-index {
   position: fixed;
-  /* Sit under the "filter" control (same column); +1.5em ≈ one type-nav line */
-  top: calc(var(--site-top) + 1.5em);
+  top: var(--site-top);
   left: var(--site-index-left);
   transform: translateX(var(--site-index-offset));
   /* Cap width so long project names never overlap the drawing list on the right.
@@ -221,11 +220,6 @@ body {
   );
   z-index: 100;
   pointer-events: none;
-}
-
-/* Pinned category under "filter" — push the list down one more line */
-body:has(.site-filter--has-selection) .site-fixed-index {
-  top: calc(var(--site-top) + 3em);
 }
 
 .site-fixed-index__list {
@@ -276,16 +270,19 @@ body:has(.site-filter--has-selection) .site-fixed-index {
   pointer-events: none;
 }
 
-/* Fixed project-type filter — left edge aligns with project index column */
+/* Fixed filter — right edge aligns with drawing-title text (before ◀ marker) */
 .site-filter {
   position: fixed;
   top: var(--site-top);
-  left: var(--site-index-left);
-  transform: translateX(var(--site-index-offset));
+  right: calc(
+    var(--site-margin-x) + var(--site-drawing-marker) + var(--site-drawing-gap)
+  );
+  left: auto;
+  transform: none;
   z-index: 100;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   pointer-events: auto;
 }
 
@@ -293,7 +290,7 @@ body:has(.site-filter--has-selection) .site-fixed-index {
 .site-filter__trigger {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
 }
 
 .site-filter__label {
@@ -335,7 +332,7 @@ body:has(.site-filter--has-selection) .site-fixed-index {
 .site-filter__menu {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   gap: 1px;
   margin: 0;
   padding: 0;
