@@ -248,6 +248,12 @@ Content paths:
 - **Fix:** `dam-plate.webp` cropped to SS aspect (442→h≈776); `water-infrastructure-plate.webp` from SS (~347×997); all pairs `displayHeightRef: 778` + `object-cover`; viewport-fit respects forced height aspect.
 - **Prevent:** For side-by-side plates, lock a shared `displayHeightRef` from the screenshot band height; don’t trust sparse-ink full-band widths.
 
+### 2026-08-05 — Project description must fit one viewport (no nested scroll)
+- **Symptom:** 16 Units (and other long copy) cut off in the fixed left description; scrollbar was hidden.
+- **Root cause:** Specs + many paragraphs exceed `max-height: vh − spec-top`; `overflow-y: auto` + hidden scrollbar hid the rest.
+- **Fix:** `FixedSectionText` binary-searches `--section-text-fit` (font + gaps) until `scrollHeight ≤ clientHeight`; `overflow-y: hidden`. Min fit 0.62. Editor mode skips fit.
+- **Prevent:** Do not re-enable nested scroll on `.site-fixed-section-text`; keep fit-to-viewport for all projects.
+
 ### 2026-08-05 — Breathe open air corridor right-edge clip
 - **Symptom:** Open air corridor looked cropped on the right.
 - **Root cause:** `marginLeftRef: 621` + `displayWidthRef: 1033` = 1654 > image area 1482; column `overflow-x-clip` cut the overflow. Screenshot measures ml=350, w≈1009.

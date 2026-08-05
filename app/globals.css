@@ -607,19 +607,19 @@ body {
   width: var(--site-left-col);
   max-height: calc(var(--site-vh) - var(--site-section-text-top) - 24px);
   overflow-x: hidden;
-  overflow-y: auto;
-  /* Nested scrollbar is a failure mode — hide it; spacing should keep copy fitting */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  overflow-y: hidden;
+  /* Fit via --section-text-fit (JS); full copy stays on one page — no nested scroll */
+  --section-text-fit: 1;
+  font-size: calc(var(--font-site) * var(--section-text-fit));
+  line-height: 1.36;
   z-index: 30;
   background: var(--color-bg);
   pointer-events: none;
 }
 
-.site-fixed-section-text::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  display: none;
+.site-fixed-section-text.type-body {
+  font-size: calc(var(--font-site) * var(--section-text-fit));
+  line-height: 1.36;
 }
 
 @supports not (height: 100dvh) {
@@ -640,7 +640,7 @@ body {
 }
 
 .project-section-description {
-  margin-top: calc(var(--site-section-text-row) * -2);
+  margin-top: calc(var(--site-section-text-row) * -2 * var(--section-text-fit, 1));
 }
 
 /* Active project index — strikethrough extends 10px past each end */
